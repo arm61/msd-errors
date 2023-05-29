@@ -53,12 +53,6 @@ dependencies:
         - src/data/random_walks/numerical/rw_1_128_128_s4096.npz
         - src/data/random_walks/kinisi/rw_1_128_128_s4096.npz
         - src/scripts/utils/_fig_params.py
-    src/scripts/freedom.py:
-        - src/data/random_walks/numerical/rw_1_2_128_s4096.npz 
-        - src/data/random_walks/numerical/rw_1_4_128_s4096.npz 
-        - src/data/random_walks/numerical/rw_1_16_128_s4096.npz 
-        - src/data/random_walks/numerical/rw_1_64_128_s4096.npz 
-        - src/scripts/utils/_fig_params.py
     src/scripts/true_cov.py:
         - src/data/random_walks/numerical/D_1_128_128.npz
         - src/data/random_walks/numerical/D_1_128_1024.npz
@@ -70,10 +64,6 @@ dependencies:
     src/scripts/efficiency.py:
         - src/data/random_walks/efficiency.npz
         - src/scripts/utils/_fig_params.py
-    src/scripts/longtime.py:
-        {% for length in [16, 32, 64, 128, 256, 512, 1024] -%}
-        - src/data/random_walks/numerical/D_1_128_{{length}}.npz  
-        {% endfor %}
     src/scripts/true_llzo.py:
         {% for start_diff in [0, 2, 4, 6, 8, 10, 15, 20] %}
         - src/data/llzo/true_{{start_diff}}.npz
