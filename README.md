@@ -7,13 +7,12 @@
 </picture>
 
 <p align="justify">
-Self-diffusion coefficients, <i>D*</i>, are routinely estimated from molecular dynamics simulation data by fitting a linear model to the observed mean-squared displacements (MSDs) of mobile species.
-Molecular dynamics simulations are stochastic, and simulation MSDs suffer from statistical noise, which introduces uncertainty in the resulting estimate of <i>D*</i>.
-An optimal scheme for estimating <i>D*</i> will minimise this uncertainty, i.e., will have high statistical efficiency, while also giving an accurate estimate of the uncertainty itself.
-We present a scheme for estimating <i>D*</i> from a single simulation trajectory with high statistical efficiency while also accurately estimating the uncertainty in the predicted value.
-The statistical distribution of MSDs observed from a simulation is modelled as a multivariate normal distribution, using an analytical covariance matrix derived for an equivalent system of freely diffusing particles.
-We parameterise this covariance matrix using estimated variances for the observed MSD, obtained via rescaling of the simulation data variance. 
-Sampling this model multivariate normal distribution using Bayesian methods gives a statistically efficient estimate of <i>D*</i> and an accurate estimate of the associated statistical uncertainty. 
+Self-diffusion coefficients, $\D$, are routinely estimated from molecular dynamics simulations by fitting a linear model to the observed mean-squared displacements (MSDs) of mobile species.
+MSDs derived from simulation suffer from statistical noise, which introduces uncertainty in the resulting estimate of $\D$.
+An optimal scheme for estimating $\D$ will minimise this uncertainty, i.e., will have high statistical efficiency, and will give an accurate estimate of the uncertainty itself.
+We present a scheme for estimating $\D$ from a single simulation trajectory with high statistical efficiency and accurately estimating the uncertainty in the predicted value.
+The statistical distribution of MSDs observable from a given simulation is modelled as a multivariate normal distribution using an analytical covariance matrix for an equivalent system of freely diffusing particles, which we parameterise from the available simulation data. 
+We then perform Bayesian regression to sample the distribution of linear models that are compatible with this model multivariate normal distribution, to obtain a statistically efficient estimate of $D^*$ and an accurate estimate of the associated statistical uncertainty.
 </p>
 
 ---
