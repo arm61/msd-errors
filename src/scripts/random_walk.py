@@ -70,20 +70,20 @@ axes[-1].legend(loc='upper left', bbox_to_anchor=(0.65, 1))
 
 axes.append(fig.add_subplot(gs[0, 2]))
 y, x = np.histogram(true.mean(-1), bins=fp.NBINS, density=True)
-axes[-1].stairs(y, x, fill=True, color=fp.colors[2], label='$p(\hat{D}^*_{\mathrm{norm}})$')
+axes[-1].stairs(y, x, fill=True, color=fp.colors[2], label='$p(\hat{D}^*)$')
 axes[-1].plot(rw_x,
               norm.pdf(rw_x, dinfty_true.mean(), dinfty_true.std()),
               color=fp.colors[4],
-              label='$p(\hat{D}^*_{\mathrm{norm}} | \mathbfit{x})$')
+              label='$p(\hat{D}^* | \mathbfit{x})$')
 axes[-1].plot([true.mean(-1).mean() - true.mean(-1).std(),
                true.mean(-1).mean() + true.mean(-1).std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
               color=fp.colors[3],
-              label='$\sigma(\hat{D}^*_{\mathrm{norm}})$',
+              label='$\sigma(\hat{D}^*)$',
               marker='|')
 # axes[-1].set_yticks([0, 4, 8])
-axes[-1].set_xlabel(r"$\hat{D}^*_{\mathrm{norm}}$")
-axes[-1].set_ylabel(r"$p[\hat{D}^*_{\mathrm{norm}}]$")
+axes[-1].set_xlabel(r"$\hat{D}^*$")
+axes[-1].set_ylabel(r"$p[\hat{D}^*]$")
 titles.append(r"c")
 axes[-1].set_title("Many simulations")
 axes[-1].set_xlim(0.87, 1.13)
@@ -96,10 +96,10 @@ axes[-1].stairs(y * 1e-3, x * 1e3, fill=True, color=fp.colors[0], label='$p[\hat
 axes[-1].axvline(true.mean(-1).var(ddof=1) * 1e3,
                  ymax=0.92,
                  c=fp.colors[3],
-                 label='$\sigma^2(\hat{D}^*_{\mathrm{norm}})$',
+                 label='$\sigma^2(\hat{D}^*)$',
                  ls='--')
-axes[-1].set_xlabel(r"$\hat{\sigma}^2 (\hat{D}^*_{\mathrm{norm}})$ / $10^{-3}$")
-axes[-1].set_ylabel(r"$p[\hat{\sigma}^2 (\hat{D}^*_{\mathrm{norm}})]$ / $10^3$")
+axes[-1].set_xlabel(r"$\hat{\sigma}^2 (\hat{D}^*)$ / $10^{-3}$")
+axes[-1].set_ylabel(r"$p[\hat{\sigma}^2 (\hat{D}^*)]$ / $10^3$")
 axes[-1].set_xlim([0, None])
 # axes[-1].set_xticks([0, 2, 4])
 axes[-1].set_yticks([0, 1, 2])

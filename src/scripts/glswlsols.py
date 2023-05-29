@@ -25,11 +25,11 @@ axes[-1].hist(data['ols_pop'], bins=bins, density=True, color=fp.colors[5])
 axes[-1].plot(x, norm.pdf(x, *norm.fit(data['ols_pop'])), color=fp.colors[5])
 axes[-1].plot([1 - data['ols_pop'].std(), 1 + data['ols_pop'].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color='#1E5B84',
+              color=fp.colors[3],
               marker='|')
 axes[-1].plot([1 - data['ols_est'][:, 0].std(), 1 + data['ols_est'][:, 0].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color=fp.colors[3],
+              color='#1E5B84',
               marker='|')
 axes[-1].set_xticks([0.8, 0.9, 1, 1.1, 1.2])
 axes[-1].set_xlim(0.75, 1.25)
@@ -43,11 +43,11 @@ axes[-1].hist(data['wls_pop'], bins=bins, density=True, color=fp.colors[5])
 axes[-1].plot(x, norm.pdf(x, *norm.fit(data['wls_pop'])), color=fp.colors[5])
 axes[-1].plot([1 - data['wls_pop'].std(), 1 + data['wls_pop'].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color='#1E5B84',
+              color=fp.colors[3],
               marker='|')
 axes[-1].plot([1 - data['wls_est'][:, 0].std(), 1 + data['wls_est'][:, 0].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color=fp.colors[3],
+              color='#1E5B84',
               marker='|')
 axes[-1].set_ylabel(r'$p[\hat{D}^* (D^*)^{-1}]$')
 axes[-1].set_yticks([0, 6, 12])
@@ -59,11 +59,11 @@ axes[-1].hist(data['gls_pop'], bins=bins, density=True, color=fp.colors[5])
 axes[-1].plot(x, norm.pdf(x, *norm.fit(data['gls_pop'])), color=fp.colors[5])
 axes[-1].plot([1 - data['gls_pop'].std(), 1 + data['gls_pop'].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color='#1E5B84',
+              color=fp.colors[3],
               marker='|')
 axes[-1].plot([1 - data['gls_est'][:, 0].std(), 1 + data['gls_est'][:, 0].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color=fp.colors[3],
+              color='#1E5B84',
               marker='|')
 axes[-1].set_xlabel(r'$\hat{D}^* (D^*)^{-1}$')
 axes[-1].set_ylabel(r'$p[\hat{D}^* (D^*)^{-1}]$')
