@@ -1,0 +1,17 @@
+# Don't track anything...
+*
+
+# ... except the following...
+!scripts
+!static
+!code
+!data
+!tex
+!.gitignore
+!LICENSE
+
+# ... but never these:
+.showyourwork*
+xstring.tex
+listofitems.tex
+*latexindent*

@@ -1,0 +1,83 @@
+verbose: true
+
+stamp:
+  enabled: false
+
+margin_icons:
+    colors:
+        cache: "0.25,0.25,0.25"
+        dataset: "0.25,0.25,0.25"
+        github: "0.25,0.25,0.25"
+        sandbox: "0.25,0.25,0.25"
+    horizontal_offset: -4
+
+datasets:
+    10.5281/zenodo.7602139:
+        contents:
+            traj0.xyz: src/data/llzo/traj0.xyz
+            traj1.xyz: src/data/llzo/traj1.xyz
+            traj2.xyz: src/data/llzo/traj2.xyz
+            traj3.xyz: src/data/llzo/traj3.xyz
+            traj4.xyz: src/data/llzo/traj4.xyz
+            traj5.xyz: src/data/llzo/traj5.xyz
+            traj6.xyz: src/data/llzo/traj6.xyz
+            traj7.xyz: src/data/llzo/traj7.xyz
+            traj8.xyz: src/data/llzo/traj8.xyz
+            traj9.xyz: src/data/llzo/traj9.xyz
+            traj10.xyz: src/data/llzo/traj10.xyz
+            traj11.xyz: src/data/llzo/traj11.xyz
+            traj12.xyz: src/data/llzo/traj12.xyz
+            traj13.xyz: src/data/llzo/traj13.xyz
+            traj14.xyz: src/data/llzo/traj14.xyz
+            traj15.xyz: src/data/llzo/traj15.xyz
+
+dependencies:
+    src/ms.tex:
+        - src/tex/bib.bib
+    src/scripts/glswlsols.py:
+        - src/data/random_walks/numerical/glswlsols_1_128_128.npz
+        - src/scripts/utils/_fig_params.py
+    src/scripts/msd.py:
+        - src/data/random_walks/kinisi/rw_1_128_128_s4096.npz
+        - src/data/random_walks/numerical/rw_1_128_128_s4096.npz 
+    src/scripts/random_walk.py:
+        - src/data/random_walks/kinisi/rw_1_128_128_s4096.npz
+        - src/data/random_walks/numerical/D_1_128_128.npz
+    src/scripts/diffusion.py:
+        - src/data/llzo/true_10.npz
+        {% for n in range(0, 16, 1) %}
+        - src/data/llzo/diffusion_{{n}}_10.npz
+        {% endfor %}
+        - src/scripts/utils/_fig_params.py
+    src/scripts/covariances.py:
+        - src/data/random_walks/numerical/rw_1_128_128_s4096.npz
+        - src/data/random_walks/kinisi/rw_1_128_128_s4096.npz
+        - src/scripts/utils/_fig_params.py
+    src/scripts/freedom.py:
+        - src/data/random_walks/numerical/rw_1_2_128_s4096.npz 
+        - src/data/random_walks/numerical/rw_1_4_128_s4096.npz 
+        - src/data/random_walks/numerical/rw_1_16_128_s4096.npz 
+        - src/data/random_walks/numerical/rw_1_64_128_s4096.npz 
+        - src/scripts/utils/_fig_params.py
+    src/scripts/true_cov.py:
+        - src/data/random_walks/numerical/D_1_128_128.npz
+        - src/data/random_walks/numerical/D_1_128_1024.npz
+        - src/data/random_walks/true_cov/rw_1_128_128_s4096.npz
+        - src/scripts/utils/_fig_params.py
+    src/scripts/stat_eff.py:
+        - src/data/random_walks/stat_eff.npz
+        - src/scripts/utils/_fig_params.py
+    src/scripts/efficiency.py:
+        - src/data/random_walks/efficiency.npz
+        - src/scripts/utils/_fig_params.py
+    src/scripts/longtime.py:
+        {% for length in [16, 32, 64, 128, 256, 512, 1024] -%}
+        - src/data/random_walks/numerical/D_1_128_{{length}}.npz  
+        {% endfor %}
+    src/scripts/true_llzo.py:
+        {% for start_diff in [0, 2, 4, 6, 8, 10, 15, 20] %}
+        - src/data/llzo/true_{{start_diff}}.npz
+        {% for n in range(0, 16, 1) %}
+        - src/data/llzo/diffusion_{{n}}_{{start_diff}}.npz
+        {% endfor %} 
+        {% endfor %}
