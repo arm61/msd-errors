@@ -27,8 +27,8 @@ We then perform Bayesian regression to sample the distribution of linear models 
 <a href="https://github.com/arm61/msd-errors/raw/main-pdf/ms.pdf">
 <img src="https://img.shields.io/badge/article-pdf-blue.svg?style=flat" alt="Read the article"/>
 </a>
-<a href="https://doi.org/10.5281/zenodo.xxxxxxx">
-<img src="https://zenodo.org/badge/DOI/10.5281/zenodo.xxxxxxx.svg"/>
+<a href="https://doi.org/10.5281/zenodo.7985057">
+<img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7985057.svg"/>
 </a>
 <a href="https://arxiv.org/abs/2305.18244">
 <img src="https://img.shields.io/badge/arXiv-2305.18244-orange.svg"/>
