@@ -30,8 +30,8 @@ We then perform Bayesian regression to sample the distribution of linear models 
 <a href="https://doi.org/10.5281/zenodo.xxxxxxx">
 <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.xxxxxxx.svg"/>
 </a>
-<a href="https://arxiv.org/abs/xxxx.xxxxx">
-<img src="https://img.shields.io/badge/arXiv-xxxx.xxxxx-orange.svg"/>
+<a href="https://arxiv.org/abs/2305.18244">
+<img src="https://img.shields.io/badge/arXiv-2305.18244-orange.svg"/>
 </a>
 <br><br>
 <a href="https://orcid.org/0000-0003-3381-5911">Andrew R. McCluskey</a>&ast;, 
