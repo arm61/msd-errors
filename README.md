@@ -1,4 +1,4 @@
-# Accurate estimation of diffusion coefficients and their uncertainties from computer simulation
+# Accurate Estimation of Diffusion Coefficients and their Uncertainties from Computer Simulation
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/bjmorgan/kinisi/blob/master/docs/source/_static/schematic_light.png?raw=true">
