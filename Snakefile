@@ -23,8 +23,7 @@ rule stat_eff_generation:
         'src/scripts/utils/plotting_helper.py',
         'src/scripts/utils/_fig_params.py'
     output:
-        'src/tex/figures/stat_eff.pdf',
-        'src/tex/output/stat_eff_table.txt'
+        'src/tex/figures/stat_eff.pdf'
     conda:
         'environment.yml'
     shell:

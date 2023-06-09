@@ -92,17 +92,17 @@ axes[-1].legend(loc='upper left', bbox_to_anchor=(0.6, 1))
 
 axes.append(fig.add_subplot(gs[0, 3]))
 y, x = np.histogram(true.var(-1, ddof=1), bins=fp.NBINS, density=True)
-axes[-1].stairs(y * 1e-3, x * 1e3, fill=True, color=fp.colors[0], label='$p[\hat{\sigma}^2(D^*)]$')
-axes[-1].axvline(true.mean(-1).var(ddof=1) * 1e3,
+axes[-1].stairs(y, x, fill=True, color=fp.colors[0], label='$p[\hat{\sigma}^2(D^*)]$')
+axes[-1].axvline(true.mean(-1).var(ddof=1),
                  ymax=0.92,
                  c=fp.colors[3],
                  label='$\sigma^2(\hat{D}^*)$',
                  ls='--')
-axes[-1].set_xlabel(r"$\hat{\sigma}^2 (\hat{D}^*)$ / $10^{-3}$")
-axes[-1].set_ylabel(r"$p[\hat{\sigma}^2 (\hat{D}^*)]$ / $10^3$")
+axes[-1].set_xlabel(r"$\hat{\sigma}^2 (\hat{D}^*)$")
+axes[-1].set_ylabel(r"$p[\hat{\sigma}^2 (\hat{D}^*)]$")
 axes[-1].set_xlim([0, None])
 # axes[-1].set_xticks([0, 2, 4])
-axes[-1].set_yticks([0, 1, 2])
+# axes[-1].set_yticks([0, 1, 2])
 titles.append("d")
 axes[-1].set_title("Many simulations")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.5, 1))

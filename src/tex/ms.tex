@@ -15,7 +15,6 @@
 \usepackage{printlen}
 \usepackage[version=4]{mhchem}
 \usepackage{blindtext}
-% \usepackage[hidelinks]{hyperref}
 \sisetup{
     list-units      = brackets,
     range-units     = brackets,
@@ -26,10 +25,6 @@
     }
 \renewcommand\appendixname{}
 \newcommand{\papertitle}{Accurate Estimation of Diffusion Coefficients and their Uncertainties from Computer Simulation}
-% \newcommand{\oMSD}{\ensuremath{\overline{\bm{s}^2}}}
-% \newcommand{\oMSDs}[1]{\ensuremath{\overline{s^2}}(#1)}
-% \newcommand{\oMSDi}{\ensuremath{\overline{s^2}_i}}
-% \newcommand{\oMSDj}{\ensuremath{\overline{s^2}_j}}
 
 \newcommand{\oMSD}{\ensuremath{\bm{x}}}
 \newcommand{\oMSDs}[1]{\ensuremath{x}(#1)}
@@ -54,6 +49,7 @@
 \DeclareMathOperator{\cov}{cov}
 \DeclareMathOperator*{\argmax}{argmax}
 
+
 % Redefine \maketitle so that it can be used twice (for supplementary)
 \makeatletter
 \def\maketitle{
@@ -65,7 +61,7 @@
 % Begin!
 \begin{document}
 
-\let\oldaddcontentsline\addcontentsline% Store \addcontentsline
+\let\oldaddcontentsline\addcontentsline
 \renewcommand{\addcontentsline}[3]{}
 
 % Title
@@ -158,8 +154,7 @@ An estimation scheme should also provide an accurate estimate of the uncertainty
 For data that are both statistically independent and identically normally distributed, ordinary least squares regression (OLS) is unbiased and statistically efficient, and gives accurate estimates of the uncertainties in the resulting regression coefficients.
 MSD data obtained from simulation, however, are neither statistically independent nor identically distributed.
 The variances, $\var{\oMSDi}$, are correlated, since the displacement of each particle at time $t+\Delta t$ is necessarily similar to its displacement at time $t$, and hence, $\oMSDs{t}$ is similar to $\oMSDs{t+\Delta t}$.
-These variances are also typically unequal---the data are heteroscedastic;
-for example, for a random walk, the MSD variance increases quadratically with time \cite{smith_random_1996}. 
+These variances are also typically unequal---the data are heteroscedastic \cite{smith_random_1996,he_statistical_2018}. 
 Because the key assumptions of the OLS method are not valid for MSD data, OLS gives statistically inefficient estimates of $\D$, while the estimated regression uncertainties obtained from the standard OLS statistical formulae significantly underestimate the true uncertainty in $\prob{\Dest_\mathrm{OLS}}$ (Fig.~\ref{fig:glswlsols}a).
 
 \begin{figure}
@@ -189,7 +184,7 @@ GLS gives estimated regression coefficients, $\widehat{\beta}$, via
 where $\modelmatrix$ is the model matrix $\begin{bmatrix}\mathbf{1} & \bm{t}\end{bmatrix}$, with $\bm{t}$ the vector of observed times, and $\mathbf{\Sigma}$ is the covariance matrix for the observed MSD values.
 For correlated heteroscedastic data, such as MSD data, GLS offers the theoretical maximum statistical efficiency---it achieves the Cram\'er--Rao bound~\cite{cramer_mathematical_1946,rao_information_1945,rao_selected_1994,darmois_sur_1945,aitken_on_1942}---and provides accurate analytical estimates of the uncertainty in the predicted regression coefficients (Fig.~\ref{fig:glswlsols}c).
 
-A second method for estimating the ensemble-average MSD, and thus $\Dest$, from simulation data is Bayesian regression.
+An alternative method for estimating the ensemble-average MSD, and thus $\Dest$, from simulation data is Bayesian regression.
 Like GLS, Bayesian regression can take into account both the changing variance and the correlation structure inherent in the data.
 Rather than providing a singular ``best-fit'' estimate like GLS, Bayesian regression produces a posterior probability distribution for the regression coefficients.
 The mean of this distribution serves as the point estimate of the coefficients and, in the absence of additional prior information, is equivalent to the GLS estimate, while the spread of the distribution quantifies the uncertainty in these estimates.
@@ -258,7 +253,6 @@ A quantitative comparison between the true MSD variance and the single-trajector
         Panel (a) shows the mean observed MSD from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of \num{128} steps per particle, with error bars of $\pm2\sigma[\oMSDi]$.
         Panel (b) shows the MSD from just one simulation, with error bars of $\pm2\widehat{\sigma}[\oMSDi]$, obtained via Eqn.~\ref{equ:varestMSD}.
         Panel (c) plots the numerical variance against the estimated variance from a single simulation as a function of timestep $i$.
-        %Raw simulation data~\cite{mccluskey_zenodo_2022} and scripts~\cite{mccluskey_github_2022} to generate this figure are available under CC BY 4.0/MIT licences.
     }
     \label{fig:msd}
     \script{msd.py}
@@ -298,13 +292,9 @@ the corresponding analytical model covariance matrix, $\mathbf{\Sigma^\prime}$, 
 
 While the analytical and average estimated covariance matrices show some systematic deviation from the numerically converged covariance matrix, the general correlation structure is preserved.
 The discrepancy between the model and numerical covariance matrices largely stems from the approximation made in deriving the analytical form that $t$ is large, which leads to an overestimation of the variance at low $t$.
-Despite this, the average estimated covariance matrix reproduces well the correlation structure of the true numerical covariance matrix, indicating that the component covariance matrices estimated from individual simulation trajectories may be used within approximte GLS or Bayesian regression schemes to estimate $\D$ and $\var{\Dest}$.
+Despite this, the average estimated covariance matrix reproduces well the correlation structure of the true numerical covariance matrix, indicating that the covariance matrices estimated from individual simulation trajectories may be used within approximate GLS or Bayesian regression schemes to estimate $\D$ and $\var{\Dest}$.
 
 \section{Validation}
-
-To demonstrate the complete approximate Bayesian regression scheme, as described above, we present two distinct examples.
-First, we consider a simple 3D-lattice random walk, where the true self-diffusion coefficient $\D$ is specified by the simulation parameters, and a well-converged numerical covariance matrix can be obtained with relatively low computational cost, which allows us to directly compare the estimates produced by our method to ``best case'' estimates from a hypothetical method with access to the true covariance matrix.
-Second, we consider an example real-world system---the lithium-ion solid electrolyte \ce{Li7La3Zr2O12} (LLZO)---which represents a practical application of our method to a well-studied material of practical interest for solid-state lithium-ion batteries \cite{MuruganEtAl_AngewChemIntEd2007,burbano_sparse_2016,morgan_lattice_2017,SquiresEtAl_PhysRevMater2022}.
 
 \begin{figure*}[ht!]
     \centering
@@ -326,6 +316,10 @@ Second, we consider an example real-world system---the lithium-ion solid electro
     \script{random_walk.py}
 \end{figure*}
 
+To demonstrate the complete approximate Bayesian regression scheme, as described above, we present two distinct examples.
+First, we consider a simple 3D-lattice random walk, where the true self-diffusion coefficient $\D$ is specified by the simulation parameters, and a well-converged numerical covariance matrix can be obtained with relatively low computational cost, which allows us to directly compare the estimates produced by our method to ``best case'' estimates from a hypothetical method with access to the true covariance matrix.
+Second, we consider an example real-world system---the lithium-ion solid electrolyte \ce{Li7La3Zr2O12} (LLZO)---which represents an application of our method to a well-studied material of practical interest for solid-state lithium-ion batteries \cite{MuruganEtAl_AngewChemIntEd2007,burbano_sparse_2016,morgan_lattice_2017,SquiresEtAl_PhysRevMater2022}.
+
 Fig.~\ref{fig:random_walk}a shows the observed MSD from a single 3D-lattice random-walk simulation, along with the estimated posterior distribution of linear models compatible with the observed MSD data, $\prob{\model|\oMSD}$, calculated via Eqns.~\ref{equ:bayes} and \ref{equ:loglike}.
 The corresponding marginal posterior distribution of estimated diffusion coefficients $\prob{\D|\oMSD}$ is shown in Fig.~\ref{fig:random_walk}b; this distribution is approximately Gaussian and is centred on the true self-diffusion coefficient $\D = \num{1}$, demonstrating that for this example trajectory we obtain a good point-estimate of $\D$.
 
@@ -340,7 +334,7 @@ This minor deviation is a consequence of the overestimation of $\varest{\oMSDi}$
 We next consider the degree to which our method can quantify the uncertainty in $\Dest$ when using input data from a single simulation.
 Fig.~\ref{fig:random_walk}d shows the distribution of estimated variances $\varest{\Dest}$, with each sample calculated from an individual simulation trajectory.
 We also show the true variance of individual point estimates, $\var{\Dest}$, which characterises the spread of the histogram in Fig.~\ref{fig:random_walk}c.
-The distribution of estimated variances is biased relative to the true variance and skewed, due to numerical differences between the true covariance matrix $\mathbf{\Sigma}$ and the model covariance matrix $\mathbf{\Sigma^\prime}$.
+The distribution of estimated variances is biased relative to the true variance and skewed, due to numerical differences between the true covariance matrix $\mathbf{\Sigma}$ and the model covariance matrix $\mathbf{\Sigma^\prime}$ (further details are provided in the SI).
 In general, however, the distribution of the estimated variance shows good agreement with the true sample variance.
 Notably, the precision of this estimate is significantly greater than obtained using OLS or WLS and their corresponding textbook statistical formulae.
 
@@ -354,7 +348,7 @@ Again, the corresponding distribution of $\Dest$ estimates derived using Bayesia
 The distribution $\prob{\Dest}$ obtained using the model covariance matrix and parametrised separately for each individual effective simulation is highly similar to that obtained using the aggregate numerical covariance matrix calculated from the complete simulation dataset.
 This close agreement mirrors the results for our random walk simulations, and confirms that our method yields accurate and statistically efficient estimates for $\D$, even for real-world simulation data.
 
-\begin{figure}
+\begin{figure}[tb]
     \centering
     \includegraphics[width=\columnwidth]{figures/diffusion.pdf}
     \caption{
@@ -370,6 +364,32 @@ This close agreement mirrors the results for our random walk simulations, and co
 We also consider the probability distribution of estimates of the variance in $\Dest$ calculated for each effective trajectory (Fig.~\ref{fig:diffusion}b), which we compare to the true variance in $\Dest$ for our method; i.e., the variance of the histogram in Fig.~\ref{fig:diffusion}a.
 While the estimated variances deviate somewhat from the true distribution $\prob{\var{\Dest}}$, the agreement is reasonable and mirrors our results for the random walk simulations.
 Hence, our method provides reasonably accurate estimates of the uncertainty in $\Dest$ for our c-LLZO dataset, even when applied to single effective trajectories with limited displacement data (only 56 mobile ions, and \SI{25}{ps} simulation length).
+
+\section{$\var{\Dest}$ scaling and comparison to OLS, WLS, and GLS}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/stateff.pdf}
+    \caption{
+      Scaling of $\var{\Dest}$ with simulation size for OLS (pink), WLS (blue), our approximate Bayesian regression method (green), and GLS (orange).
+      (a) Scaling versus number of mobile particles, $N_\mathrm{atoms}$.
+      (b) Scaling versus total simulation time, $t_\mathrm{max}$.
+      Solid lines show fitted power law relationships for each dataset.
+      The WLS and GLS data are obtained using numerically determined variances and covariance, respectively, from a set of \num{512} repeat simulations for each combination of $N_\mathrm{atoms}$ and $t_\mathrm{max}$.
+    }
+    \label{fig:stat_eff}
+    \script{stat_eff.py}
+\end{figure}
+
+Fig.~\ref{fig:stat_eff} presents an analysis of the variation in $\var{\Dest}$ as the number of mobile particles (Fig.~\ref{fig:stat_eff}a) and the total simulation time (number of steps) (Fig.~\ref{fig:stat_eff}b) are changed.
+We compare four methods for estimating $\D$ from the observed MSD data: OLS, WLS, the approximate Bayesian regression method described here, and GLS.
+When estimating $\D$ using WLS and GLS, we calculate the variances and the covariance matrix, respectively, numerically, using the complete set of \num{512} simulations.
+Each data point in Fig.~\ref{fig:stat_eff} represents the variance across point-estimates of $\D$ derived from \num{512} individual 3D-lattice random walk simulations, for each combination of $N_\mathrm{atoms}$ and $t_\mathrm{max}$.
+The GLS dataset corresponds to an optimally efficient estimator for linear regression of observed MSD data, equivalent to performing Bayesian regression with the numerical covariance matrix and an uninformative prior.
+
+Our approximate Bayesian regression method performs similarly to GLS, with a numerically converged covariance matrix, and gives significantly reduced uncertainty in $\Dest$ compared to OLS or WLS, for all simulation sizes and lengths considered.
+Moreover, our method scales better than OLS or WLS as the total simulation time is increased.
+The approximate Bayesian regression method in this manuscript therefore presents a significant improvement over more conventional methods such as OLS and WLS, by enabling more precise estimates of $\D$ across varied simulation sizes at equivalent computational cost.
 
 \section{Summary and Discussion}
 
@@ -448,24 +468,19 @@ B.J.M. acknowledges support from the Royal Society (UF130329 and URF\textbacksla
 
 \title{Supplemental Material for ``\papertitle''}
 \maketitle
-% \onecolumngrid
 
 This document presents supplementary material for the manuscript ``\papertitle''.
 It contains the following sections:
 \begin{enumerate}
-    % \item Evidence for the effect of the number of independent observations on the distribution of mean-squared displacements.
     \item The derivation of the covariance matrix in the long-time limit for freely diffusion particles.
-    \item Analysis of the relative efficiency of the approximate Bayesian regression method, presented here, compared to OLS, WLS, and GLS, and the efficiency scaling of each method with number of mobile particles or total simulation time..
-    % \item Discussion of the skewed distribution of the estimated variance in the diffusion coefficient.
+    \item Discussion of the origin of bias and skew in the distribution of the estimated variance of the estimated diffusion coefficient, $\prob{\varest{\Dest}}$.
     \item Details of the LLZO molecular dynamics simulations.
-    % \item Discussion of the importance of only using non-diffusive simulation in the analysis.
     \item Details of the implementation of the model covariance method in the \textsc{kinisi} package.
 \end{enumerate}
 A repository containing the analysis and plotting code used to generate all results and figures in the main manuscript and this supplemental material document is available at \url{www.github.com/arm61/msd-errors}~\cite{mccluskey_github_2022}, under MIT (code) and CC BY-SA 4.0 (figures and text) licenses.
 This repository includes a fully reproducible \code{showyourwork} workflow, which allows complete reproduction of the analysis, plotting of figures and compilation of the manuscripts.
 The corresponding input datasets are openly available under the CC BY-SA 4.0 licence \cite{mccluskey_zenodo_2022,coles_llzo_zenodo_2022}. 
 
-% \vspace{\columnsep}
 \twocolumngrid
 
 \section{Derivation of the long-time limit covariance matrix for a system of freely diffusing particles.}
@@ -574,7 +589,7 @@ Combining this result with Eqn.~\ref{equ:msd_SI}, we can express the variance in
 i.e., $\var{\oMSDn}$ increases quadratically with the number of steps taken, or, equivalently, with time.
 
 Eqn.~\ref{equ:varmsd} gives the variance of the mean squared displacement for a single particle considering a single time-origin.
-We can obtain improved statistics by averaging over statistically equivalent observed squared displacements (see Eqn.~2 in the main text), which can be acheived by averaging over mobile particles or by averaging over time origins.
+We can obtain improved statistics by averaging over statistically equivalent observed squared displacements (see Eqn.~2 in the main text), which can be achieved by averaging over mobile particles or by averaging over time origins.
 This averaging over equivalent observations reduces the variance in the observed MSD to
 %
 \begin{equation}
@@ -598,7 +613,7 @@ with variance
     \var{\oMSDn}_d = \sum^d{\frac{2n^2\kappa^4}{d^2\nind{n}}} = \frac{2n^2\kappa^4}{d\nind{n}},
 \end{equation}
 %.
-Because each step is equally likely to move a partice along each of the $d$ dimensions, the term $n$ in Eqns.~\ref{equ:msd_SI} \&~\ref{equ:der_var} is replaced here with $n/d$.
+Because each step is equally likely to move a particle along each of the $d$ dimensions, the term $n$ in Eqns.~\ref{equ:msd_SI} \&~\ref{equ:der_var} is replaced here with $n/d$.
 
 The analysis above can be extended to consider the covariance between two different numbers of steps, $n$ and $n+m$, in the random walk where the expected MSDs will be
 %
@@ -636,7 +651,7 @@ where
 \begin{equation}
     \begin{aligned}
         \moMSDn\moMSDm &= \oMSDn\oMSDm \\
-                       &= nd^2(n+m)\kappa^2 \\
+                       &= n\kappa^2(n+m)\kappa^2 \\
                        &= n(n+m)\kappa^4
     \end{aligned}
 \end{equation}
@@ -659,7 +674,7 @@ which we can rewrite as
     \label{equ:vbig}
 \end{equation}
 %
-The second and third terms in Eqn.~\ref{equ:vbig} tend to \num{0} as there is an equal probability of positive and negative displacements. 
+The second and third terms in Eqn.~\ref{equ:vbig} tend to zero as there is an equal probability of positive and negative displacements. 
 This reduces Eqn.~\ref{equ:vbig} to 
 %
 \begin{equation}
@@ -702,10 +717,10 @@ Putting this result into Eqn.~\ref{equ:pair} allows the covariance to be written
 where we use the $\Sigma^\prime$ notation to identify that this is in the long-time limit. 
 
 In this case, the covariance depends only on the number of overlapping points, $n$, between the two time intervals. 
-We can easily rationalise this by accepting that for a random walk any non-overlapping point will be completely uncorrelated and therefore have a covariance of \num{0}. 
+We can rationalise this by noting that for a random walk any non-overlapping points will be completely uncorrelated and therefore have a covariance of \num{0}. 
 Similar to the case for the variance, the covariance derived in Eqn.~\ref{equ:cov_der} is that for a single particle at a single time origin. 
 The number of independent observed squared displacements for a given covariance should be the minimum number of shared independent observed squared displacements between the two time intervals, which is $\nind{n+m}$. 
-Therefore, scaled by the number of contributing independent observations, the covariance, in the long-time limit, is
+Therefore, the covariance, scaled by the number of contributing independent observations, in the long-time limit, is
 %
 \begin{equation}
     \Sigma^\prime \left[\oMSDn, \oMSDm \right] = \frac{2n^2\kappa^4}{\nind{n+m}}.
@@ -739,63 +754,66 @@ and
 \end{equation}
 %
 
-\section{Scaling of $\var{\Dest}$ with simulation size and choice of estimator}
-\label{sec:scaling}
+\section{Bias and skew in $\prob{\varest{\Dest}}$}
+\label{sec:skew}
 %
-Fig.~\ref{fig:stat_eff} presents an analysis of how $\var{\Dest}$ varies as a function of changing the number of mobile particles (Fig.~\ref{fig:stat_eff}a)and the total simulation time (number of steps) (Fig.~\ref{fig:stat_eff}b).
-We compare the performance of four methods for estimating $\D$ from the observed MSD data: OLS, WLS, the approximate Bayesian regression method described here, and GLS.
-Each data point is calculated as the variance over point-estimates of $\D$ from \num{512} individual 3D-lattice random walk simulations, for each combination of $N_\mathrm{atoms}$ and $\Delta t_\mathrm{max}$.
-For WLS and GLS we compute the variances and covariance matrix, respectively, using the complete set of \num{512} simulations.
-For the GLS dataset, this gives an optimally efficient estimator for linear regression of observed MSD data, corresponding to the Cram\'er--Rao lower bound of $\var{\Dest}$.
+In the main manuscript, we present results for a set of \num{4096} 3D-lattice random walk simulations, each consisting of \num{128} particles undergoing \num{128} steps (Fig.~\ref{fig:random_walk}).
+Our approximate Bayesian regression scheme allows us to estimate the variance in $\Dest$, denoted as $\varest{\Dest}$, that would be obtained over a large number of repeat simulations.
+This estimate is calculated from the variance of the marginal posterior distribution $\prob{\D|\model}$, which we derive from analysis of a single simulation trajectory.
+As shown in Fig.~\ref{fig:random_walk}d, our estimate for the population variance $\var{\Dest}$, obtained from a single simulation, aligns reasonably with the true value.
+When considering the distribution of estimated variance, $\prob{\varest{\Dest}}$, however, we observe a systematic overestimation (bias) of the true value, along with visible skewness.
 
-The approximate Bayesian regression method described in the main manuscript performs similarly to GLS with a converged exact covariance matrix, and gives significantly smaller uncertainty in $\Dest$ than OLS or WLS at all simulation sizes and lengths considered.
-In addition, our method gives better scaling than OLS or WLS as the total simulation time is increased.
-
+This bias and skew arise from our use of estimated variances $\varest{\oMSDi}$ when parametrising the model covariance matrix $\bm{\Sigma^\prime}$.
+Fig.~\ref{fig:true_cov} presents equivalent results for $\prob{\Dest}$ and $\prob{\varest{\Dest}}$ for the same \num{4096} individual simulations, but calculated using a numerical covariance matrix, $\bm{\Sigma}_\mathrm{num}$ derived from all \num{4096} observed MSDs.
+The resulting distribution $\prob{\varest{\Dest}}$ (Fig.~\ref{fig:true_cov}b) is no longer biased or skewed.
+Furthermore, the distribution $\prob{\Dest}$ agrees even more closely with the numerically converged distribution obtained when combining data from all \num{4096} simulations (Fig~\ref{fig:true_cov}a), contrasting with the results presented in Fig.~\ref{fig:random_walk}b, where our approximate Bayesian regression scheme yields a slightly broadened distribution due to the use of the long-time limit in the derivation of the analytical form for $\bm{\Sigma^\prime}$.
+%
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{figures/stat_eff.pdf}
+    \includegraphics[width=\columnwidth]{figures/true_cov.pdf}
     \caption{
-        Statistical efficiency, $\var{\Dest}$, of OLS (pink), WLS (orange), GLS (blue), and our approximate Bayesian regression method (green), as a function of varying;
-        the decrease in $\sigma^2[\hat{\mu}(\Dest_\alpha)]$ as a function of (a) number of atoms, and (b) total simulation time.
-        The solid lines show a fitted power law relationship for each method.
-        % Raw simulation data~\cite{mccluskey_zenodo_2022} and scripts~\cite{mccluskey_github_2022} to generate this figure are available under CC BY 4.0/MIT licences. 
+        (a) Probability distribution of point-estimates $\prob{\Dest}$ obtained from \num{4096} individual random-walk simulations, using the numerical covariance matrix $\bm{\Sigma}_\mathrm{num}$.
+        Each simulation has been analysed as in Fig.~\ref{fig:msd}(a) and (b) to yield a single corresponding point estimate $\Dest$.
+        The grey line shows the distribution of point estimates, $\prob{\Dest_\mathrm{num}}$, obtained using Bayesian regression with a mean vector and numerical covariance matrix derived from the complete dataset of all \num{4096} simulations.
+        The pink horizontal bar shows an interval of one standard deviation in $\prob{\Dest}$.
+        (b) Probability distribution of estimated variances, $\varest{\Dest}$, for individual random-walk simulations, using the numerical covariance matrix $\bm{\Sigma}_\mathrm{num}$, compared to the true sample variance (pink vertical line) $\var{\Dest}$.
         }
-    \label{fig:stat_eff}
-    \script{stat_eff.py}
+    \label{fig:true_cov}
+    \script{true_cov.py}
 \end{figure}
-% 
+%
 
 \section{LLZO simulations}
 %
 Classical molecular dynamics were run using the \textsc{metalwalls} code~\cite{marin_metalwalls_2020}. 
-The DIPPIM polarisable ion force field parameterised by Burbano \emph{et al.}~\cite{burbano_sparse_2016} was used due to its ability to account accurately for the effect of ion polarisability on diffusion~\cite{wilson_polarization_1993,burbano_sparse_2016}. 
-Simulations were run for the cubic phase of LLZO in NVT ensemble at \SI{1000}{\kelvin} and were extended to a length of \SI{2}{\nano\second} with a \SI{2}{\femto\second} timestep. 
-Temperature was maintained by means of Nos\'{e}-Hoover thermostat with a relaxation time of \SI{121}{\femto\second} (5000 $\hbar / E_{h}$)~\cite{nose_unified_1984,hoover_canonical_1985,martyna_nose_1992}. 
-As in the prior study of Burbano \emph{et al.}~\cite{burbano_sparse_2016}, simulations were performed using $2 \times 2 \times 2$ supercells with \SI{1536}{atoms} following the same simulation protocal as in Ref.~\citenum{burbano_sparse_2016}.
+We used the DIPPIM polarisable ion force field, as parameterised by Burbano \emph{et al.}~\cite{burbano_sparse_2016}, due to its proven accuracy in accounting for the effect of ion polarisability on diffusion~\cite{wilson_polarization_1993,burbano_sparse_2016}. 
+We simulated the cubic phase of LLZO in NVT ensemble at a temperature of \SI{1000}{\kelvin}.
+Simulations were run for \SI{2}{\nano\second} with a \SI{2}{\femto\second} timestep. 
+To control temperature, we used a Nos\'{e}-Hoover thermostat, with a relaxation time of \SI{121}{\femto\second} (5000 $\hbar / E_{h}$)~\cite{nose_unified_1984,hoover_canonical_1985,martyna_nose_1992}. 
+Simulations were performed using $2 \times 2 \times 2$ supercells with \SI{1536}{atoms} following the same protocol as in Ref.~\citenum{burbano_sparse_2016}.
 
-\section{Numerical implementation in \textsc{kinisi}}
+\section{Numerical implementation in KINISI}
 \label{sec:implementation}
 %
-We have implemented the method outlined in the main text in the open-source Python package \textsc{kinisi}~\cite{mccluskey_kinisi_2022}. 
-Here, we will discuss both \textsc{kinisi}'s broader implementation of the method and its application in the validation examples. 
+We have implemented the approximate Bayesian estimation method described in the main text in the open-source Python package \textsc{kinisi}~\cite{mccluskey_kinisi_2022}. 
+This section provides numerical details regarding the implementation of this method.
 
-First, to find the maximum number of observations of squared displacements at each time interval, \textsc{kinisi} uses overlapping sliding window sampling. 
-The maximum number of observations for a given time interval, $t$, is $N_{\mathrm{atoms}} \times (N_{t} - i)$ displacements, where $N_{\mathrm{atoms}}$ is the number of atoms, $N_{t}$ is the total number of timesteps, and $i$ is the index of the timestep (starting with \num{1} for the shortest timestep). 
-The independent variance is estimated by rescaling the observed overlapping variance in the squared displacements by the number of non-overlapping squared displacements, $\nind{i} = N_{\mathrm{atoms}} \times N_{t} / i$, as shown in Eqn.~\ref{equ:varestMSD}. 
-The population mean for the squared displacements and the independent variances are then stored. 
+\textsc{kinisi} uses overlapping sliding window sampling when calculating the observed mean squared displacement at each time interval $t$ (see Eqn.~\ref{equ:observed_msd}).
+For a given time interval, $t$, the maximum number of observations is $N_{\mathrm{atoms}} \times (N_{t} - i)$ displacements, where $N_{\mathrm{atoms}}$ is the number of atoms, $N_{t}$ is the total number of timesteps, and $i$ is the index of the timestep (where \num{1} is the index for the shortest timestep).
+To estimate the variance of the observed MSD, we rescale the variance of observed squared displacements by the number of non-overlapping time intervals in the simulation, $\nind{i} = N_{\mathrm{atoms}} \times N_{t} / i$, as presented in Eqn.~\ref{equ:varestMSD}.  
 
-Eqn.~\ref{equ:cvv_SI} defines the parameterisation of the covariance matrix from the variances and the number of independent observations. 
-The covariance matrix is only constructed for values of $t$ where the particles are considered to be diffusing, which can be controlled manually by the user. 
-In this work, the particles were assumed to be diffusing for $t>\SI{4}{\second}$ for the random walks and \SI{10}{\pico\second} for the LLZO system in Fig.~\ref{fig:diffusion}. 
-%The LLZO system was investigated at a range of starting times in Fig.~\ref{fig:true_llzo}. 
+The parametrisation of the covariance matrix from the variances $\var{\oMSDi}$ and the number of independent observations $\nind{i}$ is defined by Eqn.~\ref{equ:cvv}. 
+The covariance matrix is only constructed for values of $t$ where the particle motion is considered to be in the long-time diffusive limit, with this threshold set by the user to a value appropriate for their system and simulation data. 
+For the examples presented in the main manuscript, we consider particles to be in the diffusive regime from $t=\num{4}$ for the random walk trajectories and from $t=\SI{10}{\pico\second}$ for the LLZO simulations.. 
 
-To obtain an initial guess for the gradient and intercept of the linear model that describes the observed MSD, \textsc{kinisi} uses ordinary least squares. 
-This initial guess is then used as a starting point for the minimisation of the negative maximum a posteriori (the maximum of the posterior distribution in Eqn.~\ref{equ:bayes}), with the prior probability that the diffusion coefficient is greater than or equal to zero~\cite{broyden_convergence_1970,fletcher_new_1970,goldfarb_family_1970,shanno_conditioning_1970}.
-The log-likelihood calculation (Eqn.~\ref{equ:loglike}) makes use of the Moore-Penrose generalisation of the inverse of a Hermitian matrix~\cite{moore_on_1920,bjerhammar_application_1951,penrose_generlized_1955}. 
+\textsc{kinisi} uses ordinary least squares to obtain an initial guess for the gradient and intercept of the linear model describing the observed MSD.
+This initial guess is then used as the starting point for minimising the negative maximum a posteriori (the peak of the posterior distribution as per Eqn.~\ref{equ:bayes}), with the improper prior that $\D \ge 0$~\cite{broyden_convergence_1970,fletcher_new_1970,goldfarb_family_1970,shanno_conditioning_1970}.
+The log-likelihood calculation (Eqn.~\ref{equ:loglike}) uses the Moore-Penrose generalisation of the inverse of a Hermitian matrix~\cite{moore_on_1920,bjerhammar_application_1951,penrose_generlized_1955}. 
 
-To sample the joint posterior probability distribution of the linear model, \textsc{kinisi} uses the \textsc{emcee} package~\cite{foremanmackey_emcee_2019} was used, which implements Goodman and Weare's affine invariant Markov chain Monte Carlo ensemble sampler~\cite{goodman_ensemble_2010}. 
-A physically-informed prior probability that $\D > 0$ is imposed on all analysis.
-The sampling is performed with \num{32} walkers, for \num{1500} steps, the first \num{500} steps are removed as a burn-in period, finally, the sampled chains are thinned, such that only every \num{10}th value is used. 
-This gives \num{3200} points sampled in the posterior distribution, these points can be histogrammed (as in Fig~\ref{fig:random_walk}) and summary statistics taken.
+To sample the joint posterior probability distribution of the linear model, \textsc{kinisi} uses the \textsc{emcee} package~\cite{foremanmackey_emcee_2019}, which implements Goodman and Weare's affine invariant Markov chain Monte Carlo ensemble sampler~\cite{goodman_ensemble_2010}. 
+When sampling $\prob{\D|\model}$ we again apply the improper prior $\D \ge 0$.
+The sampling process uses \num{32} walkers for \num{1500} steps, with the first \num{500} steps discarded as a burn-in period.
+The sampled chains are thinned such that only every 10th value is retained, yielding \num{3200} points sampled from the posterior distribution $\prob{\D|\model}$.
+These points can then be plotted as a histogram (as in Fig~\ref{fig:random_walk}), and summary statistics $\Dest$ and $\varest{\Dest}$ can be derived.
 
 \end{document}

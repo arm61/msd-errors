@@ -18,22 +18,21 @@ for i, ii in enumerate(xaxis):
     file_open = np.load(f"src/data/random_walks/kinisi/rw_{jump}_{ii}_{length}_s512.npz")
     kinisi_atoms[i] = file_open['diff_c'].mean(-1).var(-1, ddof=1)
     file_open = np.load(f"src/data/random_walks/weighted/rw_{jump}_{ii}_{length}_s512.npz")
-    weighted_atoms[i] = file_open['diff_c'].mean(-1).var(-1, ddof=1)
+    weighted_atoms[i] = file_open['diff_c'].var()
     file_open = np.load(f"src/data/random_walks/ordinary/rw_{jump}_{ii}_{length}_s512.npz")
-    ordinary_atoms[i] = file_open['diff_c'].mean(-1).var(-1, ddof=1)
+    ordinary_atoms[i] = file_open['diff_c'].var()
     file_open = np.load(f"src/data/random_walks/numerical/D_{jump}_{ii}_{length}.npz")
-    numerical_atoms[i] = file_open['diff_c'].var(ddof=1)
+    numerical_atoms[i] = file_open['diff_c'].var()
 for i, ii in enumerate(xaxis):
     atoms = 128
     file_open = np.load(f"src/data/random_walks/kinisi/rw_{jump}_{atoms}_{ii}_s512.npz")
     kinisi_length[i] = file_open['diff_c'].mean(-1).var(-1, ddof=1)
     file_open = np.load(f"src/data/random_walks/weighted/rw_{jump}_{atoms}_{ii}_s512.npz")
-    weighted_length[i] = file_open['diff_c'].mean(-1).var(-1, ddof=1)
+    weighted_length[i] = file_open['diff_c'].var()
     file_open = np.load(f"src/data/random_walks/ordinary/rw_{jump}_{atoms}_{ii}_s512.npz")
-    ordinary_length[i] = file_open['diff_c'].mean(-1).var(-1, ddof=1)
+    ordinary_length[i] = file_open['diff_c'].var()
     file_open = np.load(f"src/data/random_walks/numerical/D_{jump}_{atoms}_{ii}.npz")
-    numerical_length[i] = file_open['diff_c'].var(ddof=1)
-
+    numerical_length[i] = file_open['diff_c'].var()
 
 def f(x, a, b):
     return b * x**a

@@ -27,7 +27,7 @@ axes[-1].plot([1 - data['ols_pop'].std(), 1 + data['ols_pop'].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
               color=fp.colors[3],
               marker='|')
-axes[-1].plot([1 - data['ols_est'][:, 0].std(), 1 + data['ols_est'][:, 0].std()],
+axes[-1].plot([1 - data['ols_est'], 1 + data['ols_est']],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
               color='#1E5B84',
               marker='|')
@@ -45,7 +45,7 @@ axes[-1].plot([1 - data['wls_pop'].std(), 1 + data['wls_pop'].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
               color=fp.colors[3],
               marker='|')
-axes[-1].plot([1 - data['wls_est'][:, 0].std(), 1 + data['wls_est'][:, 0].std()],
+axes[-1].plot([1 - data['wls_est'], 1 + data['wls_est']],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
               color='#1E5B84',
               marker='|')
@@ -61,7 +61,7 @@ axes[-1].plot([1 - data['gls_pop'].std(), 1 + data['gls_pop'].std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
               color=fp.colors[3],
               marker='|')
-axes[-1].plot([1 - data['gls_est'][:, 0].std(), 1 + data['gls_est'][:, 0].std()],
+axes[-1].plot([1 - data['gls_est'], 1 + data['gls_est']],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
               color='#1E5B84',
               marker='|')
