@@ -1,4 +1,4 @@
-# Accurate estimation of diffusion coefficients and their uncertainties from computer simulation
+# Accurate Estimation of Diffusion Coefficients and their Uncertainties from Computer Simulation
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/bjmorgan/kinisi/blob/master/docs/source/_static/schematic_light.png?raw=true">
@@ -27,11 +27,11 @@ We then perform Bayesian regression to sample the distribution of linear models 
 <a href="https://github.com/arm61/msd-errors/raw/main-pdf/ms.pdf">
 <img src="https://img.shields.io/badge/article-pdf-blue.svg?style=flat" alt="Read the article"/>
 </a>
-<a href="https://doi.org/10.5281/zenodo.xxxxxxx">
-<img src="https://zenodo.org/badge/DOI/10.5281/zenodo.xxxxxxx.svg"/>
+<a href="https://doi.org/10.5281/zenodo.7985057">
+<img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7985057.svg"/>
 </a>
-<a href="https://arxiv.org/abs/xxxx.xxxxx">
-<img src="https://img.shields.io/badge/arXiv-xxxx.xxxxx-orange.svg"/>
+<a href="https://arxiv.org/abs/2305.18244">
+<img src="https://img.shields.io/badge/arXiv-2305.18244-orange.svg"/>
 </a>
 <br><br>
 <a href="https://orcid.org/0000-0003-3381-5911">Andrew R. McCluskey</a>&ast;, 
