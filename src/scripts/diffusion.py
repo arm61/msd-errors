@@ -28,38 +28,35 @@ titles = []
 
 axes.append(fig.add_subplot(gs[0, 0]))
 y, x = np.histogram(d.mean(-1), bins=int(fp.NBINS * 0.5), density=True)
-axes[-1].stairs(y * 1e-4, x * 1e5, fill=True, color=fp.colors[2], label='$p(\hat{D}^*_{\mathrm{Li}^+})$')
-axes[-1].plot(llzo_x * 1e5,
-              norm.pdf(llzo_x, dllzo_true.mean(), dllzo_true.std()) * 1e-4,
-              color=fp.colors[4],
-              label='$p(\hat{D}^*_{\mathrm{Li}^+} | \mathbfit{x})$')
+axes[-1].stairs(y, x, fill=True, color='#ECBCA7', label='$p(\hat{D}^*)$')
+axes[-1].plot(llzo_x,
+              norm.pdf(llzo_x, dllzo_true.mean(), dllzo_true.std()),
+              color='#B8B8B8',
+              label='$p(\hat{D}^*_{\mathrm{num}})$')
 axes[-1].plot(np.array([d.mean(-1).mean() - d.mean(-1).std(),
-                        d.mean(-1).mean() + d.mean(-1).std()]) * 1e5,
+                        d.mean(-1).mean() + d.mean(-1).std()]),
               [axes[-1].get_ylim()[1] * 1.05, axes[-1].get_ylim()[1] * 1.05],
-              color=fp.colors[3],
-              label='$\sigma(\hat{D}^*_{\mathrm{Li}^+})$',
+              color='#F3ADBC',
+              label='$\sigma[\hat{D}^*]$',
               marker="|")
-axes[-1].set_yticks([0, 6, 12])
-axes[-1].set_xlabel(r"$\hat{D}^*_{\mathrm{Li}^{+}}$ / $10^{-5}$ cm$^2$ s$^{-1}$")
-axes[-1].set_ylabel(r"$p(\hat{D}^*_{\mathrm{Li}^{+}})$ / $10^4$ cm$^{-2}$ s")
+# axes[-1].set_yticks([0, 6, 12])
+axes[-1].set_xlabel(r"$\hat{D}^*$ / cm$^2$ s$^{-1}$")
+axes[-1].set_ylabel(r"$p(\hat{D}^*)$ / cm$^{-2}$ s")
 titles.append("a")
-axes[-1].set_title("$D^*_{\mathrm{Li}^+}$ estimates", y=1)
-axes[-1].set_yticks([0, 7, 14])
-axes[-1].set_ylim([0, 16.5])
+# axes[-1].set_yticks([0, 7, 14])
+# axes[-1].set_ylim([0, 16.5])
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.6, 1))
 
 axes.append(fig.add_subplot(gs[0, 1]))
 y, x = np.histogram(d.var(-1, ddof=1), bins=int(fp.NBINS * 0.5), density=True)
-axes[-1].stairs(y * 1e-10, x * 1e11, fill=True, color=fp.colors[0], label='$p[\hat{\sigma}^2(D^*_{\mathrm{Li}^+})]$')
-axes[-1].axvline(d.mean(-1).var(ddof=1) * 1e11, c=fp.colors[3], ls='--', label='$\sigma^2(\hat{D}^*_{\mathrm{Li}^+})$')
-axes[-1].set_xlabel(r"$\hat{\sigma}^2(\hat{D}^*_{\mathrm{Li}^{+}})$ / $10^{-11}$ cm$^4$ s$^{-2}$")
-axes[-1].set_ylabel(r"$p[\hat{\sigma}^2(\hat{D}^*_{\mathrm{Li}^{+}})]$ / $10^{10}$ cm$^{-4}$ s$^2$")
+axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label=r'$p(\hat{\sigma}^2[D^*])$')
+axes[-1].axvline(d.mean(-1).var(ddof=1), c='#F3ADBC', ls='-', label=r'$\sigma^2(\hat{D}^*)$')
+axes[-1].set_xlabel(r"$\hat{\sigma}^2(\hat{D}^*)$ / cm$^4$ s$^{-2}$")
+axes[-1].set_ylabel(r"$p(\hat{\sigma}^2[\hat{D}^*])$ / cm$^{-4}$ s$^2$")
 axes[-1].set_xlim([0, None])
-axes[-1].set_xticks([0, 1, 2])
-axes[-1].set_yticks([0, 7, 14])
-axes[-1].set_ylim([0, 16.5])
+# axes[-1].set_xticks([0, 1, 2])
+# axes[-1].set_yticks([0, 7, 14])
 titles.append(r"b")
-axes[-1].set_title("$\sigma^2(D^*_{\mathrm{Li}^+})$ estimates", y=1)
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.5, 1))
 
 x_correction = [28, 28]

@@ -30,31 +30,31 @@ x_ = np.linspace(true.mean(-1).min(), true.mean(-1).max(), 1000)
 
 axes.append(fig.add_subplot(gs[0, 0]))
 y, x = np.histogram(true.mean(-1), density=True, bins=fp.NBINS)
-axes[-1].stairs(y, x, fill=True, color=fp.colors[2], label='$p(\hat{D}^*)$')
+axes[-1].stairs(y, x, fill=True, color='#ECBCA7', label='$p(\hat{D}^*)$')
 axes[-1].plot(x_,
               norm.pdf(x_, dinfty_true.mean(), dinfty_true.std()),
-              color=fp.colors[4],
-              label=r'$p(\hat{D}^* | \mathbfit{x})$')
+              color='#B8B8B8',
+              label=r'$p(\hat{D}^*_{\mathrm{num}})$')
 axes[-1].plot([dinfty_true.mean() - dinfty_true.std(),
                dinfty_true.mean() + dinfty_true.std()], [axes[-1].get_ylim()[1] * 1.05, axes[-1].get_ylim()[1] * 1.05],
-              color=fp.colors[3],
-              label='$\sigma(\hat{D}^*)$')
+              color='#F3ADBC',
+              label='$\sigma[\hat{D}^*]$')
 axes[-1].set_xlabel(r"$\hat{D}^*$")
 axes[-1].set_ylabel(r"$p(\hat{D}^*)$")
 titles.append(r"a")
 axes[-1].set_xlim(0.9, 1.1)
-axes[-1].set_title("$D^*$ distribution")
+axes[-1].set_title("all simulations")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.65, 1))
 
 axes.append(fig.add_subplot(gs[0, 1]))
 y, x = np.histogram(true.var(-1, ddof=1), density=True, bins=fp.NBINS)
-axes[-1].stairs(y, x, fill=True, color=fp.colors[0], label='$p[\hat{\sigma}^2(D^*)]$')
-axes[-1].axvline(true.mean(-1).var(ddof=1), c=fp.colors[3], label='$\sigma^2(\hat{D}^*)$', ls='--')
-axes[-1].set_xlabel(r"$\hat{\sigma}^2 (\hat{D}^*)$")
-axes[-1].set_ylabel(r"$p[\hat{\sigma}^2 (\hat{D}^*)]$")
+axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label='$p(\hat{\sigma}^2[D^*])$')
+axes[-1].axvline(true.mean(-1).var(ddof=1), c='#F3ADBC', label='$\sigma^2[\hat{D}^*]$', ls='-')
+axes[-1].set_xlabel(r"$\sigma^2 [\hat{D}^*]$")
+axes[-1].set_ylabel(r"$p(\sigma^2 [\hat{D}^*])$")
 # axes[-1].set_xlim(1.5, 2.0)
 titles.append("b")
-axes[-1].set_title(r"$\hat{\sigma}^2(D^*)$ distribution")
+axes[-1].set_title(r"all simulations")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.65, 1))
 
 x_correction = [31, 32]

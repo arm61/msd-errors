@@ -31,80 +31,79 @@ titles = []
 
 axes.append(fig.add_subplot(gs[0, 0]))
 titles.append("a")
-axes[-1].set_title("Single simulation")
+axes[-1].set_title("single simulation")
+axes[-1].plot(dt, kinisi['data'][0, :, 1], color='#305A80', label=r"$\mathbfit{x}$", zorder=10)
 axes[-1].fill_between(dt,
                       *np.percentile(distribution, CREDIBLE_INTERVALS[0][:-1], axis=1),
                       alpha=CREDIBLE_INTERVALS[0][-1],
-                      color=fp.colors[1],
+                      color='#67B99B',
                       lw=0,
                       label=r'$p(m | \mathbfit{x})$')
 for ci in CREDIBLE_INTERVALS[1:]:
-    axes[-1].fill_between(dt, *np.percentile(distribution, ci[:-1], axis=1), alpha=ci[-1], color=fp.colors[1], lw=0)
-axes[-1].plot(dt, kinisi['data'][0, :, 1], color='#1E5B84', label=r"$\mathbfit{x}$")
+    axes[-1].fill_between(dt, *np.percentile(distribution, ci[:-1], axis=1), alpha=ci[-1], color='#67B99B', lw=0)
 axes[-1].set_xlabel(r"$t$")
 axes[-1].set_ylabel(r"$x(t)$")
 axes[-1].set_xlim(0, None)
 axes[-1].set_ylim(0, None)
 axes[-1].set_xticks([0, 64, 128])
-axes[-1].set_yticks([0, 400, 800])
+axes[-1].set_yticks([0, 300, 600, 900])
 axes[-1].legend()
 
 axes.append(fig.add_subplot(gs[0, 1]))
 titles.append("b")
-axes[-1].set_title("Single simulation")
+axes[-1].set_title("single simulation")
 y, x = np.histogram(kinisi['diff_c'][0], bins=fp.NBINS, density=True)
-axes[-1].stairs(y, x, fill=True, color=fp.colors[1], label=r'$p(D^* | \mathbfit{x})$')
+axes[-1].stairs(y, x, fill=True, color='#9FD5C3', label=r'$p(D^* | \mathbfit{x})$')
 axes[-1].plot([
     kinisi['diff_c'][0].mean() - kinisi['diff_c'][0].std(),
     kinisi['diff_c'][0].mean() + kinisi['diff_c'][0].std()
 ], [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color=fp.colors[0],
-              label='$\hat{\sigma}(D^*)$',
+              color='#81A8D9',
+              label='$\hat{\sigma}[\hat{D}^*]$',
               marker='|')
-axes[-1].axvline(kinisi['diff_c'][0].mean(), ymax=0.92, color=fp.colors[2], label=r'$D^*$', ls='--')
-axes[-1].set_xlabel(r"$[D^* | \mathbfit{x}]$")
-axes[-1].set_ylabel(r"$p\{[D^* | \mathbfit{x}]\}$")
+axes[-1].axvline(kinisi['diff_c'][0].mean(), ymax=0.85, color='#E08D6D', label=r'$\hat{D}^*$', ls='--')
+axes[-1].set_yticks([0, 5, 10, 15])
+axes[-1].set_xlabel(r"$D^* | \mathbfit{x}$")
+axes[-1].set_ylabel(r"$p(D^* | \mathbfit{x})$")
 axes[-1].set_xlim(0.87, 1.13)
-axes[-1].set_yticks([0, 8, 16])
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.65, 1))
 
 axes.append(fig.add_subplot(gs[0, 2]))
 y, x = np.histogram(true.mean(-1), bins=fp.NBINS, density=True)
-axes[-1].stairs(y, x, fill=True, color=fp.colors[2], label='$p(\hat{D}^*)$')
+axes[-1].stairs(y, x, fill=True, color='#ECBCA7', label='$p(\hat{D}^*)$')
 axes[-1].plot(rw_x,
               norm.pdf(rw_x, dinfty_true.mean(), dinfty_true.std()),
-              color=fp.colors[4],
-              label='$p(\hat{D}^* | \mathbfit{x})$')
+              color='#B8B8B8',
+              label='$p(\hat{D}^*_{\mathrm{num}})$')
 axes[-1].plot([true.mean(-1).mean() - true.mean(-1).std(),
                true.mean(-1).mean() + true.mean(-1).std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color=fp.colors[3],
-              label='$\sigma(\hat{D}^*)$',
+              color='#F3ADBC',
+              label='$\sigma[\hat{D}^*]$',
               marker='|')
-# axes[-1].set_yticks([0, 4, 8])
+axes[-1].set_yticks([0, 10, 20])
 axes[-1].set_xlabel(r"$\hat{D}^*$")
-axes[-1].set_ylabel(r"$p[\hat{D}^*]$")
+axes[-1].set_ylabel(r"$p(\hat{D}^*)$")
 titles.append(r"c")
-axes[-1].set_title("Many simulations")
+axes[-1].set_title("all simulations")
 axes[-1].set_xlim(0.87, 1.13)
 axes[-1].set_yticks([0, 10, 20])
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.6, 1))
 
 axes.append(fig.add_subplot(gs[0, 3]))
 y, x = np.histogram(true.var(-1, ddof=1), bins=fp.NBINS, density=True)
-axes[-1].stairs(y, x, fill=True, color=fp.colors[0], label='$p[\hat{\sigma}^2(D^*)]$')
+axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label='$p(\hat{\sigma}^2[D^*])$')
 axes[-1].axvline(true.mean(-1).var(ddof=1),
-                 ymax=0.92,
-                 c=fp.colors[3],
-                 label='$\sigma^2(\hat{D}^*)$',
-                 ls='--')
-axes[-1].set_xlabel(r"$\hat{\sigma}^2 (\hat{D}^*)$")
-axes[-1].set_ylabel(r"$p[\hat{\sigma}^2 (\hat{D}^*)]$")
+                 ymax=0.85,
+                 c='#F3ADBC',
+                 label='$\sigma^2[\hat{D}^*]$',
+                 ls='-')
+axes[-1].set_xlabel(r"$\sigma^2 [\hat{D}^*]$")
+axes[-1].set_ylabel(r"$p(\sigma^2 [\hat{D}^*])$")
 axes[-1].set_xlim([0, None])
-# axes[-1].set_xticks([0, 2, 4])
-# axes[-1].set_yticks([0, 1, 2])
+axes[-1].set_yticks([0, 1, 2, 3])
 titles.append("d")
-axes[-1].set_title("Many simulations")
+axes[-1].set_title("all simulations")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.5, 1))
 
 fig.align_ylabels(axes)

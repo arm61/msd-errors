@@ -21,58 +21,58 @@ axes = []
 titles = []
 axes.append(fig.add_subplot(gs[0, 0]))
 bins = np.linspace((data['ols_pop']).min(), (data['ols_pop']).max(), fp.NBINS * 2)
-axes[-1].hist(data['ols_pop'], bins=bins, density=True, color=fp.colors[5])
-axes[-1].plot(x, norm.pdf(x, *norm.fit(data['ols_pop'])), color=fp.colors[5])
-axes[-1].plot([1 - data['ols_pop'].std(), 1 + data['ols_pop'].std()],
-              [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color=fp.colors[3],
-              marker='|')
+axes[-1].hist(data['ols_pop'], bins=bins, density=True, color='#ECBCA7')
+axes[-1].plot(x, norm.pdf(x, *norm.fit(data['ols_pop'])), color='#B8B8B8')
 axes[-1].plot([1 - data['ols_est'], 1 + data['ols_est']],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color='#1E5B84',
+              color='#305980',
+              marker='|')
+axes[-1].plot([1 - data['ols_pop'].std(), 1 + data['ols_pop'].std()],
+              [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
+              color='#F3ADBC',
               marker='|')
 axes[-1].set_xticks([0.8, 0.9, 1, 1.1, 1.2])
 axes[-1].set_xlim(0.75, 1.25)
 axes[-1].set_yticks([0, 3, 6])
-axes[-1].set_ylabel(r'$p[\hat{D}^* (D^*)^{-1}]$')
+axes[-1].set_ylabel(r'$p(\hat{D}^*)$')
 titles.append("a")
-axes[-1].set_title("OLS")
+axes[-1].set_title("ordinary least squares")
 
 axes.append(fig.add_subplot(gs[1, 0], sharex=axes[0]))
-axes[-1].hist(data['wls_pop'], bins=bins, density=True, color=fp.colors[5])
-axes[-1].plot(x, norm.pdf(x, *norm.fit(data['wls_pop'])), color=fp.colors[5])
-axes[-1].plot([1 - data['wls_pop'].std(), 1 + data['wls_pop'].std()],
-              [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color=fp.colors[3],
-              marker='|')
+axes[-1].hist(data['wls_pop'], bins=bins, density=True, color='#ECBCA7')
+axes[-1].plot(x, norm.pdf(x, *norm.fit(data['wls_pop'])), color='#B8B8B8')
 axes[-1].plot([1 - data['wls_est'], 1 + data['wls_est']],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color='#1E5B84',
+              color='#305980',
               marker='|')
-axes[-1].set_ylabel(r'$p[\hat{D}^* (D^*)^{-1}]$')
+axes[-1].plot([1 - data['wls_pop'].std(), 1 + data['wls_pop'].std()],
+              [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
+              color='#F3ADBC',
+              marker='|')
+axes[-1].set_ylabel(r'$p(\hat{D}^*)$')
 axes[-1].set_yticks([0, 6, 12])
 titles.append("b")
-axes[-1].set_title("WLS")
+axes[-1].set_title("weighted least squares")
 
 axes.append(fig.add_subplot(gs[2, 0], sharex=axes[0]))
-axes[-1].hist(data['gls_pop'], bins=bins, density=True, color=fp.colors[5])
-axes[-1].plot(x, norm.pdf(x, *norm.fit(data['gls_pop'])), color=fp.colors[5])
-axes[-1].plot([1 - data['gls_pop'].std(), 1 + data['gls_pop'].std()],
-              [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color=fp.colors[3],
-              marker='|')
+axes[-1].hist(data['gls_pop'], bins=bins, density=True, color='#ECBCA7')
+axes[-1].plot(x, norm.pdf(x, *norm.fit(data['gls_pop'])), color='#B8B8B8')
 axes[-1].plot([1 - data['gls_est'], 1 + data['gls_est']],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
-              color='#1E5B84',
+              color='#305980',
               marker='|')
-axes[-1].set_xlabel(r'$\hat{D}^* (D^*)^{-1}$')
-axes[-1].set_ylabel(r'$p[\hat{D}^* (D^*)^{-1}]$')
+axes[-1].plot([1 - data['gls_pop'].std(), 1 + data['gls_pop'].std()],
+              [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
+              color='#F3ADBC',
+              marker='|')
+axes[-1].set_xlabel(r'$\hat{D}^*$')
+axes[-1].set_ylabel(r'$p(\hat{D}^*)$')
 axes[-1].set_yticks([0, 12, 24])
 titles.append("c")
-axes[-1].set_title(" GLS")
+axes[-1].set_title("generalised least squares")
 
-axes[-1].plot([], [], color=fp.colors[3], marker='|', label=r'Estimated $\sigma$')
-axes[-1].plot([], [], color=fp.NEARLY_BLACK, marker='|', label=r'Population $\sigma$')
+axes[-1].plot([], [], color='#F3ADBC', marker='|', label=r'population $\sigma$')
+axes[-1].plot([], [], color='#305980', marker='|', label=r'mean estimated $\sigma$')
 
 fig.align_ylabels(axes)
 
