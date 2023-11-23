@@ -61,13 +61,9 @@ dependencies:
     src/scripts/stat_eff.py:
         - src/data/random_walks/stat_eff.npz
         - src/scripts/utils/_fig_params.py
-    src/scripts/efficiency.py:
-        - src/data/random_walks/efficiency.npz
-        - src/scripts/utils/_fig_params.py
-    src/scripts/true_llzo.py:
-        {% for start_diff in [0, 2, 4, 6, 8, 10, 15, 20] %}
-        - src/data/llzo/true_{{start_diff}}.npz
-        {% for n in range(0, 16, 1) %}
-        - src/data/llzo/diffusion_{{n}}_{{start_diff}}.npz
-        {% endfor %} 
-        {% endfor %}
+    src/scripts/glswlsols_llzo.py:
+        - src/data/llzo/glswlsols_10.npz
+    src/scripts/pyblock.py:
+        - src/data/random_walks/kinisi/rw_1_128_128_s4096.npz
+        - src/data/random_walks/pyblock/rw_1_128_128_s4096.npz
+        - src/data/random_walks/pyblock_modelfree/rw_1_128_128_s4096.npz

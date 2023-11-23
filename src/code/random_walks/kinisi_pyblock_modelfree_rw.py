@@ -25,8 +25,8 @@ for seed in tqdm(range(size)):
     np.random.seed(seed)
     disp_3d, n_samples = get_disp3d(walk, length, atoms, jump_size=jump, seed=rng)
 
-    diff = MSDBootstrap(timestep, disp_3d, n_samples, random_state=rng, progress=False)
-    diff.diffusion(5, random_state=rng, progress=False)
+    diff = MSDBootstrap(timestep, disp_3d, n_samples, random_state=rng, progress=False, block=True)
+    diff.diffusion(5, model=False, random_state=rng, progress=False)
     diff_c[seed] = diff.gradient.samples / 6
     intercept[seed] = diff.intercept.samples
     data[seed, :, 0] = diff.dt
@@ -37,7 +37,7 @@ for seed in tqdm(range(size)):
     covariance[seed] = diff.covariance_matrix
     n_o[seed] = diff._n_o
 
-np.savez(f'src/data/random_walks/kinisi/rw_1_{atoms}_{length}_s{size}.npz',
+np.savez(f'src/data/random_walks/pyblock_modelfree/rw_1_{atoms}_{length}_s{size}.npz',
          diff_c=diff_c,
          intercept=intercept,
          data=data,

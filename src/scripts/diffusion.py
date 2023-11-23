@@ -13,7 +13,7 @@ length = 128
 type = 'kinisi'
 
 dllzo_true = np.load(paths.data / "llzo/true_10.npz")['diff_c']
-d = np.zeros((16, 8, 4, 3200))
+d = np.zeros((16, 8, 1, 3200))
 for i in range(0, 16, 1):
     d[i] = np.load(paths.data / f'llzo/diffusion_{i}_10.npz')['d']
 d = d.reshape(-1, 3200)

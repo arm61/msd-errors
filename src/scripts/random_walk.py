@@ -101,7 +101,6 @@ axes[-1].axvline(true.mean(-1).var(ddof=1),
 axes[-1].set_xlabel(r"$\sigma^2 [\hat{D}^*]$")
 axes[-1].set_ylabel(r"$p(\sigma^2 [\hat{D}^*])$")
 axes[-1].set_xlim([0, None])
-axes[-1].set_yticks([0, 1, 2, 3])
 titles.append("d")
 axes[-1].set_title("all simulations")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.5, 1))

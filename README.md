@@ -38,7 +38,7 @@ We then perform Bayesian regression to sample the distribution of linear models 
 <a href="https://orcid.org/0000-0001-9722-5676">Samuel W. Coles</a> 
 and 
 <a href="https://orcid.org/0000-0002-3056-8233">Benjamin J. Morgan</a>&dagger;<br>
-&ast;<a href="mailto:andrew.mccluskey@ess.eu">andrew.mccluskey@ess.eu</a>/&dagger;<a href="mailto:b.j.morgan@bath.ac.uk">b.j.morgan@bath.ac.uk</a>
+&ast;<a href="mailto:andrew.mccluskey@ess.eu">andrew.mccluskey@bristol.ac.uk</a>/&dagger;<a href="mailto:b.j.morgan@bath.ac.uk">b.j.morgan@bath.ac.uk</a>
 </p>
 
 ---

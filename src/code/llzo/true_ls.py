@@ -15,7 +15,7 @@ start_diff = snakemake.params['start_diff']
 
 timestep = np.load(f'src/data/llzo/diffusion_0_{start_diff}.npz')['dt'][0, 0]
 no = np.load(f'src/data/llzo/diffusion_0_{start_diff}.npz')['no'][0, 0]
-d = np.zeros((16, 8, 4, timestep.size))
+d = np.zeros((16, 8, 1, timestep.size))
 for i in range(0, 16, 1):
     d[i] = np.load(f'src/data/llzo/diffusion_{i}_{start_diff}.npz')['msd_true']
 
