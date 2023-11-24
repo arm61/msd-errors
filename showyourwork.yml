@@ -64,6 +64,7 @@ dependencies:
     src/scripts/glswlsols_llzo.py:
         - src/data/llzo/glswlsols_10.npz
     src/scripts/pyblock.py:
+        - src/data/random_walks/numerical/D_1_128_128.npz
         - src/data/random_walks/kinisi/rw_1_128_128_s4096.npz
         - src/data/random_walks/pyblock/rw_1_128_128_s4096.npz
         - src/data/random_walks/pyblock_modelfree/rw_1_128_128_s4096.npz

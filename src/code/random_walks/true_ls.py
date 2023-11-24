@@ -7,7 +7,7 @@ from scipy.stats import linregress
 from scipy.linalg import pinvh
 from emcee import EnsembleSampler
 from scipy.optimize import minimize
-from kinisi.matrix import find_nearest_positive_definite
+from statsmodels.stats.correlation_tools import cov_nearest 
 from kinisi.diffusion import _straight_line
 from tqdm import tqdm
 
