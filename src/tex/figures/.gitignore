@@ -3,4 +3,3 @@
 
 # Except the gitignore file itself!
 !.gitignore
-!schematic.pdf
