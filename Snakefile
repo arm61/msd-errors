@@ -1,3 +1,11 @@
+rule mv_schematic:
+    input:
+        "src/static/schematic.pdf"
+    output:
+        "src/tex/figures/schematic.pdf"
+    shell:
+        "cp {input} {output}"
+
 rule glswlsols:
     input:
         "src/code/random_walks/glswlsols.py",
