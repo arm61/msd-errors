@@ -643,9 +643,11 @@ This averaging over equivalent observations reduces the variance in the observed
     \var{\oMSDn} = \frac{2n^2\kappa^4}{\nind{n}},
 \label{equ:der_var}
 \end{equation}
-where $\nind{n}$ is the total number of statistically independent squared displacements that contribute to $\oMSDi$.
+where $\nind{n}$ is the total number of statistically independent (non-overlapping) squared displacements that contribute to $\oMSDi$.
 In the long-time limit, $\nind{n}$ is given by the product of the number of mobile particles and the number of numerically-independent sub-trajectories of length $i$ in our simulation trajectory.
 Note that $\nind{n}$ considers numerically-independent sub-trajectories, since mutually overlapping time-windows give correlated squared displacements.
+Where overlapping time-windows are used, Eqn.~\ref{equ:der_var} approximates the observed variance (the variance for overlapping and non-overlapping samples are not the same) with accuracy that increases as a function of time-interval length. 
+This leads to the approximation in Eqn.~\ref{equ:varestMSD}.
 
 The results for a one-dimensional lattice above (Eqns.~\ref{equ:msd_SI} \&~\ref{equ:der_var}) can be extended to a $d$-dimensional lattice, to give
 \begin{equation}
