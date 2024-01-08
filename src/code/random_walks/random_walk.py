@@ -9,7 +9,7 @@ import numpy as np
 def walk(atoms: int,
          timesteps: np.ndarray,
          jump_size: int = 1,
-         seed: Union[np.random.mtrand.RandomState, None] = None) -> np.ndarray:
+         seed: np.random.mtrand.RandomState = np.random.RandomState()) -> np.ndarray:
     """
     Perform a random walk.
 
@@ -38,7 +38,7 @@ def get_disp3d(which_walk: callable,
                steps: int,
                atoms: int,
                jump_size: int = 1,
-               seed: Union[np.random.mtrand.RandomState, None] = None) -> List[np.ndarray]:
+               seed: np.random.mtrand.RandomState = np.random.RandomState()) -> List[np.ndarray]:
     """
     Return the three-dimensional displacements from a given random walk.
 
