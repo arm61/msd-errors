@@ -13,8 +13,12 @@ length = 128
 type = 'kinisi'
 
 dllzo_true = np.load(paths.data / "llzo/true_10.npz")['diff_c']
-d = np.zeros((16, 8, 1, 3200))
-for i in range(0, 16, 1):
+length = 2000
+ll = len([i + length for i in range(0, 20001 - length, length)])
+# length = 500
+# ll = len([i + length for i in range(0, 2000, length)])
+d = np.zeros((6, 8, ll, 3200))
+for i in range(0, 6, 1):
     d[i] = np.load(paths.data / f'llzo/diffusion_{i}_10.npz')['d']
 d = d.reshape(-1, 3200)
 llzo_x = np.linspace(dllzo_true.min(), dllzo_true.max(), 1000)
@@ -25,6 +29,8 @@ gs = gridspec.GridSpec(1, 2, figure=fig, wspace=1)
 
 axes = []
 titles = []
+
+print(d.shape)
 
 axes.append(fig.add_subplot(gs[0, 0]))
 y, x = np.histogram(d.mean(-1), bins=int(fp.NBINS * 0.5), density=True)

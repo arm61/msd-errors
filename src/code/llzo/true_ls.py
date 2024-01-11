@@ -14,9 +14,12 @@ np.random.seed(1)
 start_diff = snakemake.params['start_diff']
 
 timestep = np.load(f'src/data/llzo/diffusion_0_{start_diff}.npz')['dt'][0, 0]
-no = np.load(f'src/data/llzo/diffusion_0_{start_diff}.npz')['no'][0, 0]
-d = np.zeros((16, 8, 1, timestep.size))
-for i in range(0, 16, 1):
+length = 2000
+ll = len([i + length for i in range(0, 20001 - length, length)])
+# length = 500 
+# ll = len([i + length for i in range(0, 2000, length)])
+d = np.zeros((6, 8, ll, timestep.size))
+for i in range(0, 6, 1):
     d[i] = np.load(f'src/data/llzo/diffusion_{i}_{start_diff}.npz')['msd_true']
 
 true_mean = d.reshape(-1, d.shape[-1]).mean(0)

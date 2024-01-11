@@ -390,7 +390,7 @@ rule rw_4096_true_cov_true_128:
         f'src/code/random_walks/truecov_rw.py'
 
 for start_diff in [0, 2, 4, 6, 8, 10, 15, 20]:
-    for n in range(0, 16, 1):
+    for n in range(0, 6, 1):
         rule:
             name:
                 f"llzo_many_{n}_{start_diff}"
@@ -415,7 +415,7 @@ for start_diff in [0, 2, 4, 6, 8, 10, 15, 20]:
             f"true_D_llzo_{start_diff}"
         input:
             'src/code/llzo/true_ls.py',
-            [f'src/data/llzo/diffusion_{n}_{start_diff}.npz' for n in range(0, 16, 1)]
+            [f'src/data/llzo/diffusion_{n}_{start_diff}.npz' for n in range(0, 6, 1)]
         output:
             f'src/data/llzo/true_{start_diff}.npz'
         conda:
@@ -432,7 +432,7 @@ for start_diff in [0, 2, 4, 6, 8, 10, 15, 20]:
             f"glswlsols_D_llzo_{start_diff}"
         input:
             'src/code/llzo/glswlsols.py',
-            [f'src/data/llzo/diffusion_{n}_{start_diff}.npz' for n in range(0, 16, 1)]
+            [f'src/data/llzo/diffusion_{n}_{start_diff}.npz' for n in range(0, 6, 1)]
         output:
             f'src/data/llzo/glswlsols_{start_diff}.npz'
         conda:

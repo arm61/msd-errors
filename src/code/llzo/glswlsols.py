@@ -15,9 +15,12 @@ np.random.seed(1)
 start_diff = snakemake.params['start_diff']
 
 timestep = np.load(f'src/data/llzo/diffusion_0_{start_diff}.npz')['dt'][0, 0]
-no = np.load(f'src/data/llzo/diffusion_0_{start_diff}.npz')['no'][0, 0]
-d = np.zeros((16, 8, 1, timestep.size))
-for i in range(0, 16, 1):
+length = 2000
+ll = len([i + length for i in range(0, 20001 - length, length)])
+# length = 500
+# ll = len([i + length for i in range(0, 2000, length)])
+d = np.zeros((6, 8, ll, timestep.size))
+for i in range(0, 6, 1):
     d[i] = np.load(f'src/data/llzo/diffusion_{i}_{start_diff}.npz')['msd_true']
 
 max_ngp = np.argwhere(timestep > start_diff)[0][0]
@@ -31,16 +34,16 @@ W = true_cov
 V = np.diag(true_cov.diagonal())
 
 g1 = np.matmul(np.linalg.inv(np.matmul(A.T, np.matmul(np.linalg.pinv(W), A))),
-               np.matmul(A.T, np.matmul(np.linalg.pinv(W), y)))[0] / 6
-c1 = np.sqrt(np.linalg.inv(np.matmul(A.T, np.matmul(np.linalg.pinv(W), A)))[0][0]) / 6
+               np.matmul(A.T, np.matmul(np.linalg.pinv(W), y)))[0] / 6e4
+c1 = np.sqrt(np.linalg.inv(np.matmul(A.T, np.matmul(np.linalg.pinv(W), A)))[0][0]) / 6e4
 g2 = np.matmul(np.linalg.inv(np.matmul(A.T, np.matmul(np.linalg.pinv(V), A))),
-               np.matmul(A.T, np.matmul(np.linalg.pinv(V), y)))[0] / 6
-c2 = np.sqrt(np.linalg.inv(np.matmul(A.T, np.matmul(np.linalg.pinv(V), A)))[0][0]) / 6
-g3 = np.matmul(np.linalg.inv(np.matmul(A.T, A)), np.matmul(A.T, y))[0] / 6
+               np.matmul(A.T, np.matmul(np.linalg.pinv(V), y)))[0] / 6e4
+c2 = np.sqrt(np.linalg.inv(np.matmul(A.T, np.matmul(np.linalg.pinv(V), A)))[0][0]) / 6e4
+g3 = np.matmul(np.linalg.inv(np.matmul(A.T, A)), np.matmul(A.T, y))[0] / 6e4
 
 c3 = []
 for i in true_msd:
-    c3.append(linregress(timestep, i).stderr / 6)
+    c3.append(linregress(timestep, i).stderr / 6e4)
 
 np.savez(f'src/data/llzo/glswlsols_{start_diff}.npz',
          gls_pop=g1,

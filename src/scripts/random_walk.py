@@ -75,11 +75,11 @@ axes[-1].plot(rw_x,
               norm.pdf(rw_x, dinfty_true.mean(), dinfty_true.std()),
               color='#B8B8B8',
               label='$p(\hat{D}^*_{\mathrm{num}})$')
-axes[-1].plot([true.mean(-1).mean() - true.mean(-1).std(),
-               true.mean(-1).mean() + true.mean(-1).std()],
+axes[-1].plot([dinfty_true.mean() - dinfty_true.std(),
+               dinfty_true.mean() + dinfty_true.std()],
               [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
               color='#F3ADBC',
-              label='$\sigma[\hat{D}^*]$',
+              label='$\sigma[\hat{D}^*_{\mathrm{num}}]$',
               marker='|')
 axes[-1].set_yticks([0, 10, 20])
 axes[-1].set_xlabel(r"$\hat{D}^*$")
@@ -93,14 +93,14 @@ axes[-1].legend(loc='upper left', bbox_to_anchor=(0.6, 1))
 axes.append(fig.add_subplot(gs[0, 3]))
 y, x = np.histogram(true.var(-1, ddof=1), bins=fp.NBINS, density=True)
 axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label='$p(\hat{\sigma}^2[D^*])$')
-axes[-1].axvline(true.mean(-1).var(ddof=1),
+axes[-1].axvline(dinfty_true.var(ddof=1),
                  ymax=0.85,
                  c='#F3ADBC',
-                 label='$\sigma^2[\hat{D}^*]$',
+                 label=r'$\sigma^2[\hat{D}^*_{\mathrm{num}}]$',
                  ls='-')
 axes[-1].set_xlabel(r"$\sigma^2 [\hat{D}^*]$")
 axes[-1].set_ylabel(r"$p(\sigma^2 [\hat{D}^*])$")
-axes[-1].set_xlim([0, None])
+axes[-1].set_xlim([0, 3.5e-3])
 titles.append("d")
 axes[-1].set_title("all simulations")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.5, 1))

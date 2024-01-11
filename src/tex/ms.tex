@@ -174,17 +174,17 @@ The variances, $\var{\oMSDi}$, are correlated, since the displacement of each pa
 These variances are also typically unequal---the data are heteroscedastic \cite{smith_random_1996,he_statistical_2018,UslerEtAl_JComputChem2023}. 
 Because the key assumptions of the OLS method are not valid for MSD data, OLS gives statistically inefficient estimates of $\D$, while the estimated regression uncertainties obtained from the standard OLS statistical formulae significantly underestimate the true uncertainty in $\prob{\Dest_\mathrm{OLS}}$ (Fig.~\ref{fig:glswlsols}a).
 
-\begin{figure}
-    \centering
-    % \resizebox{\columnwidth}{!}{\includegraphics*{figure1.pdf}}
-    \includegraphics[width=\columnwidth]{glswlsols.pdf}
-    \script{glswlsols.py}
-    \caption{
-        Example distributions of estimated self-diffusion coefficients, $\Dest$, calculated using (a) ordinary least squares (OLS), (b) weighted least squares (WLS), and (c) generalised least squares (GLS),
-        from MSD data from \num{4096} individual simulations of \num{128} particles undergoing a \SI{128}{step} 3D lattice random walk, with a step size chosen so that the true diffusion coefficient $\D = 1$.
-        In each panel, the grey curve shows the best-fit normal distribution for the simulation data, the upper horizontal bar shows the standard deviation of this distribution, and the lower horizontal bar shows the average estimated standard distribution given by the analytical expression for $\sigma[\prob{\Dest}]$ for each regression method.}
-    \label{fig:glswlsols}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     % \resizebox{\columnwidth}{!}{\includegraphics*{figure1.pdf}}
+%     \includegraphics[width=\columnwidth]{glswlsols.pdf}
+%     \script{glswlsols.py}
+%     \caption{
+%         Example distributions of estimated self-diffusion coefficients, $\Dest$, calculated using (a) ordinary least squares (OLS), (b) weighted least squares (WLS), and (c) generalised least squares (GLS),
+%         from MSD data from \num{4096} individual simulations of \num{128} particles undergoing a \SI{128}{step} 3D lattice random walk, with a step size chosen so that the true diffusion coefficient $\D = 1$.
+%         In each panel, the grey curve shows the best-fit normal distribution for the simulation data, the upper horizontal bar shows the standard deviation of this distribution, and the lower horizontal bar shows the average estimated standard distribution given by the analytical expression for $\sigma[\prob{\Dest}]$ for each regression method.}
+%     \label{fig:glswlsols}
+% \end{figure}
 
 Some improvement can be made by using weighted least squares (WLS) (Fig.~\ref{fig:glswlsols}b), where the residual for each observed MSD value is weighted by the reciprocal of its variance, $1/(\var{\oMSDi})$.
 Like OLS, WLS is an unbiased estimator, and for heteroscedastic data it has higher statistical efficiency than OLS.
@@ -268,20 +268,20 @@ Using data from all \num{4096} simulations, we first compute the true simulation
 We also compute the MSD and estimated variance using data from a single simulation trajectory (Fig.~\ref{fig:msd}b), using the scheme described above.
 A quantitative comparison between the true MSD variance and the single-trajectory estimated MSD variance is made in Fig.~\ref{fig:msd}c: the close numerical agreement confirms that Eqn~\ref{equ:varestMSD} can be used to estimate $\var{\oMSD}$, which can then be used to parameterise the model covariance matrix $\mathbf{\Sigma^\prime}$ via Eqn.~\ref{equ:cvv}.
 %
-\begin{figure}
-    \centering
-    % \resizebox{\columnwidth}{!}{\includegraphics*{figure2.pdf}}
-    \includegraphics[width=\columnwidth]{msd.pdf}
-    \script{msd.py}
-    \caption{
-        Comparison of the numerical variance in observed MSD from multiple replica simulations and the estimated variance in observed MSD given by rescaling the variance in observed squared displacements (Eqn.~\ref{equ:varestMSD}).
-        Panel (a) shows the mean observed MSD from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of \num{128} steps per particle, with error bars of $\pm2\sigma[\oMSDi]$.
-        Panel (b) shows the MSD from just one simulation, with error bars of $\pm2\widehat{\sigma}[\oMSDi]$, obtained via Eqn.~\ref{equ:varestMSD}.
-        Panel (c) plots the numerical variance against the estimated variance from a single simulation as a function of timestep $i$.
-        %Raw simulation data~\cite{mccluskey_zenodo_2022} and scripts~\cite{mccluskey_github_2022} to generate this figure are available under CC BY 4.0/MIT licences.
-    }
-    \label{fig:msd}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     % \resizebox{\columnwidth}{!}{\includegraphics*{figure2.pdf}}
+%     \includegraphics[width=\columnwidth]{msd.pdf}
+%     \script{msd.py}
+%     \caption{
+%         Comparison of the numerical variance in observed MSD from multiple replica simulations and the estimated variance in observed MSD given by rescaling the variance in observed squared displacements (Eqn.~\ref{equ:varestMSD}).
+%         Panel (a) shows the mean observed MSD from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of \num{128} steps per particle, with error bars of $\pm2\sigma[\oMSDi]$.
+%         Panel (b) shows the MSD from just one simulation, with error bars of $\pm2\widehat{\sigma}[\oMSDi]$, obtained via Eqn.~\ref{equ:varestMSD}.
+%         Panel (c) plots the numerical variance against the estimated variance from a single simulation as a function of timestep $i$.
+%         %Raw simulation data~\cite{mccluskey_zenodo_2022} and scripts~\cite{mccluskey_github_2022} to generate this figure are available under CC BY 4.0/MIT licences.
+%     }
+%     \label{fig:msd}
+% \end{figure}
 %
 
 The practical implementation of both GLS and Bayesian regression requires that the covariance matrix $\mathbf{\Sigma^\prime}$ is invertible (positive definite); see Eqns.~\ref{equ:gls} and \ref{equ:loglike}.
@@ -300,21 +300,21 @@ To illustrate the complete numerical procedure for deriving the model covariance
 the numerically converged covariance matrix, $\bm{\Sigma}$, computed using the data from all \num{4096} simulations (Fig.~\ref{fig:covariances}a);
 the corresponding analytical model covariance matrix, $\mathbf{\Sigma^\prime}$, defined by Eqn.~\ref{equ:cvv} and parametrised using analytical variances $\var{\oMSDi}$ (Fig.~\ref{fig:covariances}b); and the average model covariance matrix obtained by parametrising Eqn.~\ref{equ:cvv} using smoothed variances estimated from individual simulation trajectories, and averaging over the resulting set of all \num{4096} matrices (Fig.~\ref{fig:covariances}c).
 %
-\begin{figure}
-    \centering
-    % \resizebox{\columnwidth}{!}{\includegraphics*{figure3.pdf}}
-    \includegraphics[width=\columnwidth]{covariances.pdf}
-    \script{covariances.py}
-    \caption{
-        (a) The numerical MSD covariance matrix $\bm{\Sigma}$ calculated using MSD data from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of \num{128} steps per particle.
-        (b) The analytical MSD covariance matrix $\bm{\Sigma^\prime}$ (Eqn.~\ref{equ:cvv}), parametrised using analytical random-walk variances $\var{\oMSDi}$.
-        (c) The MSD covariance matrix obtained applying the numerical scheme described in the main text to each individual random walk simulation, averaged over all \num{4096} such simulations.
-        Colour bars in (a--c) show the covariance, $\Sigma\left[\oMSDi, \oMSDj\right]$.
-        The off-diagonal panels show difference plots, computed as per-element ratios between pairs of covariance matrices (a--c).
-        %Raw simulation data~\cite{mccluskey_zenodo_2022} and scripts~\cite{mccluskey_github_2022} to generate this figure are available under CC BY 4.0/MIT licences.
-    }
-    \label{fig:covariances}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     % \resizebox{\columnwidth}{!}{\includegraphics*{figure3.pdf}}
+%     \includegraphics[width=\columnwidth]{covariances.pdf}
+%     \script{covariances.py}
+%     \caption{
+%         (a) The numerical MSD covariance matrix $\bm{\Sigma}$ calculated using MSD data from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of \num{128} steps per particle.
+%         (b) The analytical MSD covariance matrix $\bm{\Sigma^\prime}$ (Eqn.~\ref{equ:cvv}), parametrised using analytical random-walk variances $\var{\oMSDi}$.
+%         (c) The MSD covariance matrix obtained applying the numerical scheme described in the main text to each individual random walk simulation, averaged over all \num{4096} such simulations.
+%         Colour bars in (a--c) show the covariance, $\Sigma\left[\oMSDi, \oMSDj\right]$.
+%         The off-diagonal panels show difference plots, computed as per-element ratios between pairs of covariance matrices (a--c).
+%         %Raw simulation data~\cite{mccluskey_zenodo_2022} and scripts~\cite{mccluskey_github_2022} to generate this figure are available under CC BY 4.0/MIT licences.
+%     }
+%     \label{fig:covariances}
+% \end{figure}
 %
 
 While the analytical and average estimated covariance matrices show some systematic deviation from the numerically converged covariance matrix, the general correlation structure is preserved.
@@ -323,26 +323,26 @@ Despite this, the average estimated covariance matrix reproduces well the correl
 
 \subsection{Validation}
 
-\begin{figure*}[ht!]
-    \centering
-    % \resizebox{\textwidth}{!}{\includegraphics*{figure4.pdf}}
-    \includegraphics[width=\textwidth]{random_walk.pdf}
-    \script{random_walk.py}
-    \caption{
-        (a) Observed MSD from a single simulation of 128 particles undergoing a 3D-lattice random walk of 128 steps per particle (dark line).
-        The green shading shows the corresponding posterior distribution $\prob{\model|\oMSD}$ of linear models compatible with the observed MSD data $\oMSD$, calculated using the scheme described in the main text.
-        The variegated shading indicates compatibility intervals of \SIlist[list-final-separator = {, and }]{1;2;3}{\sigma}$[\prob{\model|\oMSD}]$.
-        (b) The marginal posterior distribution $\prob{\Dest|\oMSD}$ obtained from the posterior distribution of linear models in (a).
-        The mean of this distribution gives the point estimate $\Dest$ for this simulation input data.
-        The blue horizontal bar shows an interval of one standard deviation in $\prob{\Dest|\oMSD}$.
-        (c) Probability distribution of point-estimates $\prob{\Dest}$ obtained from \num{4096} individual random-walk simulations.
-        Each simulation has been analysed as in (a) and (b) to yield a single corresponding point estimate $\Dest$.
-        The grey line shows the distribution of point estimates, $\prob{\Dest_\mathrm{num}}$, obtained using Bayesian regression with a mean vector and numerical covariance matrix derived from the complete dataset of all \num{4096} simulations.
-        The pink horizontal bar shows an interval of one standard deviation in $\prob{\Dest}$.
-        (d) Probability distribution of estimated variances, $\varest{\Dest}$, for individual random-walk simulations, compared to the true sample variance (pink vertical line) $\var{\Dest}$.
-    } 
-    \label{fig:random_walk}
-\end{figure*}
+% \begin{figure*}[ht!]
+%     \centering
+%     % \resizebox{\textwidth}{!}{\includegraphics*{figure4.pdf}}
+%     \includegraphics[width=\textwidth]{random_walk.pdf}
+%     \script{random_walk.py}
+%     \caption{
+%         (a) Observed MSD from a single simulation of 128 particles undergoing a 3D-lattice random walk of 128 steps per particle (dark line).
+%         The green shading shows the corresponding posterior distribution $\prob{\model|\oMSD}$ of linear models compatible with the observed MSD data $\oMSD$, calculated using the scheme described in the main text.
+%         The variegated shading indicates compatibility intervals of \SIlist[list-final-separator = {, and }]{1;2;3}{\sigma}$[\prob{\model|\oMSD}]$.
+%         (b) The marginal posterior distribution $\prob{\Dest|\oMSD}$ obtained from the posterior distribution of linear models in (a).
+%         The mean of this distribution gives the point estimate $\Dest$ for this simulation input data.
+%         The blue horizontal bar shows an interval of one standard deviation in $\prob{\Dest|\oMSD}$.
+%         (c) Probability distribution of point-estimates $\prob{\Dest}$ obtained from \num{4096} individual random-walk simulations.
+%         Each simulation has been analysed as in (a) and (b) to yield a single corresponding point estimate $\Dest$.
+%         The grey line shows the distribution of point estimates, $\prob{\Dest_\mathrm{num}}$, obtained using Bayesian regression with a mean vector and numerical covariance matrix derived from the complete dataset of all \num{4096} simulations.
+%         The pink horizontal bar shows an interval of one standard deviation in $\prob{\Dest}$.
+%         (d) Probability distribution of estimated variances, $\varest{\Dest}$, for individual random-walk simulations, compared to the true sample variance (pink vertical line) $\var{\Dest}$.
+%     } 
+%     \label{fig:random_walk}
+% \end{figure*}
 
 To demonstrate the complete approximate Bayesian regression scheme, as described above, we present two distinct examples.
 First, we consider a simple 3D-lattice random walk, where the true self-diffusion coefficient $\D$ is specified by the simulation parameters, and a well-converged numerical covariance matrix can be obtained with relatively low computational cost, which allows us to directly compare the estimates produced by our method to ``best case'' estimates from a hypothetical method with access to the true covariance matrix.
@@ -397,20 +397,20 @@ Hence, our method provides reasonably accurate estimates of the uncertainty in $
 
 \subsection{$\var{\Dest}$ scaling and comparison to OLS, WLS, and GLS}
 
-\begin{figure}[htb]
-    \centering
-    % \resizebox{\columnwidth}{!}{\includegraphics*{figure6.pdf}}
-    \includegraphics[width=\columnwidth]{stat_eff.pdf}
-    \script{stat_eff.py}
-    \caption{
-      Scaling of $\var{\Dest}$ with simulation size for OLS (pink), WLS (blue), our approximate Bayesian regression method (green), and GLS (orange).
-      (a) Scaling versus number of mobile particles, $N_\mathrm{atoms}$.
-      (b) Scaling versus total simulation time, $t_\mathrm{max}$.
-      Solid lines show fitted power law relationships for each dataset.
-      The WLS and GLS data are obtained using numerically determined variances and covariance, respectively, from a set of \num{512} repeat simulations for each combination of $N_\mathrm{atoms}$ and $t_\mathrm{max}$.
-    }
-    \label{fig:stat_eff}
-\end{figure}
+% \begin{figure}[htb]
+%     \centering
+%     % \resizebox{\columnwidth}{!}{\includegraphics*{figure6.pdf}}
+%     \includegraphics[width=\columnwidth]{stat_eff.pdf}
+%     \script{stat_eff.py}
+%     \caption{
+%       Scaling of $\var{\Dest}$ with simulation size for OLS (pink), WLS (blue), our approximate Bayesian regression method (green), and GLS (orange).
+%       (a) Scaling versus number of mobile particles, $N_\mathrm{atoms}$.
+%       (b) Scaling versus total simulation time, $t_\mathrm{max}$.
+%       Solid lines show fitted power law relationships for each dataset.
+%       The WLS and GLS data are obtained using numerically determined variances and covariance, respectively, from a set of \num{512} repeat simulations for each combination of $N_\mathrm{atoms}$ and $t_\mathrm{max}$.
+%     }
+%     \label{fig:stat_eff}
+% \end{figure}
 
 Fig.~\ref{fig:stat_eff} presents an analysis of the variation in $\var{\Dest}$ as the number of mobile particles (Fig.~\ref{fig:stat_eff}a) and the total simulation time (number of steps) (Fig.~\ref{fig:stat_eff}b) are changed.
 We compare four methods for estimating $\D$ from the observed MSD data: OLS, WLS, the approximate Bayesian regression method described here, and GLS.
@@ -772,14 +772,14 @@ Fig.~\ref{fig:pyblock} compares the $\D$ estimate distributions using variances 
 When the fitting is not performed, the resulting covariance matrix is numerically unstable, leading to estimated values of $\D$ at extreme values.
 While when the fitting is performed and the blocking-estimated variances as used, there is no improvement in the estimation of $\D$ and the resulting distribution of estimates in the variance of $\prob{\D}$ is broader than when Eqn.~\ref{equ:varestMSD} is used.
 
-\begin{figure}
-    \centering
-    % \resizebox{\columnwidth}{!}{\includegraphics*{figure1.pdf}}
-    \includegraphics[width=\columnwidth]{pyblock.pdf}
-    \script{pyblock.py}
-    \caption{Comparison of the distribution of $\Dest$ (a, c, \& e) and the estimated variances (b, d, \& f) from 4096 individual random walk simulations using variances approximated by Eqn.~\ref{equ:varestMSD} (a \& b), from block averaging with fitting to Eqn.~\ref{equ:variance} (c \& d), and without fitting (e \& f). Note that the bounds in a, c, \& e are defined by the extrema of the estimated values, showing the fact that without the fitting to Eqn.~\ref{equ:variance}, the resulting covariance matrix is numerically unstable.}
-    \label{fig:pyblock}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     % \resizebox{\columnwidth}{!}{\includegraphics*{figure1.pdf}}
+%     \includegraphics[width=\columnwidth]{pyblock.pdf}
+%     \script{pyblock.py}
+%     \caption{Comparison of the distribution of $\Dest$ (a, c, \& e) and the estimated variances (b, d, \& f) from 4096 individual random walk simulations using variances approximated by Eqn.~\ref{equ:varestMSD} (a \& b), from block averaging with fitting to Eqn.~\ref{equ:variance} (c \& d), and without fitting (e \& f). Note that the bounds in a, c, \& e are defined by the extrema of the estimated values, showing the fact that without the fitting to Eqn.~\ref{equ:variance}, the resulting covariance matrix is numerically unstable.}
+%     \label{fig:pyblock}
+% \end{figure}
 
 \section{Bias and skew in $\prob{\varest{\Dest}}$}
 \label{sec:skew}
@@ -793,20 +793,20 @@ This bias and skew arise from our use of estimated variances $\varest{\oMSDi}$ w
 Fig.~\ref{fig:true_cov} presents equivalent results for $\prob{\Dest}$ and $\prob{\varest{\Dest}}$ for the same \num{4096} individual simulations, but calculated using a numerical covariance matrix, $\bm{\Sigma}_\mathrm{num}$ derived from all \num{4096} observed MSDs.
 The resulting distribution $\prob{\varest{\Dest}}$ (Fig.~\ref{fig:true_cov}b) is no longer biased or skewed.
 Furthermore, the distribution $\prob{\Dest}$ agrees even more closely with the numerically converged distribution obtained when combining data from all \num{4096} simulations (Fig~\ref{fig:true_cov}a), contrasting with the results presented in Fig.~\ref{fig:random_walk}b, where our approximate Bayesian regression scheme yields a slightly broadened distribution due to the use of the long-time limit in the derivation of the analytical form for $\bm{\Sigma^\prime}$.
-\begin{figure}
-    \centering
-    % \resizebox{\columnwidth}{!}{\includegraphics*{figure7.pdf}}
-    \includegraphics[width=\columnwidth]{true_cov.pdf}
-    \script{true_cov.py}
-    \caption{
-        (a) Probability distribution of point-estimates $\prob{\Dest}$ obtained from \num{4096} individual random-walk simulations, using the numerical covariance matrix $\bm{\Sigma}_\mathrm{num}$.
-        Each simulation has been analysed as in Fig.~~\ref{equ:observed_msd}(a) and (b) to yield a single corresponding point estimate $\Dest$.
-        The grey line shows the distribution of point estimates, $\prob{\Dest_\mathrm{num}}$, obtained using Bayesian regression with a mean vector and numerical covariance matrix derived from the complete dataset of all \num{4096} simulations.
-        The pink horizontal bar shows an interval of one standard deviation in $\prob{\Dest}$.
-        (b) Probability distribution of estimated variances, $\varest{\Dest}$, for individual random-walk simulations, using the numerical covariance matrix $\bm{\Sigma}_\mathrm{num}$, compared to the true sample variance (pink vertical line) $\var{\Dest}$.
-        }
-    \label{fig:true_cov}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     % \resizebox{\columnwidth}{!}{\includegraphics*{figure7.pdf}}
+%     \includegraphics[width=\columnwidth]{true_cov.pdf}
+%     \script{true_cov.py}
+%     \caption{
+%         (a) Probability distribution of point-estimates $\prob{\Dest}$ obtained from \num{4096} individual random-walk simulations, using the numerical covariance matrix $\bm{\Sigma}_\mathrm{num}$.
+%         Each simulation has been analysed as in Fig.~~\ref{equ:observed_msd}(a) and (b) to yield a single corresponding point estimate $\Dest$.
+%         The grey line shows the distribution of point estimates, $\prob{\Dest_\mathrm{num}}$, obtained using Bayesian regression with a mean vector and numerical covariance matrix derived from the complete dataset of all \num{4096} simulations.
+%         The pink horizontal bar shows an interval of one standard deviation in $\prob{\Dest}$.
+%         (b) Probability distribution of estimated variances, $\varest{\Dest}$, for individual random-walk simulations, using the numerical covariance matrix $\bm{\Sigma}_\mathrm{num}$, compared to the true sample variance (pink vertical line) $\var{\Dest}$.
+%         }
+%     \label{fig:true_cov}
+% \end{figure}
 
 \section{Evaluation of OLS, WLS, and GLS for LLZO System}
 
