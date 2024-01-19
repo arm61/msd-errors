@@ -12,27 +12,17 @@ margin_icons:
     horizontal_offset: -4
 
 # datasets:
-#     10.5281/zenodo.7602139:
+#     10.5281/zenodo.10532134:
 #         contents:
-#             traj0.xyz: src/data/llzo/traj0.xyz
-#             traj1.xyz: src/data/llzo/traj1.xyz
-#             traj2.xyz: src/data/llzo/traj2.xyz
-#             traj3.xyz: src/data/llzo/traj3.xyz
-#             traj4.xyz: src/data/llzo/traj4.xyz
-#             traj5.xyz: src/data/llzo/traj5.xyz
-#             traj6.xyz: src/data/llzo/traj6.xyz
-#             traj7.xyz: src/data/llzo/traj7.xyz
-#             traj8.xyz: src/data/llzo/traj8.xyz
-#             traj9.xyz: src/data/llzo/traj9.xyz
-#             traj10.xyz: src/data/llzo/traj10.xyz
-#             traj11.xyz: src/data/llzo/traj11.xyz
-#             traj12.xyz: src/data/llzo/traj12.xyz
-#             traj13.xyz: src/data/llzo/traj13.xyz
-#             traj14.xyz: src/data/llzo/traj14.xyz
-#             traj15.xyz: src/data/llzo/traj15.xyz
+#             traj0.out: src/data/llzo/traj0.out
+#             traj1.out: src/data/llzo/traj1.out
+#             traj2.out: src/data/llzo/traj2.out
+#             traj3.out: src/data/llzo/traj3.out
+#             traj4.out: src/data/llzo/traj4.out
+#             traj5.out: src/data/llzo/traj5.out
 
 dependencies:
-    src/ms.tex:
+    src/tex/ms.tex:
         - src/tex/bib.bib
     src/scripts/glswlsols.py:
         - src/data/random_walks/numerical/glswlsols_1_128_128.npz

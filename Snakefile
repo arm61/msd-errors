@@ -396,7 +396,7 @@ for start_diff in [0, 2, 4, 6, 8, 10, 15, 20]:
                 f"llzo_many_{n}_{start_diff}"
             input:
                 'src/code/llzo/many_runs.py',
-                f'src/data/llzo/traj{n}.xyz'
+                # f'src/data/llzo/traj{n}.xyz'
             output:
                 f'src/data/llzo/diffusion_{n}_{start_diff}.npz'
 
