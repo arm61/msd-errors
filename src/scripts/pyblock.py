@@ -59,7 +59,7 @@ axes.append(fig.add_subplot(gs[0, 1]))
 y, x = np.histogram(kinisi.var(-1, ddof=1), bins=rw_x2, density=True)
 axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label='$p(\hat{\sigma}^2[D^*])$')
 axes[-1].axvline(kinisi.mean(-1).var(ddof=1),
-                 ymax=0.85,
+                 ymax=0.95,
                  c='#F3ADBC',
                  label='$\sigma^2[\hat{D}^*]$',
                  ls='-')
@@ -97,7 +97,7 @@ axes.append(fig.add_subplot(gs[1, 1], sharex=axes[-2]))
 y, x = np.histogram(pyblock.var(-1, ddof=1), bins=rw_x2, density=True)
 axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label='$p(\hat{\sigma}^2[D^*])$')
 axes[-1].axvline(pyblock.mean(-1).var(ddof=1),
-                 ymax=0.85,
+                 ymax=0.95,
                  c='#F3ADBC',
                  label='$\sigma^2[\hat{D}^*]$',
                  ls='-')
@@ -135,7 +135,7 @@ axes.append(fig.add_subplot(gs[2, 1], sharex=axes[-2]))
 y, x = np.histogram(pyblock_mf.var(-1, ddof=1), bins=rw_x2, density=True)
 axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label='$p(\hat{\sigma}^2[D^*])$')
 axes[-1].axvline(pyblock_mf.mean(-1).var(ddof=1),
-                 ymax=0.85,
+                 ymax=0.95,
                  c='#F3ADBC',
                  label='$\sigma^2[\hat{D}^*]$',
                  ls='-')

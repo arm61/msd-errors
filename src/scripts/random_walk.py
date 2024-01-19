@@ -94,13 +94,13 @@ axes.append(fig.add_subplot(gs[0, 3]))
 y, x = np.histogram(true.var(-1, ddof=1), bins=fp.NBINS, density=True)
 axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label='$p(\hat{\sigma}^2[D^*])$')
 axes[-1].axvline(dinfty_true.var(ddof=1),
-                 ymax=0.85,
+                 ymax=0.95,
                  c='#F3ADBC',
                  label=r'$\sigma^2[\hat{D}^*_{\mathrm{num}}]$',
                  ls='-')
 axes[-1].set_xlabel(r"$\sigma^2 [\hat{D}^*]$")
 axes[-1].set_ylabel(r"$p(\sigma^2 [\hat{D}^*])$")
-axes[-1].set_xlim([0, 3.5e-3])
+# axes[-1].set_xlim([0, 3.5e-3])
 titles.append("d")
 axes[-1].set_title("all simulations")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.5, 1))

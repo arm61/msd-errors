@@ -29,7 +29,7 @@ true_cov = np.cov(true_msd[:, 4:length].T)
 kinisi_data = np.load(paths.data / f"random_walks/kinisi/rw_{jump}_{atoms}_{length}_s4096.npz")
 
 kinisi_cov = kinisi_data["covariance"].mean(0)
-no = kinisi_data["n_o"][0]
+no = (kinisi_data["n_o"] * kinisi_data['f'][:, 4, np.newaxis]).mean(0)
 timestep = np.arange(1, length + 1, 1)
 
 ts_mesh = np.meshgrid(timestep[4:], timestep[4:])
@@ -93,7 +93,7 @@ titles2.append("estimated")
 
 axes.append(fig.add_subplot(gs[0, 1]))
 ratio = (true_cov / anal_cov)
-mod = np.max([1 - np.min(ratio), np.abs(1 - np.max(ratio))])
+mod = 0.5
 im1 = axes[-1].contourf(ts_mesh[0], ts_mesh[1], ratio, cmap=newcmp4, levels=np.linspace(1 - mod, 1 + mod, 15))
 fig.subplots_adjust(right=0.8)
 cb1 = fig.colorbar(im1, fraction=0.046)
@@ -106,7 +106,6 @@ titles.append(r"$\mathrm{a}\div\mathrm{b}$")
 
 axes.append(fig.add_subplot(gs[0, 2]))
 ratio = (true_cov / kinisi_cov)
-mod = np.max([1 - np.min(ratio), np.abs(1 - np.max(ratio))])
 im1 = axes[-1].contourf(ts_mesh[0], ts_mesh[1], ratio, cmap=newcmp4, levels=np.linspace(1 - mod, 1 + mod, 15))
 fig.subplots_adjust(right=0.8)
 cb1 = fig.colorbar(im1, fraction=0.046)
@@ -137,7 +136,7 @@ for i, ax in enumerate(axes):
     print(ax.get_window_extent().x1 - ax.get_window_extent().x0)
     print(ax.get_window_extent().y1 - ax.get_window_extent().y0)
     x = ax.get_window_extent().x0 - x_correction[i]
-    y = ax.get_window_extent().y1 + 11.2
+    y = ax.get_window_extent().y1 + 11.2 
     x, y = fig.transFigure.inverted().transform([x, y])
     fig.text(x, y, titles[i], ha='left')
 for i, ax in enumerate(axes[:3]):

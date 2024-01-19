@@ -1,7 +1,7 @@
 import MDAnalysis as mda
 import numpy as np
 from kinisi.parser import MDAnalysisParser
-from kinisi.diffusion import MSDBootstrap
+from kinisi.diffusion import MSDDiffusion
 
 n = snakemake.params['n']
 start_diff = snakemake.params['start_diff']
@@ -57,7 +57,7 @@ for m in range(0, step, 1):
 
         da_params = {'specie': 'Li', 'time_step': timestep, 'step_skip': step_skip}
         p = MDAnalysisParser(uu, **da_params)
-        b = MSDBootstrap(p.delta_t, p.disp_3d, p._n_o)
+        b = MSDDiffusion(p.delta_t, p.disp_3d, p._n_o)
         b.diffusion(start_diff, random_state=rng)
         # print(b._popt)
         dt[m, i] = b.dt
@@ -68,8 +68,7 @@ for m in range(0, step, 1):
         cov[m, i] = b.covariance_matrix
         d[m, i] = b.D.samples
         g[m, i] = b.gradient.samples
-        f[m, i] = b._f
-        print(b._f)
+        f[m, i] = b._hr
         intercept[m, i] = b.intercept.samples
         
 np.savez(f'src/data/llzo/diffusion_{n}_{start_diff}.npz',

@@ -3,7 +3,7 @@
 # author: Andrew R. McCluskey (arm61)
 
 import numpy as np
-from kinisi.diffusion import MSDBootstrap
+from kinisi.diffusion import MSDDiffusion
 from tqdm import tqdm
 from random_walk import get_disp3d, walk
 
@@ -16,6 +16,7 @@ timestep = np.arange(1, length + 1, 1, dtype=int)
 data = np.zeros((size, timestep.size, 4))
 covariance = np.zeros((size, timestep.size - 4, timestep.size - 4))
 npd_covariance = np.zeros((size, timestep.size - 4, timestep.size - 4))
+f = np.zeros((size, timestep.size))
 n_o = np.zeros((size, timestep.size))
 diff_c = np.zeros((size, 3200))
 intercept = np.zeros((size, 3200))
@@ -25,7 +26,7 @@ for seed in tqdm(range(size)):
     np.random.seed(seed)
     disp_3d, n_samples = get_disp3d(walk, length, atoms, jump_size=jump, seed=rng)
 
-    diff = MSDBootstrap(timestep, disp_3d, n_samples, random_state=rng, progress=False)
+    diff = MSDDiffusion(timestep, disp_3d, n_samples, random_state=rng, progress=False)
     diff.diffusion(5, random_state=rng, progress=False)
     diff_c[seed] = diff.gradient.samples / 6
     intercept[seed] = diff.intercept.samples
@@ -36,6 +37,8 @@ for seed in tqdm(range(size)):
     npd_covariance[seed] = diff._npd_covariance_matrix
     covariance[seed] = diff.covariance_matrix
     n_o[seed] = diff._n_o
+    f[seed] = diff._hr
+
 
 np.savez(f'src/data/random_walks/kinisi/rw_1_{atoms}_{length}_s{size}.npz',
          diff_c=diff_c,
@@ -43,4 +46,5 @@ np.savez(f'src/data/random_walks/kinisi/rw_1_{atoms}_{length}_s{size}.npz',
          data=data,
          covariance=covariance,
          npd_covariance=npd_covariance,
-         n_o=n_o)
+         n_o=n_o,
+         f=f)
