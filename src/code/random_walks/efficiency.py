@@ -5,7 +5,7 @@ from uravu.relationship import Relationship
 
 jump = 1
 
-xaxis = np.array([16, 32, 64, 128, 256, 512, 1024])
+xaxis = np.array([16, 32])#, 64, 128, 256, 512, 1024])
 
 kinisi_atoms = np.zeros((xaxis.size, 512, 3200))
 weighted_atoms = np.zeros((xaxis.size, 512, 3200))

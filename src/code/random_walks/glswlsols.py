@@ -16,9 +16,9 @@ atoms = int(snakemake.params['atoms'])
 length = int(snakemake.params['length'])
 jump = int(snakemake.params['jump'])
 
-true_msd = np.load(f'src/data/random_walks/numerical/rw_1_{atoms}_{length}_s4096.npz')['data'][:, 4:]
+true_msd = np.load(f'src/data/random_walks/numerical/rw_1_{atoms}_{length}_s4096.npz')['data'][:, 1:]
 true_cov = np.cov(true_msd.T)
-timestep = np.arange(4, length, 1)
+timestep = np.arange(1, length, 1)
 
 y = true_msd.T
 A = np.array([timestep, np.ones(timestep.size)]).T

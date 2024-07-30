@@ -57,18 +57,18 @@ axes[-1].stairs(y, x, fill=True, color='#9FD5C3', label=r'$p(D^* | \mathbfit{x})
 axes[-1].plot([
     kinisi['diff_c'][0].mean() - kinisi['diff_c'][0].std(),
     kinisi['diff_c'][0].mean() + kinisi['diff_c'][0].std()
-], [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
+], [33, 33],
               color='#81A8D9',
               label='$\hat{\sigma}[\hat{D}^*]$',
               marker='|')
-axes[-1].axvline(kinisi['diff_c'][0].mean(), ymax=0.85, color='#E08D6D', label=r'$\hat{D}^*$', ls='--')
-axes[-1].set_yticks([0, 5, 10, 15])
+axes[-1].axvline(kinisi['diff_c'][0].mean(), ymax=0.95, color='#E08D6D', label=r'$\hat{D}^*$', ls='--')
+axes[-1].set_yticks([0, 15, 30])
 axes[-1].set_xlabel(r"$D^* | \mathbfit{x}$")
 axes[-1].set_ylabel(r"$p(D^* | \mathbfit{x})$")
-axes[-1].set_xlim(0.87, 1.13)
+axes[-1].set_xlim(0.89, 1.11)
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.65, 1))
 
-axes.append(fig.add_subplot(gs[0, 2]))
+axes.append(fig.add_subplot(gs[0, 2], sharex=axes[-1], sharey=axes[-1]))
 y, x = np.histogram(true.mean(-1), bins=fp.NBINS, density=True)
 axes[-1].stairs(y, x, fill=True, color='#ECBCA7', label='$p(\hat{D}^*)$')
 axes[-1].plot(rw_x,
@@ -77,30 +77,31 @@ axes[-1].plot(rw_x,
               label='$p(\hat{D}^*_{\mathrm{num}})$')
 axes[-1].plot([dinfty_true.mean() - dinfty_true.std(),
                dinfty_true.mean() + dinfty_true.std()],
-              [axes[-1].get_ylim()[1] * 1.1, axes[-1].get_ylim()[1] * 1.1],
+              [33, 33],
               color='#F3ADBC',
               label='$\sigma[\hat{D}^*_{\mathrm{num}}]$',
               marker='|')
-axes[-1].set_yticks([0, 10, 20])
 axes[-1].set_xlabel(r"$\hat{D}^*$")
 axes[-1].set_ylabel(r"$p(\hat{D}^*)$")
 titles.append(r"c")
 axes[-1].set_title("all simulations")
-axes[-1].set_xlim(0.87, 1.13)
-axes[-1].set_yticks([0, 10, 20])
+# axes[-1].set_xlim(0.87, 1.13)
+# axes[-1].set_yticks([0, 15, 30])
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.6, 1))
+print(true.mean(-1).argmin())
 
 axes.append(fig.add_subplot(gs[0, 3]))
 y, x = np.histogram(true.var(-1, ddof=1), bins=fp.NBINS, density=True)
 axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label='$p(\hat{\sigma}^2[D^*])$')
-axes[-1].axvline(dinfty_true.var(ddof=1),
+axes[-1].axvline(true.mean(-1).var(ddof=1),
                  ymax=0.95,
                  c='#F3ADBC',
                  label=r'$\sigma^2[\hat{D}^*_{\mathrm{num}}]$',
                  ls='-')
 axes[-1].set_xlabel(r"$\sigma^2 [\hat{D}^*]$")
 axes[-1].set_ylabel(r"$p(\sigma^2 [\hat{D}^*])$")
-# axes[-1].set_xlim([0, 3.5e-3])
+axes[-1].set_xlim([0, None])
+axes[-1].set_xticks([0, 2e-4, 4e-4])
 titles.append("d")
 axes[-1].set_title("all simulations")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.5, 1))

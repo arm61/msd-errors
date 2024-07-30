@@ -13,15 +13,15 @@ from kinisi.diffusion import _straight_line
 np.random.seed(1)
 
 start_diff = snakemake.params['start_diff']
+length = snakemake.params['length']
 
-timestep = np.load(f'src/data/llzo/diffusion_0_{start_diff}.npz')['dt'][0, 0]
-length = 2000
+timestep = np.load(f'src/data/llzo/diffusion_0_{start_diff}_{length}.npz')['dt'][0, 0]
 ll = len([i + length for i in range(0, 20001 - length, length)])
 # length = 500
 # ll = len([i + length for i in range(0, 2000, length)])
-d = np.zeros((6, 8, ll, timestep.size))
-for i in range(0, 6, 1):
-    d[i] = np.load(f'src/data/llzo/diffusion_{i}_{start_diff}.npz')['msd_true']
+d = np.zeros((5, 16, ll, timestep.size))
+for i in range(1, 6, 1):
+    d[i-1] = np.load(f'src/data/llzo/diffusion_{i}_{start_diff}_{length}.npz')['msd_true']
 
 max_ngp = np.argwhere(timestep > start_diff)[0][0]
 true_msd = d.reshape(-1, d.shape[-1])[:, max_ngp:]
@@ -45,7 +45,7 @@ c3 = []
 for i in true_msd:
     c3.append(linregress(timestep, i).stderr / 6e4)
 
-np.savez(f'src/data/llzo/glswlsols_{start_diff}.npz',
+np.savez(f'src/data/llzo/glswlsols_{start_diff}_{length}.npz',
          gls_pop=g1,
          wls_pop=g2,
          ols_pop=g3,

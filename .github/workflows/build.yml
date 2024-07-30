@@ -21,4 +21,4 @@ jobs:
         env:
           SANDBOX_TOKEN: ${{ secrets.SANDBOX_TOKEN }}
         with:
-          showyourwork-spec: git+https://github.com/thomasckng/showyourwork
+          showyourwork-spec: git+https://github.com/showyourwork/showyourwork

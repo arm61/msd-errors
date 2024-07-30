@@ -24,15 +24,15 @@ newcmp3 = sns.light_palette(colors[2], as_cmap=True)
 newcmp4 = sns.diverging_palette(311.4, 161.2, as_cmap=True)
 
 true_msd = np.load(paths.data / f"random_walks/numerical/rw_{jump}_{atoms}_{length}_s4096.npz")["data"]
-true_cov = np.cov(true_msd[:, 4:length].T)
+true_cov = np.cov(true_msd[:, 1:length].T)
 
-kinisi_data = np.load(paths.data / f"random_walks/kinisi/rw_{jump}_{atoms}_{length}_s4096.npz")
+kinisi_data = np.load(paths.data / f"random_walks/kinisi/rw_{jump}_{atoms}_{length}_s512.npz")
 
 kinisi_cov = kinisi_data["covariance"].mean(0)
-no = (kinisi_data["n_o"] * kinisi_data['f'][:, 4, np.newaxis]).mean(0)
+no = (kinisi_data["n_o"]).mean(0)# * kinisi_data['f'][:, 4, np.newaxis]).mean(0)
 timestep = np.arange(1, length + 1, 1)
 
-ts_mesh = np.meshgrid(timestep[4:], timestep[4:])
+ts_mesh = np.meshgrid(timestep[1:], timestep[1:])
 
 anal_cov = np.zeros((length, length))
 for i in range(0, anal_cov.shape[0]):
@@ -40,7 +40,7 @@ for i in range(0, anal_cov.shape[0]):
         value = 8 * dimensionality**2 * D**2 * timestep[i]**2 / (dimensionality * no[j])
         anal_cov[i, j] = value
         anal_cov[j, i] = np.copy(anal_cov[i, j])
-anal_cov = anal_cov[4:, 4:]
+anal_cov = anal_cov[1:, 1:]
 
 max_cov = np.ceil(np.max([anal_cov.max(), true_cov.max(), kinisi_cov.max()]))
 min_cov = np.floor(np.min([anal_cov.min(), true_cov.min(), kinisi_cov.min()]))

@@ -49,7 +49,7 @@ rule:
         [f'src/data/random_walks/kinisi/rw_1_{atoms}_128_s512.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]],
         [f'src/data/random_walks/weighted/rw_1_{atoms}_128_s512.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]],
         [f'src/data/random_walks/ordinary/rw_1_{atoms}_128_s512.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]],
-        [f'src/data/random_walks/numerical/D_1_{atoms}_128.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]]
+        [f'src/data/random_walks/numerical/D_1_{atoms}_128.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]],
     output:
         f'src/data/random_walks/stat_eff.npz'
     conda: 
@@ -58,7 +58,6 @@ rule:
         True
     params:
         correlation='true'
-    priority: 50
     script:
         "src/code/random_walks/stat_eff.py"
 
@@ -123,26 +122,6 @@ rule rw_4096_pyblock_true_128:
         n=4096
     script:
         f'src/code/random_walks/kinisi_pyblock_rw.py'
-
-# Random walks simulations
-rule rw_4096_pyblock_modelfree_true_128:
-    input:
-        f'src/code/random_walks/kinisi_pyblock_modelfree_rw.py',
-        'src/code/random_walks/random_walk.py'
-    output:
-        f'src/data/random_walks/pyblock_modelfree/rw_1_128_128_s4096.npz'
-    conda:
-        'environment.yml'
-    cache:
-        True
-    params:
-        jump=2.4494897428,
-        atoms=128,
-        length=128,
-        correlation='true',
-        n=4096
-    script:
-        f'src/code/random_walks/kinisi_pyblock_modelfree_rw.py'
 
 # Length variation random walks 
 for length in [16, 32, 64, 128, 256, 512, 1024]:
@@ -389,16 +368,16 @@ rule rw_4096_true_cov_true_128:
     script:
         f'src/code/random_walks/truecov_rw.py'
 
-for start_diff in [0, 2, 4, 6, 8, 10, 15, 20]:
+for l in [10000]:
     for n in range(0, 6, 1):
         rule:
             name:
-                f"llzo_many_{n}_{start_diff}"
+                f"llzo_many_{n}_10_{l}"
             input:
                 'src/code/llzo/many_runs.py',
-                # f'src/data/llzo/traj{n}.xyz'
+                f'src/data/llzo/traj{n}.out'
             output:
-                f'src/data/llzo/diffusion_{n}_{start_diff}.npz'
+                f'src/data/llzo/diffusion_{n}_10_{l}.npz'
 
             conda:
                 'environment.yml'
@@ -406,41 +385,43 @@ for start_diff in [0, 2, 4, 6, 8, 10, 15, 20]:
                 True
             params:
                 n=n,
-                start_diff=start_diff
+                start_diff=10,
+                length=l
             script:
                 "src/code/llzo/many_runs.py"
 
     rule:
         name:
-            f"true_D_llzo_{start_diff}"
+            f"true_D_llzo_10_{l}"
         input:
             'src/code/llzo/true_ls.py',
-            [f'src/data/llzo/diffusion_{n}_{start_diff}.npz' for n in range(0, 6, 1)]
+            [f'src/data/llzo/diffusion_{n}_10_{l}.npz' for n in range(0, 6, 1)]
         output:
-            f'src/data/llzo/true_{start_diff}.npz'
+            f'src/data/llzo/true_10_{l}.npz'
         conda:
             'environment.yml'
         cache:
             True
         params:
-            start_diff=start_diff
+            start_diff=10,
+            length=l
         script:
             "src/code/llzo/true_ls.py"
 
-    rule:
-        name:
-            f"glswlsols_D_llzo_{start_diff}"
-        input:
-            'src/code/llzo/glswlsols.py',
-            [f'src/data/llzo/diffusion_{n}_{start_diff}.npz' for n in range(0, 6, 1)]
-        output:
-            f'src/data/llzo/glswlsols_{start_diff}.npz'
-        conda:
-            'environment.yml'
-        cache:
-            True
-        params:
-            start_diff=start_diff
-        script:
-            "src/code/llzo/glswlsols.py"
-        
+rule:
+    name:
+        f"glswlsols_D_llzo_10_10000"
+    input:
+        'src/code/llzo/glswlsols.py',
+        [f'src/data/llzo/diffusion_{n}_10_10000.npz' for n in range(0, 6, 1)]
+    output:
+        f'src/data/llzo/glswlsols_10_10000.npz'
+    conda:
+        'environment.yml'
+    cache:
+        True
+    params:
+        start_diff=10,
+        length=10000
+    script:
+        "src/code/llzo/glswlsols.py"
