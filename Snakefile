@@ -61,28 +61,6 @@ rule:
     script:
         "src/code/random_walks/stat_eff.py"
 
-rule efficiency:
-    input:
-        'src/code/random_walks/efficiency.py',
-        [f'src/data/random_walks/kinisi/rw_1_128_{length}_s512.npz' for length in [16, 32, 64, 128, 256, 512, 1024]],
-        [f'src/data/random_walks/weighted/rw_1_128_{length}_s512.npz' for length in [16, 32, 64, 128, 256, 512, 1024]],
-        [f'src/data/random_walks/ordinary/rw_1_128_{length}_s512.npz' for length in [16, 32, 64, 128, 256, 512, 1024]],
-        [f'src/data/random_walks/numerical/D_1_128_{length}.npz' for length in [16, 32, 64, 128, 256, 512, 1024]],
-        [f'src/data/random_walks/kinisi/rw_1_{atoms}_128_s512.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]],
-        [f'src/data/random_walks/weighted/rw_1_{atoms}_128_s512.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]],
-        [f'src/data/random_walks/ordinary/rw_1_{atoms}_128_s512.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]],
-        [f'src/data/random_walks/numerical/D_1_{atoms}_128.npz' for atoms in [16, 32, 64, 128, 256, 512, 1024]]
-    output:
-        f'src/data/random_walks/efficiency.npz'
-    conda: 
-        'environment.yml'
-    cache: 
-        True
-    params:
-        correlation='true'
-    script:
-        "src/code/random_walks/efficiency.py"
-
 # Random walks simulations
 rule rw_4096_kinisi_true_128:
     input:

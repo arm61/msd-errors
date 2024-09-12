@@ -13,9 +13,9 @@ length = int(snakemake.params['length'])
 size = int(snakemake.params['n'])
 
 timestep = np.arange(1, length + 1, 1, dtype=int)
-data = np.zeros((size, timestep.size-1, 4))
-covariance = np.zeros((size, timestep.size-2, timestep.size-2))
-n_o = np.zeros((size, timestep.size-1))
+data = np.zeros((size, timestep.size, 4))
+covariance = np.zeros((size, timestep.size-1, timestep.size-1))
+n_o = np.zeros((size, timestep.size))
 diff_c = np.zeros((size, 3200))
 intercept = np.zeros((size, 3200))
 
