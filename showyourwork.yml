@@ -11,15 +11,15 @@ margin_icons:
         sandbox: "0.25,0.25,0.25"
     horizontal_offset: -4
 
-# datasets:
-#     10.5281/zenodo.10532134:
-#         contents:
-#             traj0.out: src/data/llzo/traj0.out
-#             traj1.out: src/data/llzo/traj1.out
-#             traj2.out: src/data/llzo/traj2.out
-#             traj3.out: src/data/llzo/traj3.out
-#             traj4.out: src/data/llzo/traj4.out
-#             traj5.out: src/data/llzo/traj5.out
+datasets:
+    10.5281/zenodo.10532134:
+        contents:
+            traj0.out: src/data/llzo/traj0.out
+            traj1.out: src/data/llzo/traj1.out
+            traj2.out: src/data/llzo/traj2.out
+            traj3.out: src/data/llzo/traj3.out
+            traj4.out: src/data/llzo/traj4.out
+            traj5.out: src/data/llzo/traj5.out
 
 dependencies:
     src/tex/ms.tex:
@@ -34,9 +34,9 @@ dependencies:
         - src/data/random_walks/kinisi/rw_1_128_128_s4096.npz
         - src/data/random_walks/numerical/D_1_128_128.npz
     src/scripts/diffusion.py:
-        - src/data/llzo/true_10.npz
+        - src/data/llzo/true_10_10000.npz
         {% for n in range(0, 6, 1) %}
-        - src/data/llzo/diffusion_{{n}}_10.npz
+        - src/data/llzo/diffusion_{{n}}_10_10000.npz
         {% endfor %}
         - src/scripts/utils/_fig_params.py
     src/scripts/covariances.py:
@@ -45,16 +45,15 @@ dependencies:
         - src/scripts/utils/_fig_params.py
     src/scripts/true_cov.py:
         - src/data/random_walks/numerical/D_1_128_128.npz
-        - src/data/random_walks/numerical/D_1_128_1024.npz
         - src/data/random_walks/true_cov/rw_1_128_128_s4096.npz
         - src/scripts/utils/_fig_params.py
     src/scripts/stat_eff.py:
         - src/data/random_walks/stat_eff.npz
         - src/scripts/utils/_fig_params.py
     src/scripts/glswlsols_llzo.py:
-        - src/data/llzo/glswlsols_10.npz
+        - src/data/llzo/glswlsols_10_10000.npz
+        - src/data/llzo/true_10_10000.npz
     src/scripts/pyblock.py:
         - src/data/random_walks/numerical/D_1_128_128.npz
         - src/data/random_walks/kinisi/rw_1_128_128_s4096.npz
         - src/data/random_walks/pyblock/rw_1_128_128_s4096.npz
-        - src/data/random_walks/pyblock_modelfree/rw_1_128_128_s4096.npz

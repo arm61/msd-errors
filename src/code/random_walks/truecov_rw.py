@@ -16,15 +16,15 @@ length = int(snakemake.params['length'])
 size = int(snakemake.params['n'])
 
 rcov = np.cov(
-    np.load(f'src/data/random_walks/numerical/rw_1_{atoms}_{length}_s4096.npz')['data'][:, 4:].T)
+    np.load(f'src/data/random_walks/numerical/rw_1_{atoms}_{length}_s4096.npz')['data'][:, 1:].T)
 kinisi = np.load(f'src/data/random_walks/kinisi/rw_1_{atoms}_{length}_s{size}.npz')['data']
 
 gradient = np.zeros((size, 3200))
 intercept = np.zeros((size, 3200))
 
 for seed in tqdm(range(size)):
-    x = kinisi[seed, 4:, 0]
-    y = kinisi[seed, 4:, 1]
+    x = kinisi[seed, 1:, 0]
+    y = kinisi[seed, 1:, 1]
 
     _, logdet = np.linalg.slogdet(rcov)
     logdet += np.log(2 * np.pi) * y.size

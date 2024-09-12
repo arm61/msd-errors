@@ -26,8 +26,8 @@ for seed in tqdm(range(size)):
     rng = np.random.RandomState(seed)
     np.random.seed(seed)
 
-    x = data[seed, 4:, 0]
-    y = data[seed, 4:, 1]
+    x = data[seed, 1:, 0]
+    y = data[seed, 1:, 1]
     lin = linregress(x, y)
     
     gradient[seed] =  lin.slope / 6

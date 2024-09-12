@@ -21,14 +21,14 @@ intercept = np.zeros((size))
 intercept_err = np.zeros((size))
 data = np.load(f'src/data/random_walks/kinisi/rw_1_{atoms}_{length}_s{size}.npz')
 
-V = np.diag(data['data'][:, 4:, 1].var(0))
+V = np.diag(data['data'][:, 1:, 1].var(0))
 
 for seed in tqdm(range(size)):
     rng = np.random.RandomState(seed)
     np.random.seed(seed)
 
-    A = np.array([data['data'][seed, 4:, 0], np.ones(data['data'][seed, 4:, 0].size)]).T
-    y = data['data'][seed, 4:, 1].T
+    A = np.array([data['data'][seed, 1:, 0], np.ones(data['data'][seed, 1:, 0].size)]).T
+    y = data['data'][seed, 1:, 1].T
 
     g2 = np.matmul(np.linalg.inv(np.matmul(A.T, np.matmul(np.linalg.pinv(V), A))),
                 np.matmul(A.T, np.matmul(np.linalg.pinv(V), y)))

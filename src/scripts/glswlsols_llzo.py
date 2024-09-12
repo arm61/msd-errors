@@ -9,7 +9,9 @@ from uravu.distribution import Distribution
 import utils._fig_params as fp
 import paths
 
-data = np.load('src/data/llzo/glswlsols_10.npz')
+length = 10000
+
+data = np.load(f'src/data/llzo/glswlsols_10_{length}.npz')
 
 figsize = (3.744, 3.4)
 fig = plt.figure(figsize=figsize)

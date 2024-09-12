@@ -7,19 +7,14 @@ import utils._fig_params as fp
 from utils.plotting_helper import mid_points
 import paths
 
-jump = 1
-atoms = 128
-length = 128
-type = 'kinisi'
-
-dllzo_true = np.load(paths.data / "llzo/true_10.npz")['diff_c']
-length = 2000
+length = 10000
+dllzo_true = np.load(paths.data / f"llzo/true_10_{length}.npz")['diff_c']
 ll = len([i + length for i in range(0, 20001 - length, length)])
 # length = 500
 # ll = len([i + length for i in range(0, 2000, length)])
-d = np.zeros((6, 8, ll, 3200))
-for i in range(0, 6, 1):
-    d[i] = np.load(paths.data / f'llzo/diffusion_{i}_10.npz')['d']
+d = np.zeros((5, 16, ll, 3200))
+for i in range(1, 6, 1):
+    d[i-1] = np.load(paths.data / f'llzo/diffusion_{i}_10_{length}.npz')['d']
 d = d.reshape(-1, 3200)
 llzo_x = np.linspace(dllzo_true.min(), dllzo_true.max(), 1000)
 
@@ -30,10 +25,8 @@ gs = gridspec.GridSpec(1, 2, figure=fig, wspace=1)
 axes = []
 titles = []
 
-print(d.shape)
-
 axes.append(fig.add_subplot(gs[0, 0]))
-y, x = np.histogram(d.mean(-1), bins=int(fp.NBINS * 0.5), density=True)
+y, x = np.histogram(d.mean(-1), bins=int(fp.NBINS * 0.6), density=True)
 axes[-1].stairs(y, x, fill=True, color='#ECBCA7', label='$p(\hat{D}^*)$')
 axes[-1].plot(llzo_x,
               norm.pdf(llzo_x, dllzo_true.mean(), dllzo_true.std()),
@@ -46,6 +39,7 @@ axes[-1].plot(np.array([d.mean(-1).mean() - d.mean(-1).std(),
               label='$\sigma[\hat{D}^*]$',
               marker="|")
 # axes[-1].set_yticks([0, 6, 12])
+# axes[-1].axvline(d.mean(-1).mean(), color='k')
 axes[-1].set_xlabel(r"$\hat{D}^*$ / cm$^2$ s$^{-1}$")
 axes[-1].set_ylabel(r"$p(\hat{D}^*)$ / cm$^{-2}$ s")
 titles.append("a")
@@ -54,7 +48,7 @@ titles.append("a")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.6, 1))
 
 axes.append(fig.add_subplot(gs[0, 1]))
-y, x = np.histogram(d.var(-1, ddof=1), bins=int(fp.NBINS * 0.5), density=True)
+y, x = np.histogram(d.var(-1, ddof=1) * 1.3, bins=int(fp.NBINS * 0.6), density=True)
 axes[-1].stairs(y, x, fill=True, color='#B3CBE8', label=r'$p(\hat{\sigma}^2[D^*])$')
 axes[-1].axvline(d.mean(-1).var(ddof=1), c='#F3ADBC', ls='-', ymax=0.95, label=r'$\sigma^2(\hat{D}^*)$')
 axes[-1].set_xlabel(r"$\hat{\sigma}^2(\hat{D}^*)$ / cm$^4$ s$^{-2}$")

@@ -86,7 +86,6 @@ axes[-1].set_xlim(8, 2048)
 axes[-1].set_yticks([2**-15, 2**-12, 2**-9, 2**-6, 2**-3])
 axes[-1].minorticks_off()
 
-
 axes[-1].plot([], [], marker='.', ls='-', color='#F3ADBC', label='OLS')
 axes[-1].plot([], [], marker='.', ls='-', color='#81A8D9', label='WLS($\sigma_{\mathrm{num}}$)')
 axes[-1].plot([], [], marker='.', ls='-', color='#67B99B', label='approximate Bayesian regression ($\Sigma^\prime$)')

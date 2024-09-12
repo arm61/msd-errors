@@ -18,8 +18,8 @@ length = int(snakemake.params['length'])
 jump = int(snakemake.params['jump'])
 size = 4096
 
-true_msd = np.load(f'src/data/random_walks/numerical/rw_1_{atoms}_{length}_s{size}.npz')['data'][:, 4:]
-timestep = np.arange(1, length + 1, 1, dtype=int)[4:]
+true_msd = np.load(f'src/data/random_walks/numerical/rw_1_{atoms}_{length}_s{size}.npz')['data'][:, 1:]
+timestep = np.arange(1, length + 1, 1, dtype=int)[1:]
 true_mean = true_msd.mean(0)
 W = np.cov(true_msd.T)
 
