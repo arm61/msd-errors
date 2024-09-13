@@ -268,7 +268,8 @@ To illustrate the accuracy of the numerical procedure for deriving the model cov
 \cref{fig:covariances}a shows the numerically converged covariance matrix, $\bm{\Sigma}$, computed using the data from all \num{4096} simulations (\cref{fig:covariances}a); \cref{fig:covariances}b shows the corresponding analytical covariance matrix, $\mathbf{\Sigma^\prime}$, as defined by \cref{equ:cvv} and parametrised using analytical long-time-limit variances $\var{\oMSDi}$; and \cref{fig:covariances}c shows the average estimated matrix obtained by parametrising \cref{equ:cvv} using variances estimated from a single simulation trajectory, then reconditioning, with the average taken over all \num{4096} matrices obtained from the \num{4096} input simulations. 
 \begin{figure}
     \centering
-    \resizebox{\columnwidth}{!}{\includegraphics*{figure3.pdf}}
+    % \resizebox{\columnwidth}{!}{\includegraphics*{figure3.pdf}}
+    \includegraphics[width=\columnwidth]{covariances.pdf}
     \caption{
         (a) The numerical MSD covariance matrix $\bm{\Sigma}$ calculated using MSD data from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of \num{128} steps per particle.
         (b) The analytical MSD covariance matrix $\bm{\Sigma^\prime}$ (\cref{equ:cvv}), parametrised using analytical long-time limit random-walk variances $\var{\oMSDi}$.
