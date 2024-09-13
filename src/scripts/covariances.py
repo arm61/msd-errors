@@ -26,7 +26,7 @@ newcmp4 = sns.diverging_palette(311.4, 161.2, as_cmap=True)
 true_msd = np.load(paths.data / f"random_walks/numerical/rw_{jump}_{atoms}_{length}_s4096.npz")["data"]
 true_cov = np.cov(true_msd[:, 1:length].T)
 
-kinisi_data = np.load(paths.data / f"random_walks/kinisi/rw_{jump}_{atoms}_{length}_s512.npz")
+kinisi_data = np.load(paths.data / f"random_walks/kinisi/rw_{jump}_{atoms}_{length}_s4096.npz")
 
 kinisi_cov = kinisi_data["covariance"].mean(0)
 no = (kinisi_data["n_o"]).mean(0)
