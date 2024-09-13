@@ -248,7 +248,8 @@ We also compute the MSD and estimated variance using data from a single simulati
 A quantitative comparison between the true MSD variance and the single-trajectory estimated MSD variance is made in \cref{fig:msd}c: the close numerical agreement confirms that \cref{equ:varestMSD} can be used to estimate $\var{\oMSD}$, which can then be used to parameterise the model covariance matrix $\mathbf{\Sigma^\prime}$ via \cref{equ:cvv}.
 \begin{figure}
     \centering
-    \resizebox{\columnwidth}{!}{\includegraphics*{figure2.pdf}}
+    % \resizebox{\columnwidth}{!}{\includegraphics*{figure2.pdf}}
+    \includegraphics[width=\columnwidth]{msd.pdf}
     \caption{
         Comparison of the numerical variance in observed MSD from multiple replica simulations and the estimated variance in observed MSD given by rescaling the variance in observed squared displacements (\cref{equ:varestMSD}).
         Panel (a) shows the mean observed MSD from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of \num{128} steps per particle, with error bars of $\pm2\sigma[\oMSDi]$.
