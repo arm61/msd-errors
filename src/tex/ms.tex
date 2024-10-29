@@ -51,13 +51,27 @@
 \newcommand{\D}{\ensuremath{D^*}}
 \newcommand{\var}[1]{\ensuremath{\sigma^2[#1]}}
 \newcommand{\varest}[1]{\ensuremath{\widehat{\sigma}^2[#1]}}
+\newcommand*\xbar[1]{
+  \hbox{
+    \vbox{
+      \hrule height 0.5pt 
+      \kern0.5ex
+      \hbox{
+        \kern-0.1em
+        \ensuremath{#1}
+        \kern-0.1em
+      }
+    }
+  }
+} 
 \DeclareMathOperator{\cov}{cov}
 \DeclareMathOperator*{\argmax}{argmax}
+
+\graphicspath{{figures/}}
 
 \newcommand{\todo}[1]{\color{red}[#1]\color{black}}
 
 \hyphenation{metalwalls}
-
 
 \makeatletter
 \def\maketitle{
@@ -97,11 +111,6 @@
 
 \maketitle 
 
-\section*{Significance Statement}
-Quantifying diffusion in liquid and solid-state systems is fundamental to our understanding of their properties—without the ability to accurately measure diffusion coefficients, robust insight into these systems is impossible.
-Here, we present a statistically efficient approach to estimating self-diffusion coefficients from single molecular dynamics simulations, using approximate Bayesian regression.
-Our method provides estimates of self-diffusion coefficients with significantly less uncertainty than textbook ordinary-least-squares or weighted-least-squares methods, allowing for more efficient predictions of diffusion behaviour from simulations at greatly reduced overall computational cost, and also gives an accurate estimate of the variance in the predicted value, allowing for meaningful downstream comparison of data.
-
 \section{Introduction}
 
 Mass transport is a fundamental physical process that is central to our understanding of fluids~\cite{sendner_interfacial_2009,ShimizuEtAl_PhysChemChemPhys2015,ghoufi_ultrafast_2016} and plays a critical role in biochemical systems~\cite{maccmmon_dynamics_1977,RobertsonEtAl_ProcNatlAcadSci2006} and solid-state devices, such as batteries, fuel cells, and chemical sensors~\cite{eames_ionic_2015,morgan_understanding_2011,walsh_taking_2018}.
@@ -117,9 +126,9 @@ $\D$ is related to the ensemble-average mean squared displacement (MSD), $\MSD{t
     \D = \lim_{t\to\infty}\frac{\MSD{t}}{6t},
     \label{equ:einstein}
 \end{equation}
-where $t$ is elapsed time.
+where $\Delta\mathbf{r}{(t)}$ is the displacement of a diffusion particle in the time interval $t$.
 Because numerical simulations are finite in time and space, MSDs obtained from simulation data always differ from the true ensemble average MSD.
-One can, however, compute an estimate of the self-diffusion coefficient, $\Dest$, by fitting a linear model to the observed MSD and using the gradient of this fitted model in place of $\MSD{t} / t$ in \cref{equ:einstein}.
+One can, however, compute an estimate of the self-diffusion coefficient, $\Dest$, by fitting a linear model to the observed MSD and using the gradient of this fitted model in place of $\MSD{t} / t$ in \cref{equ:einstein}~\footnote{While estimating $\D$ by fitting a linear model to MSD data is, perhaps, the most commonly used approach in the literature, alternative methods that avoid linear fitting of MSD data also exist; see, for example, Refs.~{\protect\cite{VestergaardEtAl_PhysRevE2014,KrapfEtAl_NewJournalPhysics2018,bullerjohn_optimal_2020}}.}.
 
 The simplest approach to fitting a linear model to MSD data from simulation is ordinary least squares regression (OLS).
 OLS gives analytical expressions for the ``best fit'' regression coefficients (the slope and intercept) and their respective uncertainties, making it easy to implement and quick to perform.
@@ -241,7 +250,7 @@ Specifically, we compute an estimated variance $\varest{\oMSDi}$ by rescaling th
 \end{equation}
 By rescaling by the number of numerically-independent contributing sub-trajectories, rather than by the total number of observed squared displacements for time window $i$, we account for correlations between the squared displacements of each particle computed from overlapping time windows (further details are provided in the SI).
 
-The estimated variance $\varest{\oMSD}$ can be calculated from a single simulation trajectory, and provides an accurate estimate of the true variance $\var{\oMSD}$~\footnote{A common approach to estimating the variance of the mean of time-correlated data with unknown correlation time is the renormalization group blocking method of Flyvberg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989,Frenkel2023-ah}. In the SI, we compare this blocking method to our direct rescaling method (\cref{equ:variance}) for estimating $\var{\oMSDi}$ from a set of random-walk trajectories. For our example data, direct rescaling performs better (gives more accurate estimates of $\var{\oMSDi}$).}.
+The estimated variance $\varest{\oMSD}$ can be calculated from a single simulation trajectory, and provides an accurate estimate of the true variance $\var{\oMSD}$~\footnote{A common approach to estimating the variance of the mean of time-correlated data with unknown correlation time is the renormalization group blocking method of Flyvberg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989,Frenkel2023-ah}. In the SI, we compare this blocking method to our direct rescaling method (\cref{equ:varestMSD}) for estimating $\var{\oMSDi}$ from a set of random-walk trajectories. For our example data, direct rescaling performs better (gives more accurate estimates of $\var{\oMSDi}$).}.
 To demonstrate this, we performed \num{4096} independent simulations of \num{128} particles undergoing a three-dimensional cubic-lattice random walk of \num{128} steps per particle.
 Using data from all \num{4096} simulations, we first compute the true simulation MSD and its variance (\cref{fig:msd}a).
 We also compute the MSD and estimated variance using data from a single simulation trajectory (\cref{fig:msd}b), using the scheme described above.
@@ -455,9 +464,10 @@ Simulations were run for \SI{6}{\nano\second} with a \SI{0.5}{\femto\second} tim
 To control temperature, we used a Nos\'{e}-Hoover thermostat, with a relaxation time of \SI{121}{\femto\second} (5000 $\hbar / E_{h}$)~\cite{nose_unified_1984,hoover_canonical_1985,martyna_nose_1992}. 
 Simulations were performed using $2 \times 2 \times 2$ supercells with \SI{1536}{atoms} following the same protocol as in Ref.~\citenum{burbano_sparse_2016}.
 
-\section*{Data availability}
+\section*{Supporting Information}
 
-Electronic Supplementary Information (ESI) available: A complete set of analysis/plotting scripts allowing for a fully reproducible and automated analysis workflow, using \textsc{showyourwork}~\cite{luger_showyourwork_2021}, for this work is available at Ref.~\cite{mccluskey_github_2022} under an MIT license.
+Derivation of long-time limit covariance matrix for a system of freely diffusing particles, comparison of variance rescaling (\cref{equ:varestMSD}) and block renormalisation approaches, discussion of bias in the distribution of estimated variance of the estimated diffusion coefficient, and a comparison of OLS, WLS, and GLS as estimators for $\D$ applied to MSD data from simulations of \ce{Li7La3Zr2O12} (LLZO).
+Additional Electronic Supplementary Information (ESI) available at Ref.~\cite{mccluskey_github_2022} under an MIT license: A complete set of analysis/plotting scripts allowing for a fully reproducible and automated analysis workflow, using \textsc{showyourwork}~\cite{luger_showyourwork_2021}.
 The LLZO raw simulation trajectories are available on Zenodo shared under a CC BY-SA 4.0 licence~\cite{coles_llzo_zenodo_2022}.
 The method outlined in this work is implemented in the open-source Python package \textsc{kinisi}~\cite{mccluskey_kinisi_2022}, which is available under an MIT license.
 
@@ -478,5 +488,401 @@ B.J.M. acknowledges support from the Royal Society (UF130329 and URF\textbacksla
 
 \bibliographystyle{naturemag}
 \bibliography{bib}
+
+\let\addcontentsline\oldaddcontentsline
+
+ \onecolumngrid
+ \clearpage 
+ \twocolumngrid
+
+ \appendix
+ \renewcommand\thesection{SI.\Roman{section}}
+ \counterwithout{figure}{section}
+ \renewcommand\thefigure{SI.\arabic{figure}}
+ \setcounter{figure}{0}
+ \counterwithout{equation}{section}
+ \renewcommand\theequation{SI.\arabic{equation}}
+ \setcounter{equation}{0}
+ \counterwithout{table}{section}
+ \renewcommand\thetable{SI.\arabic{table}}
+ \setcounter{table}{0}
+ \pagenumbering{arabic} 
+ \renewcommand\thepage{SI.\arabic{page}}
+ \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+
+ \title{Supplemental Material for ``\papertitle''}
+ \maketitle
+ This document presents supplementary material for the manuscript ``\papertitle''.
+It contains the following sections:
+\renewcommand{\labelitemi}{}
+\begin{itemize}
+    \item \ref{sec:ran}. The derivation of the covariance matrix in the long-time limit for freely diffusion particles.
+    \item \ref{sec:var_est}. Further details of the variance rescaling method for estimating $\var{\oMSDi}$, described in the main text, and a comparison to the block renormalisation method for estimating the variance of the mean for serially-correlated data of Flyvbjerg and Petersen~\cite{FlyvbjergAndPetersen_JChemPhys1989}.
+    \item \ref{sec:bias}. Discussion of the origin of bias in the distribution of the estimated variance of the estimated diffusion coefficient, $\prob{\varest{\Dest}}$.
+    \item \ref{sec:llzo}. A comparison of OLS, WLS, and GLS as estimators for $\D$ applied to MSD data from simulations of \ce{Li7La3Zr2O12} (LLZO).
+\end{itemize}
+A repository containing the analysis and plotting code used to generate all results and figures in the main manuscript and this supplemental material document is available at \url{www.github.com/arm61/msd-errors}~\cite{mccluskey_github_2022}, under MIT (code) and CC BY-SA 4.0 (figures and text) licenses.
+This repository includes a fully reproducible \code{showyourwork} workflow, which allows complete reproduction of the analysis, plotting of figures and compilation of the manuscript{}s.
+The corresponding LLZO simulation datasets are openly available under the CC BY-SA 4.0 licence \cite{coles_llzo_zenodo_2022}. 
+
+\twocolumngrid
+
+\section{Derivation of the long-time limit covariance matrix for a system of freely diffusing particles.}
+\label{sec:ran}
+In the main manuscript we present the result that the covariance matrix for a system of freely diffusing particles, in the long-time limit, has the form
+\begin{equation}
+  \Sigma^\prime\left[\oMSDi, \oMSDj\right]= \Sigma^\prime\left[\oMSDj, \oMSDi\right] =
+  \var{\oMSDi} \frac{\nind{i}}{\nind{j}},\hspace{1em} \forall\,i \leq j,
+  \label{equ:cvv_SI}
+\end{equation}
+where $\oMSDi$ is the observed mean-squared displacement (MSD) for time interval $i$ and $\nind{i}$ is the number of statistically independent observed squared displacements averaged over to compute the mean value.
+
+To derive this result, we first present a derivation of the expected variance for the MSD at timestep $i$, $\var{\oMSD}$, following the approach of Smith and Gillan~\cite{smith_random_1996}.
+We then derive an expression for the covariance $\Sigma^\prime\left[\oMSDi, \oMSDj\right]$ to obtain the result above.
+
+For a single particle undergoing a one-dimensional random walk with step size $\kappa$, each step gives a displacement $h = \pm \kappa$.
+After $n$ steps, the MSD, $\oMSDn$, is given by
+\begin{equation}
+  \begin{aligned}
+    \oMSDn &= \left[\sum_i^n h_i\right]^2\\
+           &= \sum_i^n\sum_j^n h_i h_j \\
+           &= \sum_i^n h_i^2 + \sum_i^n\sum_{j\neq i}^n h_ih_j.
+  \end{aligned}
+\end{equation}
+The expected MSD in the long-time limit, $\mathbb{E}(\oMSDn) = \moMSDn$, is obtained by averaging over all permutations of $h_i$ and $h_j$:
+\begin{equation}
+  \begin{aligned}
+    \moMSDn &= \sum_i^n \left<h_i^2\right> + \sum_i^n\sum_{j\neq i}^n\left<h_i h_j\right>.
+  \end{aligned}
+\end{equation}
+For a random walk, the second term averages to zero for all $h_i$ and $h_j$, and
+\begin{equation}
+  \begin{aligned}
+    \moMSDn &= \sum_i^n \left<h_i^2\right> \\
+            &= n\kappa^2.
+  \end{aligned}
+  \label{equ:msd_SI}
+\end{equation}
+Hence the expected value for the mean-squared displacement increases linearly with the number of steps taken.
+
+The variance in the observed MSD, $\var{\oMSDn}$, is given by the standard statistical formula
+\begin{equation}
+    \var{\oMSDn} = \left<{\left[\oMSDn - \moMSDn\right]}^2\right>,
+\end{equation}
+which can be expanded as
+\begin{equation}
+    \begin{aligned}
+        \var{\oMSDn} &= \left<\oMSDn^2\right> - 2\moMSDn\left<\oMSDn\right> + \moMSDn^2,\\
+                     &= \left<\oMSDn^2\right> - \moMSDn^{\,2}.
+    \end{aligned}
+\end{equation}
+The first term can be expanded in terms of displacements $h$ as
+\begin{equation}
+  \left<\oMSDn^2\right> = \left<\sum_i^n\sum_j^n\sum_k^n\sum_l^n h_i h_j h_k h_l\right>,
+  \label{equ:big_av}
+\end{equation}
+which can be simplified by noting that $h_i$, $h_j$, $h_k$, and $h_l$ are uncorrelated when $i \neq j \neq k \neq l$, and the only terms that contribute to the average are those where $h_ih_jh_kh_l$ is guaranteed to be non-zero:
+\begin{itemize}
+    \item[(a)] $i = j = k = l$;
+    \item[(b)] $(i = j) \neq (k = l)$;
+    \item[(c)] $(i = k) \neq (j = l)$;
+    \item[(d)] $(i = l) \neq (j = k)$. 
+\end{itemize}
+From (a) we obtain
+\begin{equation}
+    \left<\sum_i^nh_i^4\right> = n\kappa^4,
+\end{equation}
+and from (b), (c), and (d), which are equivalent, we obtain
+\begin{equation}
+    \left<\sum_i^n\sum_j^nh_i^2h_j^2\right> = (n\kappa^2)^2 = n^2\kappa^4.
+\end{equation}
+This gives
+\begin{equation}
+    \left<\oMSDn^2\right> = (3n^2 + n)\kappa^4,
+\end{equation}
+which, in the limit $n \to \infty$, approaches
+\begin{equation}
+    \left<\oMSDn^2\right> = 3n^2\kappa^4.
+    \label{equ:infty}
+\end{equation}
+Combining this result with \cref{equ:msd_SI}, we can express the variance in the mean-squared displacement as
+\begin{equation}
+    \var{\oMSDn} = 3n^2\kappa^4 - n^2\kappa^4 = 2n^2\kappa^4,
+    \label{equ:varmsd}
+\end{equation}
+i.e., $\var{\oMSDn}$ increases quadratically with the number of steps taken, or, equivalently, with time.
+
+Equation~\ref{equ:varmsd} gives the variance of the mean squared displacement for a single particle considering a single time-origin.
+We can obtain improved statistics by averaging over statistically equivalent observed squared displacements (see Eqn.~2 in the main text), which can be achieved by averaging over mobile particles or by averaging over time origins.
+This averaging over equivalent observations reduces the variance in the observed MSD to
+\begin{equation}
+    \var{\oMSDn} = \frac{2n^2\kappa^4}{\nind{n}},
+\label{equ:der_var}
+\end{equation}
+where $\nind{n}$ is the total number of statistically independent squared displacements that contribute to $\oMSDi$.
+In the long-time limit, $\nind{n}$ is given by the product of the number of mobile particles and the number of non-overlapping time-windows of length $i$ in our simulation trajectory.
+Note that $\nind{n}$ considers non-overlapping time windows, since mutually overlapping time-windows give correlated squared displacements.
+
+The results for a one-dimensional lattice above (\cref{equ:msd_SI,equ:der_var}) can be extended to a $d$-dimensional lattice, to give
+\begin{equation}
+    \moMSDn_{d} = \sum^d{\frac{n\kappa^2}{d}} = n\kappa^2,
+\end{equation}
+with variance
+\begin{equation}
+    \var{\oMSDn}_d = \sum^d{\frac{2n^2\kappa^4}{d^2\nind{n}}} = \frac{2n^2\kappa^4}{d\nind{n}},
+\end{equation}
+Because each step is equally likely to move a particle along each of the $d$ dimensions, the term $n$ in \cref{equ:msd_SI,equ:der_var} is replaced here with $n/d$.
+
+The analysis above can be extended to consider the covariance between two different numbers of steps, $n$ and $n+m$, in the random walk where the expected MSDs will be
+\begin{equation}
+    \begin{aligned}
+        \moMSDn &= n\kappa^2; \\
+        \moMSDm &= (n+m)\kappa^2.
+    \end{aligned}
+\end{equation}
+The covariance between these is defined as
+\begin{equation}
+    \Sigma \left[\oMSDn, \oMSDm \right] = \left<{\left[{\oMSDn - \moMSDn}\right] \left[{\oMSDm - \moMSDm}\right]}\right>, 
+\end{equation}
+which can be expanded as
+\begin{equation}
+    \begin{aligned}
+        \Sigma \left[\oMSDn, \oMSDm \right] = \big\langle & \oMSDn\oMSDm - \oMSDn\moMSDm \\
+        & - \moMSDn\oMSDm + \moMSDn\moMSDm\big\rangle,
+    \end{aligned}
+\end{equation}
+and then reformulated to give
+\begin{equation}
+    \Sigma \left[\oMSDn, \oMSDm \right] = \left<\oMSDn\oMSDm\right> - \moMSDn\moMSDm,
+    \label{equ:pair}
+\end{equation}
+where 
+\begin{equation}
+    \begin{aligned}
+        \moMSDn\moMSDm &= \oMSDn\oMSDm \\
+                       &= n\kappa^2(n+m)\kappa^2 \\
+                       &= n(n+m)\kappa^4
+    \end{aligned}
+\end{equation}
+and, by analogy to \cref{equ:big_av},
+\begin{equation}
+    \left<\oMSDn\oMSDm\right> = \left<\sum_i^n\sum_j^n\sum_k^{n+m}\sum_l^{n+m} h_i h_j h_k h_l\right>,
+\end{equation}
+which we can rewrite as
+\begin{equation}
+    \begin{aligned}
+        \left<\oMSDn\oMSDm\right> = \Bigg\langle & \sum_{i=1}^n\sum_{j=1}^n\sum_{k=1}^{n}\sum_{l=1}^{n} h_i h_j h_k h_l \\
+        & + \sum_{i=1}^n\sum_{j=1}^n\sum_{k=1}^{n}\sum_{l=n+1}^{n+m} h_i h_j h_k h_l \\
+        & + \sum_{i=1}^n\sum_{j=1}^n\sum_{k=n+1}^{n+m}\sum_{l=1}^{n} h_i h_j h_k h_l \\
+        & + \sum_{i=1}^n\sum_{j=1}^n\sum_{k=n+1}^{n+m}\sum_{l=n+1}^{n+m} h_i h_j h_k h_l \Bigg\rangle.
+    \end{aligned}
+    \label{equ:vbig}
+\end{equation}
+The second and third terms in \cref{equ:vbig} tend to zero as there is an equal probability of positive and negative displacements. 
+This reduces \cref{equ:vbig} to 
+\begin{equation}
+    \begin{aligned}
+        \left<\oMSDn\oMSDm\right> = & \Bigg\langle \sum_{i=1}^n\sum_{j=1}^n\sum_{k=1}^{n}\sum_{l=1}^{n} h_i h_j h_k h_l \Bigg\rangle \\
+        & + \Bigg\langle \sum_{i=1}^n\sum_{j=1}^n\sum_{k=n+1}^{n+m}\sum_{l=n+1}^{n+m} h_i h_j h_k h_l \Bigg\rangle, 
+    \end{aligned}
+\end{equation}
+and using \cref{equ:infty} gives
+\begin{equation}
+    \left<\oMSDn\oMSDm\right> = 3n^2\kappa^4 + \Bigg\langle \sum_{i=1}^n\sum_{j=1}^n\sum_{k=n+1}^{n+m}\sum_{l=n+1}^{n+m} h_i h_j h_k h_l \Bigg\rangle.
+\end{equation}
+We can rewrite this as
+\begin{equation}
+    \left<\oMSDn\oMSDm\right> = 3n^2\kappa^4 + \Bigg\langle \sum_{i=1}^n\sum_{j=1}^n h_i h_j \Bigg\rangle \Bigg\langle \sum_{k=n+1}^{n+m}\sum_{l=n+1}^{n+m} h_k h_l \Bigg\rangle,
+\end{equation}
+where the following holds,
+\begin{equation}
+    \begin{aligned}
+        \left<\oMSDn\oMSDm\right> &= 3n^2\kappa^4 + n\kappa^2 m\kappa^2 \\
+                                  &= 3n\kappa^4 + nm\kappa^4.
+    \end{aligned}
+\end{equation}
+Putting this result into \cref{equ:pair} allows the covariance to be written as
+\begin{equation}
+    \begin{aligned}
+    \Sigma^\prime \left[\oMSDn, \oMSDm \right] &= 3n^2\kappa^4 + nm\kappa^4 - n(n+m)\kappa^4 \\
+                                        &= 3n^2\kappa^4 - n^2\kappa^4 = 2n^2\kappa^4,
+    \end{aligned}
+    \label{equ:cov_der}
+\end{equation}
+where we use the $\Sigma^\prime$ notation to identify that this is in the long-time limit. 
+
+In this case, the covariance depends only on the number of overlapping points, $n$, between the two time intervals. 
+We can rationalise this by noting that for a random walk any non-overlapping points will be completely uncorrelated and therefore have a covariance of \num{0}. 
+Similar to the case for the variance, the covariance derived in \cref{equ:cov_der} is that for a single particle at a single time origin. 
+The number of independent observed squared displacements for a given covariance should be the minimum number of shared independent observed squared displacements between the two time intervals, which is $\nind{n+m}$. 
+Therefore, the covariance, scaled by the number of contributing independent observations, in the long-time limit, is
+\begin{equation}
+    \Sigma^\prime \left[\oMSDn, \oMSDm \right] = \frac{2n^2\kappa^4}{\nind{n+m}}.
+\end{equation}
+Similar to the MSD and the variance, the covariance can be written for $d$-dimensions as 
+\begin{equation}
+    \Sigma^\prime \left[\oMSDn, \oMSDm \right] = \frac{2n^2\kappa^4}{d\nind{n+m}}.
+\end{equation}
+The covariance can be calculated directly from the variance by recognising that both depend on the number of overlapping points, $n$, as follows
+\begin{equation}
+    \Sigma^\prime \left[\oMSDn, \oMSDm \right] = \var{\oMSDn}\frac{\nind{n}}{\nind{n+m}}.
+\end{equation}
+This is then rewritten in terms of $i$ and $j$ to give, \cref{equ:cvv_SI}.
+
+Using the equivalence of $2d\D t \equiv n\kappa^2$~\cite{howard_reports_1964}, \cref{equ:msd_SI,equ:cvv_SI} can be rewritten in terms of $t$ (or $t_1$ and $t_2$) and the diffusion coefficient, for any dimensionality of lattice random walk,
+\begin{equation}
+    \oMSDs{t} = 2d \D t,
+    \label{equ:der_msd_fick}
+\end{equation}
+and 
+\begin{equation}
+    \Sigma^\prime \left[\oMSDs{t_1}, \oMSDs{t_2} \right] = 8d{(\D)}^2 t_1^2\frac{N^\prime(t_2)}{N^\prime(t_1)},\hspace{1em} \forall\,t_1 \leq t_2.
+\end{equation}
+
+\section{Estimating $\var{\oMSDi}$: variance rescaling versus block renormalisation}
+\label{sec:var_est}
+The approximate Bayesian regression scheme described in our main manuscript uses a model covariance matrix parametrised by the variance of the observed MSD as a function of time, denoted $\var{\oMSDi}$. 
+Generally, $\var{\oMSDi}$ is unknown and must be estimated from the input simulation data.
+
+\begin{figure}[tb]
+  \centering
+  % \resizebox{9cm}{!}{\includegraphics*{figure1_SI.pdf}}  
+  \includegraphics[width=\columnwidth]{figure1_SI.pdf} 
+    \caption{\label{fig:displacements}Schematic showing the construction of three statistically-equivalent sub-trajectories of length $\Delta t = 8$ from a full simulation trajectory. (a) The full trajectory consists of a series of displacements, $h_i$, from each simulation timestep. (b) Three exemplar sub-trajectories of length $\Delta t = 8$. Even in the case of a random walk (i.e., $h=\pm\kappa$), $\Delta r_1$ and $\Delta r_5$ are necessarily correlated, because both summations include $[h_5 + h_6 + h_7 + h_8]$. $\Delta r_5$ and $\Delta r_9$ are also obtained from mutually overlapping time windows and are therefore also correlated. For a random walk, $\Delta r_1$ and $\Delta r_9$ are uncorrelated. For a non-random (correlated) walk, non-overlapping time windows are uncorrelated in the limit that the window length, $\Delta t$, is much greater than the correlation time in $h$, which is the case if we are in the long-time linear region of the MSD where Eqn.~1 is valid.\footnote{The result that displacements calculated from overlapping time windows are correlated has been reported as an empirical result for simulations of a Lennard--Jones fluid in Ref.~\onlinecite{PranamiAndLamm_JChemTheoryComput2015}.}} 
+\end{figure}
+
+In the main manuscript, we describe an estimation approach that involves rescaling the observed variance of the squared displacement for time interval $i$ by the number of numerically-independent contributing sub-trajectories, $\nind{i}$ (Eqn.~7). 
+We define a sub-trajectory as the sequence of displacements of one particle over a time interval of length $i$, and consider sub-trajectories to be numerically independent under two conditions: either when they describe displacements of different particles, or when they describe displacements of the same particle but are calculated from non-overlapping time windows (see \cref{fig:displacements}).
+
+An alternative method for estimating the variance of the mean for time-correlated data is block averaging~\cite{Frenkel2023-ah}, where the input data is divided into non-overlapping sequential ``blocks'', and the set of averages calculated over each block are used for statistical analysis.
+A popular form of block averaging is the block renormalisation method of Flyvbjerg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989}.
+
+The Flyvbjerg--Peterson method starts with some input data, $A$.
+If the elements of $A$ are uncorrelated, the variance of the mean can be estimated by rescaling the variance of $A$:
+\begin{equation}
+\varest{\xbar{A}}=\frac{\var{A}}{L_A-1},
+\end{equation}
+where $L_A$ is the number of elements in $A$.
+If elements of $A$ are serially correlated, however, this estimator systematically underestimates the true variance of the mean of $A$, and, instead, providing only an approximate lower bound:
+\begin{equation}
+\varest{\xbar{A}}\geq\frac{\var{A}}{L_{A}-1}.
+\end{equation}
+
+The method proceeds by iteratively applying ``blocking'' operations.
+The original dataset, $A$, is mapped to a new dataset $A_1$, by averaging over adjacent non-overlapping pairs of data in $A$ (see \cref{fig:blocking}).
+The new dataset is half the length of the original: $L_{A_1} = \frac{1}{2}L_{A}$.
+$A$ and $A_1$ have the same mean.
+However, we can now rescale the variance of $A_1$ to obtain a tighter estimated lower bound for \var{\xbar{A}}:
+\begin{equation}
+\label{equ:blocking}
+\var{\xbar{A}}\geq\frac{\var{A_1}} {L_{A_1}-1}.
+\end{equation}
+Under repeated blocking operations with a sufficiently large input dataset, $\var{A_n}/(L_{A_n}-1)$ tends to \var{\xbar{A}}.
+In practice, sequential blocking steps are applied to the original dataset until $\var{A_n}/(L_{A_n}-1)$ reaches a plateau, and this plateau value is taken as the estimate for \var{\xbar{A}}.
+
+\begin{figure}[tb]
+  \centering
+  % \resizebox{9cm}{!}{\includegraphics*{figure2_SI.pdf}} 
+  \includegraphics[width=\columnwidth]{figure2_SI.pdf}
+    \caption{\label{fig:blocking}Schematic illustrating the application of repeated blocking operations with block-length 2 to generate a series of representations of the input data, $A$, $A_1$, $\ldots$, $A_n$, as used in the block renormalisation scheme of Flyvbjerg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989}.}
+\end{figure}
+
+The Flyvbjerg--Peterson block renormalisation method is particularly useful for estimating the variance of the mean in sequential correlated data where the correlation length is unknown; for example, when estimating thermodynamic averages from simulation trajectories.
+
+Figure~\ref{fig:msd_blocking_comparison} shows a comparison of the variance rescaling method described in the main text with the Flyvbjerg--Petersen block renormalisation method when using both methods to estimate the $\var{\oMSDi}$ from simulation.
+We applied both methods to a simulation of \num{128} particles undergoing a three-dimensional cubic-lattice random walk of \num{128} steps per particle. 
+
+The variance rescaling method (Eqn.~7) shows close agreement between the estimated variance in the MSD from a single simulation and the true numerical variance obtained by sampling many equivalent simulations.
+The estimated variance varies smoothly with timestep, $i$.
+In the example shown, this method overestimates $\var{\oMSDi}$ at long times, which we attribute the the relatively small number of observed squared displacements that are used to estimate $\var{\oMSDi}$ in the large $i$ regime.
+
+In comparison, the block renormalisation method also provides reasonable estimates of the true numerically determined variance, but is generally less accurate than the variance rescaling method.
+This method exhibits more noise, with larger scatter in $\varest{\oMSDi}$ as the timestep $i$ changes.
+This greater noise is not entirely surprising, since the block renormalisation method aims to independently estimate the correlation length of the input data numerically for each timestep $i$, while the variance rescaling method takes advantage of the known correlation length due to the way the MSD is computed (\cref{fig:displacements}).
+The block renormalisation method also tends to underestimate $\var{\oMSDi}$, which can be attributed to its provision of an estimated lower bound for the variance of the mean of the input data (see \cref{equ:blocking}).
+
+In \cref{fig:pyblock_comparison} we compare the results of estimating $\D$ and $\var{\Dest}$ using our approximate Bayesian regression scheme, using a model covariance matrix, $\mathbf{\Sigma^\prime}$, as defined in Eqn.~6 in the main text, parameterised by $\varest{\oMSDi}$ computed by either variance rescaling or block renormalisation.
+
+Both methods give unbiased estimates of $\D$ and similar distributions $\prob{\Dest}$.
+However, the distribution $\prob{\Dest}$ obtained using variance rescaling is slightly narrower than that obtained using block renormalisation.
+This difference stems from the greater stochastic noise in $\varest{\oMSDi}$ when using the block renormalisation method.
+Consequently, the model covariance matrices, $\mathbf{\Sigma^\prime}$, parametrised from these estimates are themselves noisier and often difficult to condition, leading to numerical instabilities.
+Both the increased noise and numerical instabilities when conditioning contribute to a wider distribution in $\prob{\Dest}$ when block renormalisation is used to estimate $\var{\oMSDi}$.
+
+The choice of method used to estimate $\var{\oMSDi}$ also influences the estimate of the uncertainty in $\Dest$.
+The variance rescaling method provides a good estimate for $\var{\Dest}$ but systematically overestimate the true uncertainty.
+In contrast, the block renormalisation method provides a similarly good estimate but systematically \emph{underestimates} the true uncertainty in $\Dest$.
+When estimating $\D$ from molecular dynamics simulations, we consider overestimation of $\var{\Dest}$ to always be preferable to underestimation.
+Overestimated uncertainty in $\Dest$ can be addressed by collecting more data, for example, by performing longer simulations.
+Conversely, underestimated uncertainty in $\Dest$ may lead to false confidence in the accuracy of $\D$ estimates, which can potentially lead to downstream errors in inferential reasoning or formal hypothesis testing.
+
+\begin{figure*}[tb]
+  \centering
+%   \resizebox{11cm}{!}{\includegraphics*{figure3_SI.pdf}} 
+  \includegraphics[width=\columnwidth]{pyblock.pdf}
+    \caption{\label{fig:msd_blocking_comparison}Comparison of the numerical variance in observed MSD from multiple replica simulations (panel a), the estimated variance obtained by rescaling the variance in observed squared displacements from a single simulation (panels b and c) (Eqn.~7), and the estimated variance obtained from the block renormalisation method of Flyvbjerg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989}, as implemented in \textsc{pyblock}~\cite{spencer_pyblock_2020}. Panel (a) shows the mean observed MSD from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of 128 steps per particle, with error bars of $\pm2\var{\oMSDi}$. Panel (b) shows the MSD from just one simulation, with error bars of $\pm\varest{\oMSDi}$, obtained via Eqn.~7. Panel (d) shows the same one-simulation MSD, again with error bars of $\pm\varest{\oMSDi}$, obtained using the block renormalisation method of Flyvbjerg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989}. Panels (c) and (e) plot the numerical variance against the single-simulation estimated variances obtained with each method, as a function of timestep, $i$.}
+    \script{pyblock.py}
+\end{figure*}
+
+\begin{figure*}[tb]
+  \centering
+%   \resizebox{10.0cm}{!}{\includegraphics*{figure4_SI.pdf}} 
+\includegraphics[width=\columnwidth]{msd_blocking.pdf}
+    \caption{\label{fig:pyblock_comparison}(Panels (a) and (c)) Probability distributions of point-estimates $\prob{\D}$ obtained from \num{4096} individual random-walk simulations. Panel (a) shows data obtained using variance rescaling to estimated the variances, $\varest{\oMSDi}$, used to parametrise the model covariance matrix, $\mathbf{\Sigma^\prime}$. Panel (b) shows data obtained using block renormalisation to estimate the variances, $\varest{\oMSDi}$, used to parametrise the model covariance matrix.
+    The grey lines show the distribution of point estimates, $\prob{\Dest}$, obtained using Bayesian regression with a mean vector and numerical covariance matrix derived from the complete dataset of all \num{4096} simulations. 
+    The pink horizontal bar shows an interval of one standard deviation in $\prob{\Dest}$. 
+    Panels (b) and (d) show the corresponding  probability distributions of estimated variances, $\varest{\Dest}$, 
+    for individual random-walk simulations, compared to the true sample variances obtained using each method (pink vertical lines) 
+    $\var{\Dest}$.
+    }
+    \script{msd_blocking.py}
+\end{figure*}
+
+
+\section{Bias in $\prob{\varest{\Dest}}$}
+\label{sec:bias}
+In the main manuscript, we present results for a set of \num{4096} 3D-lattice random walk simulations, each consisting of \num{128} particles undergoing \num{128} steps (Fig.~4).
+Our approximate Bayesian regression scheme allows us to estimate the variance in $\Dest$, denoted as $\varest{\Dest}$, that would be obtained over a large number of repeat simulations.
+This estimate is calculated from the variance of the marginal posterior distribution $\prob{\D|\model}$, which we derive from analysis of a single simulation trajectory.
+As shown in Fig.~4d, our estimate for the population variance $\var{\Dest}$, obtained from a single simulation, aligns reasonably with the true value.
+When considering the distribution of estimated variance, $\prob{\varest{\Dest}}$, however, we observe a systematic overestimation (bias) relative to the true value.
+
+This bias arises from our use of estimated variances $\varest{\oMSDi}$ when parametrising the model covariance matrix $\bm{\Sigma^\prime}$.
+Figure~\ref{fig:true_cov} presents equivalent results for $\prob{\Dest}$ and $\prob{\varest{\Dest}}$ for the same \num{4096} individual simulations, but calculated using a numerical covariance matrix, $\bm{\Sigma}_\mathrm{num}$ derived from all \num{4096} observed MSDs.
+The resulting distribution $\prob{\varest{\Dest}}$ (see Fig.~\ref{fig:true_cov}b) is unbiased.
+Furthermore, the distribution $\prob{\Dest}$ agrees even more closely with the numerically converged distribution obtained when combining data from all \num{4096} simulations (Fig~\ref{fig:true_cov}a), contrasting with the results presented in Fig.~4b, where our approximate Bayesian regression scheme yields a slightly broadened distribution due to the use of the long-time limit in the derivation of the analytical form for $\bm{\Sigma^\prime}$.
+\begin{figure}[tb!]
+    \centering
+    % \resizebox{\columnwidth}{!}{\includegraphics*{figure5_SI.pdf}}
+    \includegraphics[width=\columnwidth]{true_cov.pdf}
+    \caption{
+        (a) Probability distribution of point-estimates, $\prob{\Dest}$, obtained from \num{4096} individual random-walk simulations, using the numerical covariance matrix $\bm{\Sigma}_\mathrm{num}$.
+        Each simulation has been analysed as in Fig.~4(a) and (b) to yield a single corresponding point estimate $\Dest$.
+        The grey line shows the distribution of point estimates, $\prob{\Dest_\mathrm{num}}$, obtained using Bayesian regression with a mean vector and numerical covariance matrix derived from the complete dataset of all \num{4096} simulations.
+        The pink horizontal bar shows an interval of one standard deviation in $\prob{\Dest}$.
+        (b) Probability distribution of estimated variances, $\varest{\Dest}$, for individual random-walk simulations, using the numerical covariance matrix $\bm{\Sigma}_\mathrm{num}$, compared to the true sample variance (pink vertical line) $\var{\Dest}$.
+        }
+    \label{fig:true_cov}
+    \script{true_cov.py}
+\end{figure}
+
+\section{Comparison of OLS, WLS, and GLS used to estimate $\D$ in \ce{Li7La3Zr2O12}}
+\label{sec:llzo}
+In the main manuscript, Fig.~1 shows example distributions of estimated self-diffusion coefficients, $\Dest$, calculated using OLS, WLS, and GLS estimators from MSD data from \num{4096} 3D lattice random walk simulations.
+This figure shows that GLS gives a much narrower distribution of $\Dest$ than either OLS or WLS, and also allows the width of this distribution (characterised by $\var{\Dest}$) to be accurately estimated, in contrast with OLS and WLS, which both give estimates of $\var{\Dest}$ that significantly underestimate the true variance.
+
+While the 3D lattice random walk represents an idealised model system, OLS and WLS show the same deficiencies when used to estimate $\D$ from MSD data from simulations of more complex ``real world'' systems.
+\cref{fig:glswlsols_llzo} shows an equivalent comparison between OLS, WLS, and GLS applied to simulation data for the lithium solid electrolyte, \ce{Li7La3Zr2O12} (LLZO).
+As for the idealised 3D lattice random walk data, OLS and WLS both give wider distributions of estimated diffusion coefficients, $\prob{\Dest}$, while also systematically underestimating the uncertainty in these estimates.
+In contrast, GLS gives a narrower distribution of estimated values, and accurately estimates this uncertainty from single simulation data.
+
+\begin{figure}[tb]
+  \centering
+  % \resizebox{8cm}{!}{\includegraphics*{figure6_SI.pdf}} 
+  \includegraphics[width=\columnwidth]{glswlsols_llzo.pdf}
+    \caption{Example distributions of estimated self-diffusion coefficients, $\Dest$, calculated using (a) ordinary least squares (OLS), (b) weighted least squares (WLS), and (c) generalised least squares (GLS), from MSD data from \num{512} effective simulations of LLZO of \SI{\sim 25}{\pico\second} with \num{56} lithium ions. In each panel, the grey curve shows the best-fit normal distribution for the simulation data, the upper horizontal bar shows the standard deviation of this distribution, and the lower horizontal bar shows the average estimated standard distribution given by the analytical expression for $\var{\Dest}$ for each regression method.}
+    \label{fig:glswlsols_llzo}
+    \script{glswlsols_llzo.py}
+\end{figure}
 
 \end{document}
