@@ -819,15 +819,15 @@ Conversely, underestimated uncertainty in $\Dest$ may lead to false confidence i
 \begin{figure*}[tb]
   \centering
 %   \resizebox{11cm}{!}{\includegraphics*{figure3_SI.pdf}} 
-  \includegraphics[width=\columnwidth]{pyblock.pdf}
+  \includegraphics[width=\textwidth]{msd_blocking.pdf}
     \caption{\label{fig:msd_blocking_comparison}Comparison of the numerical variance in observed MSD from multiple replica simulations (panel a), the estimated variance obtained by rescaling the variance in observed squared displacements from a single simulation (panels b and c) (Eqn.~7), and the estimated variance obtained from the block renormalisation method of Flyvbjerg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989}, as implemented in \textsc{pyblock}~\cite{spencer_pyblock_2020}. Panel (a) shows the mean observed MSD from \num{4096} simulations of \num{128} particles undergoing a 3D lattice random walk of 128 steps per particle, with error bars of $\pm2\var{\oMSDi}$. Panel (b) shows the MSD from just one simulation, with error bars of $\pm\varest{\oMSDi}$, obtained via Eqn.~7. Panel (d) shows the same one-simulation MSD, again with error bars of $\pm\varest{\oMSDi}$, obtained using the block renormalisation method of Flyvbjerg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989}. Panels (c) and (e) plot the numerical variance against the single-simulation estimated variances obtained with each method, as a function of timestep, $i$.}
-    \script{pyblock.py}
+    \script{msd_blocking.py}
 \end{figure*}
 
 \begin{figure*}[tb]
   \centering
 %   \resizebox{10.0cm}{!}{\includegraphics*{figure4_SI.pdf}} 
-\includegraphics[width=\columnwidth]{msd_blocking.pdf}
+\includegraphics[width=\columnwidth]{pyblock.pdf}
     \caption{\label{fig:pyblock_comparison}(Panels (a) and (c)) Probability distributions of point-estimates $\prob{\D}$ obtained from \num{4096} individual random-walk simulations. Panel (a) shows data obtained using variance rescaling to estimated the variances, $\varest{\oMSDi}$, used to parametrise the model covariance matrix, $\mathbf{\Sigma^\prime}$. Panel (b) shows data obtained using block renormalisation to estimate the variances, $\varest{\oMSDi}$, used to parametrise the model covariance matrix.
     The grey lines show the distribution of point estimates, $\prob{\Dest}$, obtained using Bayesian regression with a mean vector and numerical covariance matrix derived from the complete dataset of all \num{4096} simulations. 
     The pink horizontal bar shows an interval of one standard deviation in $\prob{\Dest}$. 
@@ -835,7 +835,7 @@ Conversely, underestimated uncertainty in $\Dest$ may lead to false confidence i
     for individual random-walk simulations, compared to the true sample variances obtained using each method (pink vertical lines) 
     $\var{\Dest}$.
     }
-    \script{msd_blocking.py}
+    \script{pyblock.py}
 \end{figure*}
 
 

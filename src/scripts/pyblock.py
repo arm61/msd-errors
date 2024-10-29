@@ -13,6 +13,8 @@ length = 128
 
 kinisi = np.load(paths.data / f"random_walks/kinisi/rw_{jump}_{atoms}_{length}_s4096.npz")['diff_c']
 pyblock_mf = np.load(paths.data / f"random_walks/pyblock/rw_{jump}_{atoms}_{length}_s4096.npz")['diff_c']
+# dfit_mf = np.load(paths.data / f"random_walks/dfit/rw_{jump}_{atoms}_{length}_s4096.npz")['diff_c']
+# dfit_mf_std = np.load(paths.data / f"random_walks/dfit/rw_{jump}_{atoms}_{length}_s4096.npz")['diff_c_std']
 dinfty_true = np.load(paths.data / f"random_walks/numerical/D_1_128_128.npz")['diff_c']
 
 figsize = (4.03, 4)
@@ -95,7 +97,6 @@ axes[-1].set_xlim([0, None])
 titles.append("d")
 axes[-1].set_title("blocking")
 axes[-1].legend(loc='upper left', bbox_to_anchor=(0.5, 1))
-
 
 fig.align_ylabels(axes)
 
