@@ -496,18 +496,18 @@ B.J.M. acknowledges support from the Royal Society (UF130329 and URF\textbacksla
  \twocolumngrid
 
  \appendix
- \renewcommand\thesection{SI.\Roman{section}}
+ \renewcommand\thesection{S-\Roman{section}}
  \counterwithout{figure}{section}
- \renewcommand\thefigure{SI.\arabic{figure}}
+ \renewcommand\thefigure{S-\arabic{figure}}
  \setcounter{figure}{0}
  \counterwithout{equation}{section}
- \renewcommand\theequation{SI.\arabic{equation}}
+ \renewcommand\theequation{S-\arabic{equation}}
  \setcounter{equation}{0}
  \counterwithout{table}{section}
- \renewcommand\thetable{SI.\arabic{table}}
+ \renewcommand\thetable{S-\arabic{table}}
  \setcounter{table}{0}
  \pagenumbering{arabic} 
- \renewcommand\thepage{SI.\arabic{page}}
+ \renewcommand\thepage{S-\arabic{page}}
  \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 
  \title{Supplemental Material for ``\papertitle''}
@@ -878,7 +878,7 @@ In contrast, GLS gives a narrower distribution of estimated values, and accurate
 
 \begin{figure}[tb]
   \centering
-  % \resizebox{8cm}{!}{\includegraphics*{figure6_SI.pdf}} 
+  % \resizebox{8cm}{!}{\includegra?phics*{figure6_SI.pdf}} 
   \includegraphics[width=\columnwidth]{glswlsols_llzo.pdf}
     \caption{Example distributions of estimated self-diffusion coefficients, $\Dest$, calculated using (a) ordinary least squares (OLS), (b) weighted least squares (WLS), and (c) generalised least squares (GLS), from MSD data from \num{512} effective simulations of LLZO of \SI{\sim 25}{\pico\second} with \num{56} lithium ions. In each panel, the grey curve shows the best-fit normal distribution for the simulation data, the upper horizontal bar shows the standard deviation of this distribution, and the lower horizontal bar shows the average estimated standard distribution given by the analytical expression for $\var{\Dest}$ for each regression method.}
     \label{fig:glswlsols_llzo}
