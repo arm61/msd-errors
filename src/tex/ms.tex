@@ -84,6 +84,8 @@
 
 \let\oldaddcontentsline\addcontentsline
 \renewcommand{\addcontentsline}[3]{}
+\footnotetext[1]{While estimating $\D$ by fitting a linear model to MSD data is, perhaps, the most commonly used approach in the literature, alternative methods that avoid linear fitting of MSD data also exist; see, for example, Refs.~{\protect\cite{VestergaardEtAl_PhysRevE2014,KrapfEtAl_NewJournalPhysics2018,bullerjohn_optimal_2020}}.}
+\footnotetext[2]{A common approach to estimating the variance of the mean of time-correlated data with unknown correlation time is the renormalization group blocking method of Flyvberg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989,Frenkel2023-ah}. In the SI, we compare this blocking method to our direct rescaling method (\cref{equ:varestMSD}) for estimating $\var{\oMSDi}$ from a set of random-walk trajectories. For our example data, direct rescaling performs better (gives more accurate estimates of $\var{\oMSDi}$).}
 
 \title{\papertitle}
 
@@ -93,6 +95,7 @@
   \affiliation{European Spallation Source ERIC, Data Management and Software Centre, Asmussens Allé 305, DK-2800 Kongens Lyngby, DK.}
   \affiliation{Diamond Light Source, Harwell Campus, Didcot, OX11 0DE, UK.}
 \author{Samuel W. Coles}
+  \thanks{Present Address: Yusuf Hamied Department of Chemistry, University of Cambridge, Lensfield Road, Cambridge, CB2 1EW, UK.}
   \affiliation{Department of Chemistry, University of Bath, Claverton Down, Bath, BA2 7AY, UK}
   \affiliation{The Faraday Institution, Quad One, Harwell Science and Innovation Campus, Didcot, OX11 0RA, UK}
 \author{Benjamin J. Morgan}
@@ -128,7 +131,7 @@ $\D$ is related to the ensemble-average mean squared displacement (MSD), $\MSD{t
 \end{equation}
 where $\Delta\mathbf{r}{(t)}$ is the displacement of a diffusing particle in the time interval $t$.
 Because numerical simulations are finite in time and space, MSDs obtained from simulation data always differ from the true ensemble average MSD.
-One can, however, compute an estimate of the self-diffusion coefficient, $\Dest$, by fitting a linear model to the observed MSD and using the gradient of this fitted model in place of $\MSD{t} / t$ in \cref{equ:einstein}~\footnote{While estimating $\D$ by fitting a linear model to MSD data is, perhaps, the most commonly used approach in the literature, alternative methods that avoid linear fitting of MSD data also exist; see, for example, Refs.~{\protect\cite{VestergaardEtAl_PhysRevE2014,KrapfEtAl_NewJournalPhysics2018,bullerjohn_optimal_2020}}.}.
+One can, however, compute an estimate of the self-diffusion coefficient, $\Dest$, by fitting a linear model to the observed MSD and using the gradient of this fitted model in place of $\MSD{t} / t$ in \cref{equ:einstein}~\cite{Note1,VestergaardEtAl_PhysRevE2014,KrapfEtAl_NewJournalPhysics2018,bullerjohn_optimal_2020}.
 
 The simplest approach to fitting a linear model to MSD data from simulation is ordinary least squares regression (OLS).
 OLS gives analytical expressions for the ``best fit'' regression coefficients (the slope and intercept) and their respective uncertainties, making it easy to implement and quick to perform.
@@ -143,7 +146,7 @@ Here, we describe an approximate Bayesian regression method for estimating $\D$ 
 We model the statistical population of simulation MSDs as a multivariate normal distribution, using an analytical covariance matrix derived for an equivalent system of freely diffusing particles, with this covariance matrix parameterised from the observed simulation data.
 We then use Markov-chain Monte Carlo to sample the posterior distribution of linear models compatible with this multivariate normal model.
 The resulting posterior distribution provides an efficient estimate for $\D$ and allows the associated statistical uncertainty in $\Dest$ to be accurately quantified.
-This method is implemented in the open-source Python package \textsc{kinisi}~\cite{mccluskey_kinisi_2022}.
+This method is implemented in the open-source Python package \textsc{kinisi}~\cite{McCluskey2024}.
 
 \section{Background}
 
@@ -250,7 +253,7 @@ Specifically, we compute an estimated variance $\varest{\oMSDi}$ by rescaling th
 \end{equation}
 By rescaling by the number of numerically-independent contributing sub-trajectories, rather than by the total number of observed squared displacements for time window $i$, we account for correlations between the squared displacements of each particle computed from overlapping time windows (further details are provided in the SI).
 
-The estimated variance $\varest{\oMSD}$ can be calculated from a single simulation trajectory, and provides an accurate estimate of the true variance $\var{\oMSD}$~\footnote{A common approach to estimating the variance of the mean of time-correlated data with unknown correlation time is the renormalization group blocking method of Flyvberg and Peterson~\cite{FlyvbjergAndPetersen_JChemPhys1989,Frenkel2023-ah}. In the SI, we compare this blocking method to our direct rescaling method (\cref{equ:varestMSD}) for estimating $\var{\oMSDi}$ from a set of random-walk trajectories. For our example data, direct rescaling performs better (gives more accurate estimates of $\var{\oMSDi}$).}.
+The estimated variance $\varest{\oMSD}$ can be calculated from a single simulation trajectory, and provides an accurate estimate of the true variance $\var{\oMSD}$~\cite{Note2,FlyvbjergAndPetersen_JChemPhys1989,Frenkel2023-ah}.
 To demonstrate this, we performed \num{4096} independent simulations of \num{128} particles undergoing a three-dimensional cubic-lattice random walk of \num{128} steps per particle.
 Using data from all \num{4096} simulations, we first compute the true simulation MSD and its variance (\cref{fig:msd}a).
 We also compute the MSD and estimated variance using data from a single simulation trajectory (\cref{fig:msd}b), using the scheme described above.
@@ -426,7 +429,7 @@ The approximate Bayesian regression scheme presented here provides a statistical
 It improves upon textbook approaches by providing accurate point estimates of $\D$ with near-optimal statistical efficiency, while also providing a reasonable description of the uncertainty in these estimates.
 The high statistical efficiency of our method allows for the use of smaller simulations, which can significantly reduce computational costs.
 Overall, our method offers significant advantages over more conventional methods of estimating self-diffusion coefficients from atomistic simulations.
-We have implemented this procedure in the open-source package \textsc{kinisi} \cite{mccluskey_kinisi_2022}, which we hope will support its use within the broader simulation community.
+We have implemented this procedure in the open-source package \textsc{kinisi} \cite{McCluskey2024}, which we hope will support its use within the broader simulation community.
 
 \section{Methods}
 
@@ -469,7 +472,7 @@ Simulations were performed using $2 \times 2 \times 2$ supercells with \SI{1536}
 Derivation of long-time limit covariance matrix for a system of freely diffusing particles, comparison of variance rescaling (\cref{equ:varestMSD}) and block renormalisation approaches, discussion of bias in the distribution of estimated variance of the estimated diffusion coefficient, and a comparison of OLS, WLS, and GLS as estimators for $\D$ applied to MSD data from simulations of \ce{Li7La3Zr2O12} (LLZO).
 Additional Electronic Supplementary Information (ESI) available at Ref.~\cite{mccluskey_github_2022} under an MIT license: A complete set of analysis/plotting scripts allowing for a fully reproducible and automated analysis workflow, using \textsc{showyourwork}~\cite{luger_showyourwork_2021}.
 The LLZO raw simulation trajectories are available on Zenodo shared under a CC BY-SA 4.0 licence~\cite{coles_llzo_zenodo_2022}.
-The method outlined in this work is implemented in the open-source Python package \textsc{kinisi}~\cite{mccluskey_kinisi_2022}, which is available under an MIT license.
+The method outlined in this work is implemented in the open-source Python package \textsc{kinisi}~\cite{McCluskey2024}, which is available under an MIT license.
 
 \section*{CR\lowercase{e}d\lowercase{i}T author statement}
 
