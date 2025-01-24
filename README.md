@@ -31,7 +31,7 @@ and
 
 ---
 
-This is the electronic supplementary information (ESI) associated with the publication "Estimation of diffusive properties for *in-silico* materials using a Gaussian process". 
+This is the electronic supplementary information (ESI) associated with the publication "Accurate Estimation of Diffusion Coefficients and their Uncertainties from Computer Simulation". 
 This ESI uses [`showyourwork`](https://show-your.work) to provide a completely reproducible and automated analysis, plotting, and paper generation workflow. 
 To run the workflow and generate the paper locally using the cached data run the following: 
 ```
