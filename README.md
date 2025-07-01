@@ -21,6 +21,9 @@ We then perform Bayesian regression to sample the distribution of linear models 
 <a href="https://arxiv.org/abs/2305.18244">
 <img src="https://img.shields.io/badge/arXiv-2305.18244-orange.svg"/>
 </a>
+<a href="https://doi.org/10.1021/acs.jctc.4c01249">
+<img src="https://img.shields.io/badge/publication%20DOI-10.1021/acs.jctc.4c01249-yellow.svg?style=flat"/>
+</a>
 <br><br>
 <a href="https://orcid.org/0000-0003-3381-5911">Andrew R. McCluskey</a>&ast;, 
 <a href="https://orcid.org/0000-0001-9722-5676">Samuel W. Coles</a> 
