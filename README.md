@@ -1,7 +1,7 @@
 # Accurate Estimation of Diffusion Coefficients and their Uncertainties from Computer Simulation
 
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/kinisi-rev/kinisi/blob/master/docs/source/_static/schematic_light.png?raw=true">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/kinisi-dev/kinisi/blob/master/docs/source/_static/schematic_light.png?raw=true">
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/bjmorgan/kinisi/blob/master/docs/source/_static/schematic_dark.png?raw=true">
   <img alt="A schematic of the process to estimate the self-diffusion coefficient." src="https://github.com/bjmorgan/kinisi/blob/master/docs/source/_static/schematic_dark.png?raw=true">
 </picture>
